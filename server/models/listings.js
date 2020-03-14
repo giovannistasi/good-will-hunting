@@ -1,16 +1,42 @@
-const pool = require('./db');
+module.exports = (sequelize, DataTypes) => sequelize.define('Listings', {
+  listing_id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV1,
+    primaryKey: true
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  completed: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },
+  pending: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: 0
+  },
+  // The timestamp is added automatically by Sequelize
+  // http://docs.sequelizejs.com/manual/tutorial/models-definition.html#timestamps
+  // posting_time: {
+  //   type: DataTypes.DATETIME,
+  // },
+  event_time: {
+    type: DataTypes.DATETIME,
+    allowNull: false
+  },
+  address: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  credit_value: {
+    type: DataTypes.INT,
+    allowNull: false
+  },
+  max_participants: {
+    type: DataTypes.INT,
+    allowNull: false
+  }
 
-exports.getAllListings = async () => {
-  const res = await pool.query('SELECT * FROM listings;');
-  return res.rows;
-};
-
-exports.addListing = async listing => {
-  const res = await pool.query(`INSERT INTO listings (listing_id, description, completed, pending, posting_time, event_time, address, credit_value, max_participants) VALUES ('${listing.listingId}', ${listing.description}, ${listing.completed}, ${listing.pending}, ${listing.postingTime}, ${listing.eventTime}, ${listing.address}, ${listing.creditValue}, ${listing.maxParticipants}) RETURNING *`);
-  return res.rows;
-};
-
-exports.deleteListing = async listing => {
-  const res = await pool.query();
-}
+});
 
