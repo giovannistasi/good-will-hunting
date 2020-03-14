@@ -2,32 +2,22 @@
 
 const db = require('../models');
 
-exports.getAll = async ctx => {
+exports.getAll = async (req, res) => {
   try {
-    ctx.body = await db.Users.findAll();
+    const users = await db.users.findAll();
+    res.json(users);
   } catch (e) {
-    ctx.status = 500;
-    // Further handle your error on the back-end
+    res.status = 500;
   }
 };
 
-exports.post = async ctx => {
-  const user = ctx.request.body;
+exports.post = async (req, res) => {
+  const user = req.body;
   try {
-    await db.Users.create({
-      user_id: user.userId,
-      first_name: user.firstName,
-      last_name: user.lastName,
-      credits: user.credits,
-      picture: user.picture,
-      salt: user.salt,
-      passhash: user.passhash,
-      address: user.address,
-      email: user.email,
-    });
-    ctx.status = 200;
+    await db.users.create(user);
+    res.json(user);
+    res.status = 200;
   } catch (e) {
-    ctx.status = 500;
-    // Further handle your error on the back-end
+    res.status = 500;
   }
 };

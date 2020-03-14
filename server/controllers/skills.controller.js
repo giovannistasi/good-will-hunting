@@ -2,25 +2,22 @@
 
 const db = require('../models');
 
-exports.getAll = async ctx => {
+exports.getAll = async (req, res) => {
   try {
-    ctx.body = await db.Skills.findAll();
+    const skills = await db.skills.findAll();
+    res.json(skills)
   } catch (e) {
-    ctx.status = 500;
-    // Further handle your error on the back-end
+    res.status = 500;
   }
 };
 
-exports.post = async ctx => {
-  const skill = ctx.request.body;
+exports.post = async (req, res) => {
+  const skill = req.body;
   try {
-    await db.Skills.create({
-      skill_id: skill.skillId,
-      first_name: skill.firstName
-    });
-    ctx.status = 200;
+    await db.skills.create(skill);
+    res.json(skill)
+    res.status = 200;
   } catch (e) {
-    ctx.status = 500;
-    // Further handle your error on the back-end
+    res.status = 500;
   }
 };

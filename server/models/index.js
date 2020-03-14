@@ -6,17 +6,16 @@ const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const db = {};
 
-const sequelize = new Sequelize('thesis', 'rich', '1234', {
+const sequelize = new Sequelize('good_will_hunting', 'rich', '1234', {
   host: 'localhost',
   dialect: 'postgres',
   logging: false,
-  // pool: {
-  //   max: 5,
-  //   min: 0,
-  //   acquire: 30000,
-  //   idle: 10000
-  // },
-  // operatorsAliases: false // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
+  dialectOptions: {
+    useUTC: true,
+    dateStrings: true,
+  },
+  // timezone: '+01:00',
+  // operatorsAliases: false
 });
 
 fs

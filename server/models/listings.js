@@ -1,8 +1,8 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('Listings', {
+module.exports = (sequelize, DataTypes) => sequelize.define('listings', {
   listing_id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
-    primaryKey: true
+    primaryKey: true,
   },
   description: {
     type: DataTypes.TEXT,
@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Listings', {
   },
   completed: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    defaultValue: false,
   },
   pending: {
     type: DataTypes.BOOLEAN,
-    defaultValue: 0
+    defaultValue: true
   },
   // The timestamp is added automatically by Sequelize
   // http://docs.sequelizejs.com/manual/tutorial/models-definition.html#timestamps
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Listings', {
   //   type: DataTypes.DATETIME,
   // },
   event_time: {
-    type: DataTypes.DATETIME,
+    type: DataTypes.DATE,
     allowNull: false
   },
   address: {
@@ -30,11 +30,11 @@ module.exports = (sequelize, DataTypes) => sequelize.define('Listings', {
     allowNull: false
   },
   credit_value: {
-    type: DataTypes.INT,
+    type: DataTypes.DECIMAL,
     allowNull: false
   },
   max_participants: {
-    type: DataTypes.INT,
+    type: DataTypes.INTEGER,
     allowNull: false
   }
 
