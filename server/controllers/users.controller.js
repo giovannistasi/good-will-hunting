@@ -3,10 +3,23 @@
 const db = require('../models');
 
 exports.getAll = async (req, res) => {
+  console.log(1);
   try {
-    const users = await db.users.findAll();
+    const users = await db.users.findAll({
+      // include: [
+      //   {
+      //     model: db.skills,
+      //   },
+      //   {
+      //     model: db.listings,
+      //   }
+      // ]
+    })
+
+    console.log(2);
     res.json(users);
   } catch (e) {
+    console.error(e);
     res.status = 500;
   }
 };

@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('users_skills', {
+module.exports = (sequelize, DataTypes) => sequelize.define('users_listings', {
   user_id: {
     type: DataTypes.UUID,
     foreignKey: true

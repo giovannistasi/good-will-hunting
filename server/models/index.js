@@ -37,4 +37,9 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.users.belongsToMany(db.listings, { through: db.users_listings })
+db.listings.belongsTo(db.users, { through: db.users_listings });
+db.users.belongsToMany(db.skills, { through: db.users_skills })
+db.skills.belongsTo(db.users, { through: db.users_skills });
+
 module.exports = db;
