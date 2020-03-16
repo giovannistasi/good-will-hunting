@@ -15,9 +15,9 @@ app.use(router);
 (async () => {
   try {
     await db.sequelize.sync(); // { force: true }
-    const port = 3000;
+    const port = 8000;
     app.listen(port, () => {
-      console.log(`Server listening on port ${port}`);
+      console.log(`Server listening at http://localhost:${port}`);
     });
   } catch (error) {
     console.error('Error connecting to the db', error);

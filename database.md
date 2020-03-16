@@ -35,8 +35,8 @@ select first_name, name from users join users_skills on users_skills.user_id = u
 
 where	name = (skill)
 
+      users:
       //   {
-      //   user_id: user.userId,
       //   first_name: user.firstName,
       //   last_name: user.lastName,
       //   credits: user.credits,
@@ -47,6 +47,7 @@ where	name = (skill)
       //   email: user.email,
       // }
 
+      listings:
       // {
       //   description: listing.description,
       //   event_time: listing.eventTime,
@@ -55,8 +56,8 @@ where	name = (skill)
       //   max_participants: listing.maxParticipants,
       // }
 
+      skills:
       // {
-      //   skill_id: skill.skillId,
-      //   first_name: skill.firstName
+      //   skill_name: skill.name
       // }
 
