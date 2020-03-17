@@ -4,7 +4,7 @@ const users = require('./controllers/users.controller.js');
 const listings = require('./controllers/listings.controller.js');
 const skills = require('./controllers/skills.controller.js');
 
-router.get('/login', users.login);
+router.post('/login', users.login);
 router.get('/logout', users.logout);
 router.post('/register', users.register);
 

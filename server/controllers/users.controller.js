@@ -2,6 +2,7 @@
 
 const db = require('../models');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 exports.getAll = async (req, res) => {
   try {
@@ -66,12 +67,19 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = async (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/myprofile',
-    failureRedirect: '/login',
-    failureFlash: true
-  })(req, res, next);
+exports.login = async (req, res) => {
+  try {
+    console.log(req.body);
+
+    passport.authenticate('local', {
+      successRedirect: '/myprofile',
+      failureRedirect: '/login',
+      failureFlash: true
+    });
+  } catch (e) {
+    console.error(e)
+    res.status = 500;
+  }
 }
 
 exports.logout = (req, res) => {
