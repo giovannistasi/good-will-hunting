@@ -5,6 +5,15 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const session = require('express-session');
+const passport = require('passport');
+
+require('./config/passport')(passport)
+
+app.use(session({ resave: true, saveUninitialized: true, secret: 'secret' }))
+app.use(passport.initialize())
+app.use(passport.session())
+
 const db = require('./models');
 const router = require('./router.js');
 

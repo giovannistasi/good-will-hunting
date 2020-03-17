@@ -19,10 +19,6 @@ module.exports = (sequelize, DataTypes) => sequelize.define('users', {
   picture: {
     type: DataTypes.STRING,
   },
-  salt: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
   passhash: {
     type: DataTypes.STRING,
     allowNull: false
