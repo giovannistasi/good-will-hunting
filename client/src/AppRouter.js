@@ -23,26 +23,33 @@ const { SubMenu } = Menu;
 
 
 function AppRouter() {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = collapsed => {
     setCollapsed(collapsed);
   };
 
-  const handsHelping = () => (
+  const HelpOfferIcon = props => <Icon component={() => (
     <FontAwesomeIcon icon={faHandsHelping} />
-  );
-  const handsReceiving = () => (
+  )} {...props} />;
+  const HelpRequestIcon = props => <Icon component={() => (
     <FontAwesomeIcon icon={faHands} />
-  );
-  const HelpOfferIcon = props => <Icon component={handsHelping} {...props} />;
-  const HelpRequestIcon = props => <Icon component={handsReceiving} {...props} />;
+  )} {...props} />;
 
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-          <div className="logo" />
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={onCollapse}
+          breakpoint="lg"
+        >
+          <div className="logo" style={{ 
+            height: '30px', 
+            margin: '15px',
+            background: 'rgba(255, 255, 255, 0.2)'
+          }}/>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <Link to="/requests">
