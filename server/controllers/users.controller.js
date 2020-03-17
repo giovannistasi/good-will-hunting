@@ -6,14 +6,14 @@ exports.getAll = async (req, res) => {
   console.log(1);
   try {
     const users = await db.users.findAll({
-      // include: [
-      //   {
-      //     model: db.skills,
-      //   },
-      //   {
-      //     model: db.listings,
-      //   }
-      // ]
+      include: [
+        {
+          model: db.skills,
+        },
+        {
+          model: db.listings,
+        }
+      ]
     })
 
     console.log(2);
@@ -31,6 +31,7 @@ exports.post = async (req, res) => {
     res.json(user);
     res.status = 200;
   } catch (e) {
+    console.error(e);
     res.status = 500;
   }
 };

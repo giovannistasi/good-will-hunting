@@ -1,14 +1,14 @@
 module.exports = (sequelize, DataTypes) => sequelize.define('users', {
-  user_id: {
+  userId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
     primaryKey: true
   },
-  first_name: {
+  firstName: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  last_name: {
+  lastName: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -30,6 +30,4 @@ module.exports = (sequelize, DataTypes) => sequelize.define('users', {
     type: DataTypes.STRING,
     allowNull: false
   }
-  // The timestamp is added automatically by Sequelize
-  // http://docs.sequelizejs.com/manual/tutorial/models-definition.html#timestamps
 });

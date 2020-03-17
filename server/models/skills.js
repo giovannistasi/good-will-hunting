@@ -1,10 +1,10 @@
 module.exports = (sequelize, DataTypes) => sequelize.define('skills', {
-  skill_id: {
+  skillId: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
     primaryKey: true
   },
-  skill_name: {
+  skillName: {
     type: DataTypes.STRING,
     allowNull: false
   }

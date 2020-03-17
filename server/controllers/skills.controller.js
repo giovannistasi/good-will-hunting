@@ -7,6 +7,7 @@ exports.getAll = async (req, res) => {
     const skills = await db.skills.findAll();
     res.json(skills)
   } catch (e) {
+    console.error(e);
     res.status = 500;
   }
 };
@@ -18,6 +19,7 @@ exports.post = async (req, res) => {
     res.json(skill)
     res.status = 200;
   } catch (e) {
+    console.error(e);
     res.status = 500;
   }
 };

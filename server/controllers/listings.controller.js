@@ -7,6 +7,7 @@ exports.getAll = async (req, res) => {
     const listings = await db.listings.findAll();
     res.json(listings);
   } catch (e) {
+    console.error(e);
     res.status = 500;
     // Further handle your error on the back-end
   }
@@ -19,6 +20,7 @@ exports.post = async (req, res) => {
     res.json(listing);
     res.status = 200;
   } catch (e) {
+    console.error(e);
     res.status = 500;
     // Further handle your error on the back-end
   }
