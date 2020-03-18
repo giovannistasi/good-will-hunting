@@ -6,13 +6,13 @@ const passport = require('passport');
 
 exports.getAll = async (req, res) => {
   try {
-    const users = await db.users.findAll({
+    const users = await db.User.findAll({
       include: [
         {
-          model: db.skills,
+          model: db.Skill,
         },
         {
-          model: db.listings,
+          model: db.Listing,
         }
       ]
     })
@@ -40,12 +40,11 @@ exports.register = async (req, res) => {
     if (errors.length > 0) {
       res.send(errors)
     } else {
-      db.users.findOne({
+      db.User.findOne({
         where: { email: email },
       }).then(user => {
         if (user) {
           errors.push({ msg: 'Email is already registered' })
-          console.log('emailerror');
           res.send(errors);
         } else {
           const newUser = { firstName, lastName, email, address, picture }
@@ -53,7 +52,7 @@ exports.register = async (req, res) => {
             bcrypt.hash(password, salt, (err, hash) => {
               if (err) throw err;
               newUser.passhash = hash;
-              db.users.create(newUser);
+              db.User.create(newUser);
               res.json(newUser);
               res.status = 200;
             })
@@ -65,25 +64,4 @@ exports.register = async (req, res) => {
     console.error(e);
     res.status = 500;
   }
-};
-
-exports.login = async (req, res) => {
-  try {
-    console.log(req.body);
-
-    passport.authenticate('local', {
-      successRedirect: '/myprofile',
-      failureRedirect: '/login',
-      failureFlash: true
-    });
-  } catch (e) {
-    console.error(e)
-    res.status = 500;
-  }
-}
-
-exports.logout = (req, res) => {
-  req.logout();
-  req.send('Successfully logged out');
-  res.redirect('login');
 };

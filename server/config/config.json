@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "rich",
+    "password": "1234",
+    "database": "good_will_hunting",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "rich",
+    "password": "1234",
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "rich",
+    "password": "1234",
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}

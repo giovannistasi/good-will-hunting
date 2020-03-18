@@ -4,13 +4,18 @@ const app = express();
 const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const db = require('./models');
+const router = require('./router.js');
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 
+
 passport.use(
   new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+    console.log(email);
+
     db.users.findOne({
       where: { email: email },
     }).then(user => {
@@ -40,6 +45,9 @@ passport.deserializeUser((id, done) => {
   });
 });
 
+app.use(cors());
+app.use(bodyParser.json());
+app.use(router);
 app.use(session({
   resave: true,
   saveUninitialized: true,
@@ -48,12 +56,17 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-const db = require('./models');
-const router = require('./router.js');
+app.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function (req, res) {
+    res.redirect('/');
+  });
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(router);
+app.get('/logout',
+  function (req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 
 (async () => {
   try {

@@ -1,9 +1,10 @@
 module.exports = {
-  ensureAuthenticated: function (req, res, next) {
+  authorise: function (req, res, next) {
+    console.log(req.isAuthenticated());
     if (req.isAuthenticated()) {
       return next();
     }
-    req.flash('error_msg', 'You need to be logged in to view this page');
+    res.status(401).send('You need to be logged in to view this page');
     res.redirect('/users/login');
   }
 }
