@@ -7,42 +7,50 @@ import {
   Switch
 } from "react-router-dom";
 import { Layout, Menu } from 'antd';
-import { FileOutlined, UserOutlined } from '@ant-design/icons';
 import Icon from '@ant-design/icons';
+import { FileOutlined, UserOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandsHelping, faHands } from '@fortawesome/free-solid-svg-icons'
 
-import UserProfile from './components/UserProfile';
-import RequestsDashboard from './components/RequestsDashboard';
-import OffersDashboard from './components/OffersDashboard';
-import Messages from './components/Messages';
 import About from './components/About';
+import Login from './components/Login';
+import Messages from './components/Messages';
+import OffersDashboard from './components/OffersDashboard';
+import RequestsDashboard from './components/RequestsDashboard';
+import SignUp from './components/SignUp';
+import UserProfile from './components/UserProfile';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-
 function AppRouter() {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = collapsed => {
     setCollapsed(collapsed);
   };
 
-  const handsHelping = () => (
+  const HelpOfferIcon = props => <Icon component={() => (
     <FontAwesomeIcon icon={faHandsHelping} />
-  );
-  const handsReceiving = () => (
+  )} {...props} />;
+  const HelpRequestIcon = props => <Icon component={() => (
     <FontAwesomeIcon icon={faHands} />
-  );
-  const HelpOfferIcon = props => <Icon component={handsHelping} {...props} />;
-  const HelpRequestIcon = props => <Icon component={handsReceiving} {...props} />;
+  )} {...props} />;
 
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-          <div className="logo" />
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={onCollapse}
+          breakpoint="lg"
+        >
+          <div className="logo" style={{ 
+            height: '30px', 
+            margin: '15px',
+            background: 'rgba(255, 255, 255, 0.2)'
+          }}/>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <Link to="/requests">
@@ -89,6 +97,8 @@ function AppRouter() {
                 <Route path="/offers" component={OffersDashboard} />
                 <Route path="/about" component={About} />
                 <Route path="/messages" component={Messages} />
+                <Route path="/signup" component={SignUp} />
+                <Route path="/login" component={Login} />
               </Switch>
             </div>
           </Content>
