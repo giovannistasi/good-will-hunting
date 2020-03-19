@@ -18,6 +18,7 @@ const tailLayout = {
 
 const onFinish = values => {
   console.log('Success:', values);
+  
 };
 
 const onFinishFailed = errorInfo => {
@@ -36,12 +37,13 @@ function Login() {
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Username"
-        name="username"
+        label="Email"
+        name="email"
         rules={[
           {
+            type: 'email',
             required: true,
-            message: 'Please input your username!',
+            message: 'Please input your email!',
           },
         ]}
       >
@@ -67,7 +69,7 @@ function Login() {
 
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Log in
         </Button>
       </Form.Item>
     </Form>
