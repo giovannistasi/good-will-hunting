@@ -4,9 +4,10 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  Switch
+  Switch,
+  Redirect
 } from "react-router-dom";
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, message } from 'antd';
 import Icon from '@ant-design/icons';
 import { FileOutlined, UserOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,7 +24,7 @@ import UserProfile from './components/UserProfile';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-function AppRouter() {
+function AppRouter () {
 
   const [state, dispatch] = useContext(Context);
 
@@ -40,8 +41,21 @@ function AppRouter() {
     <FontAwesomeIcon icon={faHands} />
   )} {...props} />;
 
-  function logOut () {
-    dispatch({type: 'LOGIN', payload: false})
+  async function logOut () {
+    await fetch('http://localhost:8080/logout', {
+      method: 'GET'
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          dispatch({ type: 'LOGIN', payload: false })
+          return await res.json()
+        } else {
+          throw new Error('Something went wrong with your fetch');
+        }
+      })
+      .then((json) => {
+        message.success(`${json.status}`, 5)
+      })
   }
 
   return (

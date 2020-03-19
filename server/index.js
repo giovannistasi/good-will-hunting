@@ -16,8 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(session({
-  resave: true,
+  resave: false,
   saveUninitialized: true,
+  cookie: { maxAge: 7200000 },
   secret: 'secret' // store in env
 }));
 
@@ -25,18 +26,12 @@ initialisePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.use(function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
-
 app.use(router);
 
 (async () => {
   try {
     await db.sequelize.sync(); // { force: true }
-    const port = 8000;  // store in env
+    const port = 8080;  // store in env
     app.listen(port, () => {
       console.log(`Server listening at http://localhost:${port}`);
     });
