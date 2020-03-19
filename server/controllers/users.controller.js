@@ -1,7 +1,7 @@
 'use strict';
 
 const db = require('../models');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 // const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
@@ -27,6 +27,8 @@ exports.getAll = async (req, res) => {
 exports.register = async (req, res) => {
   const { firstName, lastName, email, password, password2, address, picture } = req.body;
   let errors = [];
+  console.log(req.body);
+
   try {
     if (!firstName || !lastName || !password || !password2 || !email) {
       errors.push({ msg: 'Please fill in all fields' });
@@ -70,20 +72,17 @@ exports.register = async (req, res) => {
 exports.login = (req, res, next) => {
   passport.authenticate('local', (e, user, info) => {
     if (e) {
-      // res.send(e)
       return next(e)
     }
     if (info) {
-      // res.send(info);
       return res.send(info);
     }
-    req.logIn(user, e => {
-      if (e) {
-        // res.send(e);
-        return next(e);
-      }
-      return res.send(user)
+    req.logIn(user, function (err) {
+      if (err) { return next(err); }
+      return res.redirect('http://localhost:3000/');
     });
+    console.log('req.isAuthenticated : ', req.isAuthenticated());
+    console.log('session.passport.user', req.session.passport);
   })(req, res, next);
 };
 

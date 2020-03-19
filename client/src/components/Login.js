@@ -17,10 +17,10 @@ const tailLayout = {
 };
 
 const onFinish = async values => {
-  console.log(values);
   await fetch('http://localhost:8000/login', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
+    redirect: "follow",
     body: JSON.stringify({ email: values.email, password: values.password })
   })
     .then((res) => {
@@ -36,56 +36,71 @@ const onFinish = async values => {
 };
 
 const onFinishFailed = errorInfo => {
-  console.log('Failed:', errorInfo);
+  console.error('Failed:', errorInfo);
 };
 
 function Login () {
   return (
-    <Form
-      {...layout}
-      name="basic"
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <Form.Item
-        label="E-mail"
-        name="email"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+    <form action="http://localhost:8000/login" method="post">
+      <div>
+        <label>Username:</label>
+        <input type="text" name="email" value="RPerkins@google.com" />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" name="password" value="password" />
+      </div>
+      <div>
+        <input type="submit" value="Log In" />
+      </div>
+    </form>
+    // <a href="http://localhost:8000/login" >submit</a>
+    // <Form
+    //   {...layout}
+    //   name="basic"
+    //   initialValues={{
+    //     remember: true,
+    //   }}
+    //   onFinish={onFinish}
+    //   onFinishFailed={onFinishFailed}
+    // >
+    //   <Form.Item
+    //     label="Email"
+    //     name="email"
+    //     rules={[
+    //       {
+    //         type: 'email',
+    //         required: true,
+    //         message: 'Please input your email!',
+    //       },
+    //     ]}
+    //   >
+    //     <Input />
+    //   </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password',
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
+    //   <Form.Item
+    //     label="Password"
+    //     name="password"
+    //     rules={[
+    //       {
+    //         required: true,
+    //         message: 'Please input your password',
+    //       },
+    //     ]}
+    //   >
+    //     <Input.Password />
+    //   </Form.Item>
 
-      <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
+    //   <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+    //     <Checkbox>Remember me</Checkbox>
+    //   </Form.Item>
 
-      <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+    //   <Form.Item {...tailLayout}>
+    //     <Button type="primary" htmlType="submit">
+    //       Log in
+    //     </Button>
+    //   </Form.Item>
+    // </Form>
   )
 }
 

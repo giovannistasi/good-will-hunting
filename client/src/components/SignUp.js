@@ -1,54 +1,105 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Form,
   Input,
   Button,
-  Upload
+  Upload,
 } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
-
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const layout = {
   labelCol: { span: 4 },
   wrapperCol: { span: 10 },
 };
 
-const normFile = e => {
-  console.log('Upload event:', e);
-  if (Array.isArray(e)) {
-    return e;
-  }
-  return e && e.fileList;
-};
+function SignUp () {
 
-function SignUp() {
+  const [imageUrl, setImageUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const uploadPicture = info => {
+    if (info.file.status === 'uploading') {
+      setLoading(true);
+      return;
+    }
+  };
+
+  const cloudRequest = e => {
+    const formData = new FormData();
+    formData.append('upload_preset', 'xv3k736w');
+    formData.append('file', e.file);
+    fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDNAME}/image/upload`, {
+      method: 'POST',
+      body: formData
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setImageUrl(data.url);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div className="ant-upload-text">Upload</div>
+    </div>
+  );
+
+  const onFinish = values => {
+    const signUpData = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password,
+      password2: values.password2,
+      address: values.address,
+      picture: imageUrl
+    }
+    fetch(`http://localhost:8000/register`, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(signUpData)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
   return (
     <div>
       <Form
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         {...layout}
+        onFinish={onFinish}
       >
-        <Form.Item label="First name">
+        <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-        <Form.Item label="Last name">
+        <Form.Item name="lastName" label="Last name">
           <Input />
         </Form.Item>
-        <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email' }]}>
+        <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
           <Input />
         </Form.Item>
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: 'Please enter a password!' }]}
         >
           <Input.Password />
         </Form.Item>
         <Form.Item
-          label="Password2"
+          label="Confirm password"
           name="password2"
-          rules={[{ required: true, message: 'Please input your second password!' }]}
+          rules={[{ required: true, message: 'Please confirm your password!' }]}
         >
           <Input.Password />
         </Form.Item>
@@ -59,16 +110,20 @@ function SignUp() {
         <Form.Item
           name="upload"
           label="Profile picture"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
         >
-          <Upload name="logo" action="/upload.do" listType="picture">
-            <Button>
-              <UploadOutlined /> Click to upload
-          </Button>
+          <Upload
+            name="avatar"
+            customRequest={cloudRequest}
+            accept=".png, .jpg"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            onChange={uploadPicture}
+          >
+            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
           </Upload>
         </Form.Item>
-
 
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
           <Button type="primary" htmlType="submit">

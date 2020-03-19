@@ -7,20 +7,29 @@ const db = require('./models');
 const router = require('./router.js');
 const passport = require('passport');
 const session = require('express-session');
+const cookieParser = require('cookie-parser')
+const initialisePassport = require('./config/passport-config');
 
-app.use(cors());
-app.use(express.urlencoded({ extended: false }))
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(cookieParser());
 app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: 'secret' // store in env
 }));
+
+initialisePassport(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-const initialisePassport = require('./config/passport-config');
-initialisePassport(passport);
+// app.use(function (req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 app.use(router);
 
