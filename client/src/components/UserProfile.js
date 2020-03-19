@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Tabs, Avatar, List } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import './UserProfile.css'
 
 const { TabPane } = Tabs;
 
@@ -22,10 +21,13 @@ function UserProfile() {
     },
   ];
   const listings = (
-    <div style={{ 'overflow-y': 'auto'}}>
       <List
         itemLayout="horizontal"
         dataSource={data}
+        style={{  
+          height: '150px',
+          'overflow-y': 'scroll'
+        }}
         renderItem={item => (
           <List.Item>
             <List.Item.Meta
@@ -36,15 +38,7 @@ function UserProfile() {
           </List.Item>
         )}
       />
-    </div>
   )
-
-  const listings2 = (
-    <div style={{overflow: 'hidden'}}>
-
-    </div>
-  )
-
 
   return (
     <div>
@@ -75,10 +69,10 @@ function UserProfile() {
               <TabPane tab="Posted" key="2">
                 <Tabs defaultActiveKey="5" tabPosition="left">
                   <TabPane tab="Ongoing" key="5">
-                    Upcoming events
+                    {listings}
                   </TabPane>
                   <TabPane tab="Past" key="6">
-                    Past events
+                    {listings}
                   </TabPane>
                 </Tabs>
               </TabPane>
