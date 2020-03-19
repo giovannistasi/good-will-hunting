@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { message, Form, Input, Button, Checkbox } from 'antd';
 
 const layout = {
   labelCol: {
@@ -16,15 +16,30 @@ const tailLayout = {
   },
 };
 
-const onFinish = values => {
-  console.log('Success:', values);
+const onFinish = async values => {
+  console.log(values);
+  await fetch('http://localhost:8000/login', {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: values.email, password: values.password })
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('Something went wrong with your fetch');
+      }
+    })
+    .then((json) => {
+      json.message && message.warning(`${json.message}`, 5)
+    })
 };
 
 const onFinishFailed = errorInfo => {
   console.log('Failed:', errorInfo);
 };
 
-function Login() {
+function Login () {
   return (
     <Form
       {...layout}
@@ -36,12 +51,12 @@ function Login() {
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Username"
-        name="username"
+        label="E-mail"
+        name="email"
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: 'Please input your username',
           },
         ]}
       >
@@ -54,7 +69,7 @@ function Login() {
         rules={[
           {
             required: true,
-            message: 'Please input your password!',
+            message: 'Please input your password',
           },
         ]}
       >
