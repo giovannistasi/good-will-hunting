@@ -49,13 +49,14 @@ function SignUp () {
   );
 
   const onFinish = values => {
+    const { firstName, lastName, email, password, password2, address } = values;
     const signUpData = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-      password: values.password,
-      password2: values.password2,
-      address: values.address,
+      firstName,
+      lastName, 
+      email,
+      password,
+      password2,
+      address,
       picture: imageUrl
     }
     fetch(`http://localhost:8000/register`, {

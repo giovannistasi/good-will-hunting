@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 import React from 'react';
 import { message, Form, Input, Button, Checkbox } from 'antd';
+=======
+import React, { useContext } from 'react';
+import { Context } from '../global/Store'
+import { Form, Input, Button, Checkbox } from 'antd';
+>>>>>>> 182da66f568e2648e9955e353903fbfc92dd44d5
+
 
 const layout = {
   labelCol: {
@@ -40,6 +47,17 @@ const onFinishFailed = errorInfo => {
 };
 
 function Login () {
+
+  const [state, dispatch] = useContext(Context);
+
+  const onFinish = values => {
+    dispatch({ type: 'LOGIN', payload: true });
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
     <form action="http://localhost:8000/login" method="post">
       <div>

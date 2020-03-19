@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './AppRouter.css';
+import React, { useState, useContext } from 'react';
+import { Context } from './global/Store'
 import {
   BrowserRouter as Router,
   Route,
@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { Layout, Menu } from 'antd';
 import Icon from '@ant-design/icons';
-import { FileOutlined, UserOutlined } from '@ant-design/icons';
+import { FileOutlined, UserOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandsHelping, faHands } from '@fortawesome/free-solid-svg-icons'
 
@@ -24,6 +24,9 @@ const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 function AppRouter() {
+
+  const [state, dispatch] = useContext(Context);
+
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = collapsed => {
@@ -37,6 +40,10 @@ function AppRouter() {
     <FontAwesomeIcon icon={faHands} />
   )} {...props} />;
 
+  function logOut () {
+    dispatch({type: 'LOGIN', payload: false})
+  }
+
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
@@ -46,12 +53,18 @@ function AppRouter() {
           onCollapse={onCollapse}
           breakpoint="lg"
         >
-          <div className="logo" style={{ 
-            height: '30px', 
+          <div className="logo" style={{
+            height: '30px',
             margin: '15px',
             background: 'rgba(255, 255, 255, 0.2)'
-          }}/>
+          }} />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+            {state.loggedIn ? null : <Menu.Item key="0">
+              <Link to="/login">
+                <LoginOutlined />
+                <span>Log In</span>
+              </Link>
+            </Menu.Item>}
             <Menu.Item key="1">
               <Link to="/requests">
                 <HelpRequestIcon />
@@ -64,7 +77,7 @@ function AppRouter() {
                 <span>All offers</span>
               </Link>
             </Menu.Item>
-            <SubMenu
+            {state.loggedIn ? (<SubMenu
               key="sub1"
               title={
                 <Link to="/user">
@@ -78,13 +91,18 @@ function AppRouter() {
               <Menu.Item key="3"><Link to="/messages">Messages</Link></Menu.Item>
               <Menu.Item key="4">Posted</Menu.Item>
               <Menu.Item key="5">Accepted</Menu.Item>
-            </SubMenu>
+            </SubMenu>) : null}
             <Menu.Item key="6">
               <Link to="/about">
                 <FileOutlined />
                 <span>About</span>
               </Link>
             </Menu.Item>
+            {state.loggedIn ? <Menu.Item key="7"
+              onClick={logOut}>
+              <LogoutOutlined />
+              <span>Log Out</span>
+            </Menu.Item> : null}
           </Menu>
         </Sider>
         <Layout className="site-layout">
