@@ -2,6 +2,7 @@
 
 const db = require('../models');
 const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 exports.getAll = async (req, res) => {
@@ -65,3 +66,28 @@ exports.register = async (req, res) => {
     res.status = 500;
   }
 };
+
+exports.login = (req, res, next) => {
+  passport.authenticate('local', (e, user, info) => {
+    if (e) {
+      // res.send(e)
+      return next(e)
+    }
+    if (info) {
+      // res.send(info);
+      return res.send(info);
+    }
+    req.logIn(user, e => {
+      if (e) {
+        // res.send(e);
+        return next(e);
+      }
+      return res.send(user)
+    });
+  })(req, res, next);
+};
+
+exports.logout = (req, res) => {
+  req.logout();
+  res.redirect('/');
+}
