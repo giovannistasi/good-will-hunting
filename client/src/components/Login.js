@@ -44,17 +44,16 @@ function Login () {
     <form action="http://localhost:8000/login" method="post">
       <div>
         <label>Username:</label>
-        <input type="text" name="email" value="RPerkins@google.com" />
+        <input type="text" name="email" />
       </div>
       <div>
         <label>Password:</label>
-        <input type="password" name="password" value="password" />
+        <input type="password" name="password" />
       </div>
       <div>
         <input type="submit" value="Log In" />
       </div>
     </form>
-    // <a href="http://localhost:8000/login" >submit</a>
     // <Form
     //   {...layout}
     //   name="basic"
