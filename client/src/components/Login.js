@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../global/Store'
 import { Form, Input, Button, Checkbox } from 'antd';
+
 
 const layout = {
   labelCol: {
@@ -16,16 +18,19 @@ const tailLayout = {
   },
 };
 
-const onFinish = values => {
-  console.log('Success:', values);
-  
-};
-
-const onFinishFailed = errorInfo => {
-  console.log('Failed:', errorInfo);
-};
 
 function Login() {
+
+  const [state, dispatch] = useContext(Context);
+  
+  const onFinish = values => {
+    dispatch({type: 'LOGIN', payload: true});
+  };
+
+  const onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
+  
   return (
     <Form
       {...layout}
