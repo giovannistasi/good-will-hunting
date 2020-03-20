@@ -4,6 +4,7 @@ import Reducer from './Reducer'
 
 const initialState = {
     loggedIn: false,
+    jobs: [],
 };
 
 const Store = ({children}) => {

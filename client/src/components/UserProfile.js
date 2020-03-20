@@ -9,13 +9,14 @@ const { TabPane } = Tabs;
 function UserProfile() {
 
   const [state, dispatch] = useContext(Context);
-  const [jobs, setJobs] = useState([])
+  // const [jobs, setJobs] = useState([])
 
   useEffect(() => {
     console.log(state);
 
     const fetched = apiService.fetchListings(state.userInfo)
-    setJobs(fetched);
+    // setJobs(fetched);
+    dispatch({ type: 'SET-JOBS', payload: fetched })
 
   }, []);
 
@@ -36,7 +37,7 @@ function UserProfile() {
 
   let listings = undefined
 
-  if (jobs) {
+  if (state.jobs) {
     listings = (
       <List
         itemLayout="horizontal"

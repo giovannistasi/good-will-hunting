@@ -6,6 +6,11 @@ const Reducer = (state, action) => {
         loggedIn: action.payload,
         userInfo: action.userInfo
       };
+    case 'SET-JOBS':
+      return {
+        ...state,
+        jobs: action.payload,
+      }
     default:
       return state;
   }
