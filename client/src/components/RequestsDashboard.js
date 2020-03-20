@@ -14,9 +14,9 @@ for (let i = 0; i < 23; i++) {
     title: `Request #${i}`,
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
     description:
-      'Looking for someone who can center divs in CSS.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
     content:
-      'I am the owner of a coding bootcamp in Europe, but I don\'t know how to code. I\'m looking for someone to do the dirty work for me and center the divs on my website. This is additional text that serves no purpose other than taking up some space. Hit me up if interested',
+      'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
   });
 }
 

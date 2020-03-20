@@ -40,8 +40,8 @@ function AppRouter() {
     <FontAwesomeIcon icon={faHands} />
   )} {...props} />;
 
-  function logOut () {
-    dispatch({type: 'LOGIN', payload: false})
+  function logOut() {
+    dispatch({ type: 'LOGIN', payload: false })
   }
 
   return (
@@ -98,11 +98,14 @@ function AppRouter() {
                 <span>About</span>
               </Link>
             </Menu.Item>
-            {state.loggedIn ? <Menu.Item key="7"
-              onClick={logOut}>
-              <LogoutOutlined />
-              <span>Log Out</span>
-            </Menu.Item> : null}
+            {state.loggedIn ?
+              <Menu.Item key="7"
+                onClick={logOut}>
+                <Link to="/">
+                  <LogoutOutlined />
+                </Link>
+                <span>Log Out</span>
+              </Menu.Item> : null}
           </Menu>
         </Sider>
         <Layout className="site-layout">

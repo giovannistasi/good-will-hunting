@@ -44,7 +44,7 @@ function UserProfile() {
     <div>
       <div style={{ display: 'flex' }}>
         <div style={{ 'margin-right': '2vh' }}>
-          <Card hoverable="true" style={{ cursor: 'default', width: '50vw', height: '30vh' }}>
+          <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '30vh' }}>
             <div style={{ display: 'flex' }}>
               <Avatar size={130} icon={<UserOutlined />} />
               <div style={{ 'margin-left': '4vh' }}>
@@ -54,7 +54,7 @@ function UserProfile() {
               </div>
             </div>
           </Card>
-          <Card style={{ 'margin-top': '2vh', width: '50vw', height: '45vh' }} >
+          <Card style={{ 'margin-top': '2vh', width: '60vw', height: '45vh' }} >
             <Tabs defaultActiveKey="1" type="card">
               <TabPane tab="Accepted" key="1">
                 <Tabs defaultActiveKey="3" tabPosition="left">
@@ -79,7 +79,7 @@ function UserProfile() {
             </Tabs>
           </Card>
         </div>
-        <Card style={{ width: '40vw', height: '77vh' }}>
+        <Card style={{ width: '30vw', height: '77vh' }}>
           <p>All my orders</p>
           <p>Pending shipments</p>
           <p>Pending payments</p>
