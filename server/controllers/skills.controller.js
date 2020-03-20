@@ -22,7 +22,7 @@ exports.getAll = async (req, res) => {
 exports.post = async (req, res) => {
   const skill = req.body;
   try {
-    const user = await db.User.findOne({ where: { userId: "79821dea-6910-11ea-bc55-0242ac130003" } })
+    const user = await db.User.findOne({ where: { userId: "3fa69f80-6986-11ea-8277-033864135ace" } })
     const newSkill = await db.Skill.create(skill);
     await user.addSkills(newSkill);
     res.json(newSkill)

@@ -12,7 +12,7 @@ const layout = {
   wrapperCol: { span: 10 },
 };
 
-function SignUp() {
+function SignUp () {
 
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
@@ -59,9 +59,10 @@ function SignUp() {
       address,
       picture: imageUrl
     }
-    fetch(`http://localhost:8000`, {
+    fetch(`http://localhost:8000/register`, {
       method: 'POST',
-      body: signUpData
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(signUpData)
     })
       .then((response) => response.json())
       .then((data) => {
@@ -80,26 +81,26 @@ function SignUp() {
         {...layout}
         onFinish={onFinish}
       >
-        <Form.Item name="firstName" label="First name">
+        <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item name="lastName" label="Last name">
           <Input />
         </Form.Item>
-        <Form.Item name="email" label="Email" rules={[{ type: 'email' }]}>
+        <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
           <Input />
         </Form.Item>
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: 'Please enter a password!' }]}
         >
           <Input.Password />
         </Form.Item>
         <Form.Item
-          label="Password2"
+          label="Confirm password"
           name="password2"
-          rules={[{ required: true, message: 'Please input your second password!' }]}
+          rules={[{ required: true, message: 'Please confirm your password!' }]}
         >
           <Input.Password />
         </Form.Item>

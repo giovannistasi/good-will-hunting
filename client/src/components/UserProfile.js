@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Card, Tabs, Avatar, List } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-
+import apiService from '../apiService'
+import { Context } from '../global/Store'
+import moment from 'moment'
 const { TabPane } = Tabs;
 
 function UserProfile() {
+
+  const [state, dispatch] = useContext(Context);
+  const [jobs, setJobs] = useState([])
+
+  useEffect(() => {
+    console.log(state);
+
+    const fetched = apiService.fetchListings(state.userInfo)
+    setJobs(fetched);
+
+  }, []);
 
   const data = [
     {
@@ -20,11 +33,15 @@ function UserProfile() {
       title: 'Ant Design Title 4',
     },
   ];
-  const listings = (
+
+  let listings = undefined
+
+  if (jobs) {
+    listings = (
       <List
         itemLayout="horizontal"
         dataSource={data}
-        style={{  
+        style={{
           height: '150px',
           'overflow-y': 'scroll'
         }}
@@ -33,12 +50,13 @@ function UserProfile() {
             <List.Item.Meta
               avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
               title={<a href="https://ant.design">{item.title}</a>}
-              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+              description={item.description}
             />
           </List.Item>
         )}
       />
-  )
+    )
+  }
 
   return (
     <div>
@@ -46,11 +64,12 @@ function UserProfile() {
         <div style={{ 'margin-right': '2vh' }}>
           <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '30vh' }}>
             <div style={{ display: 'flex' }}>
-              <Avatar size={130} icon={<UserOutlined />} />
+              <Avatar size={130} src={state.userInfo && state.userInfo.picture} />
               <div style={{ 'margin-left': '4vh' }}>
-                <p>Name</p>
-                <p>Skills</p>
-                <p>Short bio</p>
+                <p>Name: {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}</p>
+                <p>Skills: {state.userInfo && state.userInfo.Skills[0].skillName + ', ' + state.userInfo.Skills[1].skillName}</p>
+                <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('DD-mm-YYYY')}</p>
+                <p>Credits: {state.userInfo && state.userInfo.credits}</p>
               </div>
             </div>
           </Card>
@@ -80,13 +99,13 @@ function UserProfile() {
           </Card>
         </div>
         <Card style={{ width: '30vw', height: '77vh' }}>
-          <p>All my orders</p>
+          {/* <p>All my orders</p>
           <p>Pending shipments</p>
           <p>Pending payments</p>
-          <p>Finished orders</p>
+          <p>Finished orders</p> */}
         </Card>
-      </div>
     </div>
+    </div >
 
   )
 }
