@@ -87,9 +87,11 @@ exports.login = (req, res, next) => {
 };
 
 exports.logout = (req, res) => {
+
   req.logout();
   req.session.destroy(function (err) {
     if (!err) {
+      req.session = null
       res.status(200).clearCookie('connect.sid', { path: '/' }).send({ status: 'Successfully logged out' });
     } else {
       console.error(err)
