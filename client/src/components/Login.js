@@ -5,6 +5,9 @@ import {
 } from "react-router-dom";
 import { Context } from '../global/Store'
 import { message, Form, Input, Button, Checkbox } from 'antd';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 
 
 const layout = {
@@ -39,15 +42,14 @@ function Login () {
           let user = await res.json()
           if (user.userId) {
             dispatch({ type: 'LOGIN', payload: true, userInfo: user });
+            cookies.set('login', true, { path: '/' });
           }
-          console.log(user)
           return user
         } else {
           throw new Error('Something went wrong with your fetch');
         }
       })
       .then((msg) => {
-        console.log(msg)
         msg.message && message.warning(`${msg.message}`, 5)
       })
   };

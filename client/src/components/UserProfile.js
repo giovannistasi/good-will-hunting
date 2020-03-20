@@ -4,19 +4,22 @@ import { UserOutlined } from '@ant-design/icons';
 import apiService from '../apiService'
 import { Context } from '../global/Store'
 import moment from 'moment'
+import Cookies from 'universal-cookie';
 const { TabPane } = Tabs;
+const cookies = new Cookies();
 
-function UserProfile() {
+
+function UserProfile () {
 
   const [state, dispatch] = useContext(Context);
   // const [jobs, setJobs] = useState([])
 
   useEffect(() => {
-    console.log(state);
 
-    const fetched = apiService.fetchListings(state.userInfo)
-    // setJobs(fetched);
-    dispatch({ type: 'SET-JOBS', payload: fetched })
+    const data = apiService.fetchListings()
+      .then(data => dispatch({ type: 'SET-JOBS', payload: data }))
+    console.log(state);
+    console.log(cookies.get('login')); // Pacman
 
   }, []);
 
@@ -35,29 +38,25 @@ function UserProfile() {
     },
   ];
 
-  let listings = undefined
-
-  if (state.jobs) {
-    listings = (
-      <List
-        itemLayout="horizontal"
-        dataSource={data}
-        style={{
-          height: '150px',
-          'overflow-y': 'scroll'
-        }}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-              title={<a href="https://ant.design">{item.title}</a>}
-              description={item.description}
-            />
-          </List.Item>
-        )}
-      />
-    )
-  }
+  const listings = (
+    <List
+      itemLayout="horizontal"
+      dataSource={data}
+      style={{
+        height: '150px',
+        'overflow-y': 'scroll'
+      }}
+      renderItem={item => (
+        <List.Item>
+          <List.Item.Meta
+            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            title={<a href="https://ant.design">{item.title}</a>}
+            description={item.description}
+          />
+        </List.Item>
+      )}
+    />
+  )
 
   return (
     <div>
@@ -105,7 +104,7 @@ function UserProfile() {
           <p>Pending payments</p>
           <p>Finished orders</p> */}
         </Card>
-    </div>
+      </div>
     </div >
 
   )
