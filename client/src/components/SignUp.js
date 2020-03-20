@@ -115,7 +115,7 @@ function SignUp () {
           <Upload
             name="avatar"
             customRequest={cloudRequest}
-            accept=".png, .jpg"
+            accept=".png, .jpg, .jpeg"
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}

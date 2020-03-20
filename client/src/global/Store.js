@@ -5,6 +5,8 @@ import Reducer from './Reducer'
 const initialState = {
     loggedIn: false,
     jobs: [],
+    skills: ['cooking', 'gardening', 'plumbing', 'carpentry', 'stuff like that'],
+    userSkills: []
 };
 
 const Store = ({children}) => {
