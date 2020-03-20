@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import {
   Route,
-  Redirect
+  Redirect,
+  Link
 } from "react-router-dom";
 import { Context } from '../global/Store'
 import { message, Form, Input, Button, Checkbox } from 'antd';
@@ -102,7 +103,9 @@ function Login () {
               Log in
         </Button>
           </Form.Item>
+          <Link to="/signup"><p>Don't have an account? Sign up here</p></Link>
         </Form >
+        
       }
     </Route>
 

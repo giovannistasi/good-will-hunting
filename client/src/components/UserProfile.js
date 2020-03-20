@@ -1,17 +1,18 @@
-import React, { useEffect, useContext } from 'react';
-import { Card, Tabs, Avatar, List, Select } from 'antd';
+import React, { useEffect, useContext, useState } from 'react';
+import { Card, Tabs, Avatar, List, Select, Tag, Input, Tooltip } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import apiService from '../apiService';
 import { Context } from '../global/Store';
 import moment from 'moment';
-import Cookies from 'universal-cookie';
 const { TabPane } = Tabs;
-const cookies = new Cookies();
 
 const { Option } = Select;
 
 function UserProfile() {
 
   const [state, dispatch] = useContext(Context);
+  const [inputValue, setInputValue] = useState('');
+  const [inputVisible, setInputVisible] = useState(false);
 
   useEffect(() => {
     apiService.fetchListings()
@@ -53,12 +54,36 @@ function UserProfile() {
     />
   )
 
-  const skills = ['cooking', 'gardening', 'plumbing', 'carpentry', 'stuff like that'];
-
   function selectSkill(skill) {
-    console.log(skill);
-    
+    const skills = [...state.userSkills, skill];
+    dispatch({ type: 'SET-USER-SKILLS', payload: skills })
   }
+
+  const handleClose = removedSkill => {
+    const skills = state.userSkills.filter(skill => skill !== removedSkill);
+    dispatch({ type: 'SET-USER-SKILLS', payload: skills })
+  };
+
+  const showInput = () => {
+    setInputVisible(true);
+  };
+
+  const handleInputChange = e => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputConfirm = () => {
+    let skills = state.userSkills;
+    if (inputValue && skills.indexOf(inputValue) === -1) {
+      skills = [...skills, inputValue];
+    }
+    dispatch({ type: 'SET-USER-SKILLS', payload: skills })
+    setInputVisible(false);
+    setInputValue('');
+  };
+
+  const saveInputRef = input => (input = input);
+
 
   return (
     <div>
@@ -112,10 +137,48 @@ function UserProfile() {
             }
           >
             {
-              skills.map(skill => 
-              <Option value={skill}>{skill}</Option>)
+              state.skills.map(skill =>
+                <Option value={skill}>{skill}</Option>)
             }
           </Select>
+
+          <br></br>
+          <br></br>
+
+          <div>
+            {state.userSkills.map((skill, index) => {
+              const isLongSkill = skill.length > 20;
+              const skillElem = (
+                <Tag key={skill} closable={index !== 0} onClose={() => handleClose(skill)}>
+                  {isLongSkill ? `${skill.slice(0, 20)}...` : skill}
+                </Tag>
+              );
+              return isLongSkill ? (
+                <Tooltip title={skill} key={skill}>
+                  {skillElem}
+                </Tooltip>
+              ) : (
+                  skillElem
+                );
+            })}
+            {inputVisible && (
+              <Input
+                ref={saveInputRef}
+                type="text"
+                size="small"
+                style={{ width: 78 }}
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={handleInputConfirm}
+                onPressEnter={handleInputConfirm}
+              />
+            )}
+            {!inputVisible && (
+              <Tag className="site-skill-plus" onClick={showInput}>
+                <PlusOutlined /> New Skill
+              </Tag>
+            )}
+          </div>
         </Card>
       </div>
     </div >

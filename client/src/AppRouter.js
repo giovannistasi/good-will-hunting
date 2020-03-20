@@ -5,7 +5,6 @@ import {
   Route,
   Link,
   Switch,
-  Redirect
 } from "react-router-dom";
 import { Layout, Menu, message } from 'antd';
 import Icon from '@ant-design/icons';
