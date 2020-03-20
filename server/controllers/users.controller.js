@@ -2,7 +2,6 @@
 
 const db = require('../models');
 const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
 exports.getAll = async (req, res) => {
@@ -79,7 +78,6 @@ exports.login = (req, res, next) => {
     }
     req.logIn(user, function (err) {
       if (err) { return next(err); }
-      res.set({ "Access-Control-Allow-Origin": "http://localhost:3000" })
       res.status(200)
       res.send(user)
     });
@@ -87,16 +85,17 @@ exports.login = (req, res, next) => {
 };
 
 exports.logout = (req, res) => {
-
   req.logout();
   req.session.destroy(function (err) {
     if (!err) {
       req.session = null
-      res.status(200).clearCookie('connect.sid', { path: '/' }).send({ status: 'Successfully logged out' });
+      res
+        .status(200)
+        .cookie('connect.sid', { path: '/' })
+        .send({ status: 'Successfully logged out' });
     } else {
       console.error(err)
       res.status(301).json({ status: 'Failed to log out' })
     }
   });
-  console.log('req.isAuthenticated : ', req.isAuthenticated());
 }

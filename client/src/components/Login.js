@@ -5,10 +5,7 @@ import {
 } from "react-router-dom";
 import { Context } from '../global/Store'
 import { message, Form, Input, Button, Checkbox } from 'antd';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-
-
+import Cookie from 'js-cookie';
 
 const layout = {
   labelCol: {
@@ -42,7 +39,6 @@ function Login () {
           let user = await res.json()
           if (user.userId) {
             dispatch({ type: 'LOGIN', payload: true, userInfo: user });
-            cookies.set('login', true, { path: '/' });
           }
           return user
         } else {

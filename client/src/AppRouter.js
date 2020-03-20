@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Context } from './global/Store'
 import {
   BrowserRouter as Router,
@@ -12,7 +12,6 @@ import Icon from '@ant-design/icons';
 import { FileOutlined, UserOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandsHelping, faHands } from '@fortawesome/free-solid-svg-icons'
-// import { withCookies } from 'react-cookie';
 
 import About from './components/About';
 import Login from './components/Login';
@@ -21,9 +20,7 @@ import OffersDashboard from './components/OffersDashboard';
 import RequestsDashboard from './components/RequestsDashboard';
 import SignUp from './components/SignUp';
 import UserProfile from './components/UserProfile';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-
+import Cookies from 'js-cookie';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -52,7 +49,7 @@ function AppRouter () {
       .then(async (res) => {
         if (res.ok) {
           dispatch({ type: 'LOGIN', payload: false })
-          cookies.remove('login', { path: '/' })
+          Cookies.remove('connect.sid')
           return await res.json()
         } else {
           throw new Error('Something went wrong with your fetch');
@@ -122,8 +119,8 @@ function AppRouter () {
                 onClick={logOut}>
                 <Link to="/">
                   <LogoutOutlined />
+                  <span>Log Out</span>
                 </Link>
-                <span>Log Out</span>
               </Menu.Item> : null}
           </Menu>
         </Sider>

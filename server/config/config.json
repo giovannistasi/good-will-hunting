@@ -5,7 +5,7 @@
     "database": "good_will_hunting",
     "host": "127.0.0.1",
     "dialect": "postgres",
-    "operatorsAliases": false
+    "logging": false
   },
   "test": {
     "username": "rich",
