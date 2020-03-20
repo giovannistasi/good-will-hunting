@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Context } from './global/Store'
 import {
   BrowserRouter as Router,
@@ -12,7 +12,6 @@ import Icon from '@ant-design/icons';
 import { FileOutlined, UserOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandsHelping, faHands } from '@fortawesome/free-solid-svg-icons'
-// import { withCookies } from 'react-cookie';
 
 import About from './components/About';
 import Login from './components/Login';
@@ -62,6 +61,13 @@ function AppRouter () {
         message.success(`${json.status}`, 5)
       })
   }
+
+
+  useEffect(() => {
+    if (cookies.get('login')) {
+      dispatch({type: 'LOGIN', payload: true})
+    }
+  }, [])
 
   return (
     <Router>

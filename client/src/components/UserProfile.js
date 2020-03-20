@@ -1,40 +1,35 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { Card, Tabs, Avatar, List } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import apiService from '../apiService'
-import { Context } from '../global/Store'
-import moment from 'moment'
+import React, { useEffect, useContext } from 'react';
+import { Card, Tabs, Avatar, List, Select } from 'antd';
+import apiService from '../apiService';
+import { Context } from '../global/Store';
+import moment from 'moment';
 import Cookies from 'universal-cookie';
 const { TabPane } = Tabs;
 const cookies = new Cookies();
 
+const { Option } = Select;
 
-function UserProfile () {
+function UserProfile() {
 
   const [state, dispatch] = useContext(Context);
-  // const [jobs, setJobs] = useState([])
 
   useEffect(() => {
-
-    const data = apiService.fetchListings()
+    apiService.fetchListings()
       .then(data => dispatch({ type: 'SET-JOBS', payload: data }))
-    console.log(state);
-    console.log(cookies.get('login')); // Pacman
-
   }, []);
 
   const data = [
     {
-      title: 'Ant Design Title 1',
+      title: 'Title 1',
     },
     {
-      title: 'Ant Design Title 2',
+      title: 'Title 2',
     },
     {
-      title: 'Ant Design Title 3',
+      title: 'Title 3',
     },
     {
-      title: 'Ant Design Title 4',
+      title: 'Title 4',
     },
   ];
 
@@ -57,6 +52,13 @@ function UserProfile () {
       )}
     />
   )
+
+  const skills = ['cooking', 'gardening', 'plumbing', 'carpentry', 'stuff like that'];
+
+  function selectSkill(skill) {
+    console.log(skill);
+    
+  }
 
   return (
     <div>
@@ -99,10 +101,21 @@ function UserProfile () {
           </Card>
         </div>
         <Card style={{ width: '30vw', height: '77vh' }}>
-          {/* <p>All my orders</p>
-          <p>Pending shipments</p>
-          <p>Pending payments</p>
-          <p>Finished orders</p> */}
+          <Select
+            showSearch
+            style={{ width: 200 }}
+            onChange={selectSkill}
+            placeholder="Select a skill"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {
+              skills.map(skill => 
+              <Option value={skill}>{skill}</Option>)
+            }
+          </Select>
         </Card>
       </div>
     </div >
