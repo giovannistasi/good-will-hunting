@@ -22,6 +22,7 @@ import UserProfile from './components/UserProfile';
 import JobForm from './components/JobForm';
 import Job from './components/Job';
 import Cookies from 'js-cookie';
+import apiService from './apiService';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -42,6 +43,16 @@ function AppRouter () {
   const HelpRequestIcon = props => <Icon component={() => (
     <FontAwesomeIcon icon={faHands} />
   )} {...props} />;
+
+  useEffect(() => {
+    apiService.authenticate().then(user => {
+      if (user) {
+        console.log(user);
+        dispatch({ type: 'LOGIN', payload: { loggedIn: true, userInfo: user } })
+      }
+    })
+
+  }, [])
 
   async function logOut () {
     await fetch('http://localhost:8080/logout', {

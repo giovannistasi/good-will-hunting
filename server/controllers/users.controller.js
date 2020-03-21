@@ -26,8 +26,6 @@ exports.getAll = async (req, res) => {
 exports.register = async (req, res) => {
   const { firstName, lastName, email, password, password2, address, picture } = req.body;
   let errors = [];
-  console.log(req.body);
-
   try {
     if (!firstName || !lastName || !password || !password2 || !email) {
       errors.push({ msg: 'Please fill in all fields' });

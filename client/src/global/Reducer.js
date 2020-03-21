@@ -4,8 +4,8 @@ const Reducer = (state, action) => {
     case 'LOGIN':
       return {
         ...state,
-        loggedIn: action.payload,
-        userInfo: action.userInfo
+        loggedIn: action.payload.loggedIn,
+        userInfo: action.payload.userInfo
       };
     case 'SET-JOBS':
       return {
