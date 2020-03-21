@@ -19,6 +19,8 @@ import OffersDashboard from './components/OffersDashboard';
 import RequestsDashboard from './components/RequestsDashboard';
 import SignUp from './components/SignUp';
 import UserProfile from './components/UserProfile';
+import JobForm from './components/JobForm';
+import Job from './components/Job';
 import Cookies from 'js-cookie';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -135,6 +137,8 @@ function AppRouter () {
                 <Route path="/messages" component={Messages} />
                 <Route path="/signup" component={SignUp} />
                 <Route path="/login" component={Login} />
+                <Route path="/post" component={JobForm} />
+                <Route path="/job" component={Job} />
               </Switch>
             </div>
           </Content>

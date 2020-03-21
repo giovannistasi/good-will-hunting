@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Card, Tabs, Avatar, List, Select, Tag, Input, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import apiService from '../apiService';
@@ -8,7 +9,7 @@ const { TabPane } = Tabs;
 
 const { Option } = Select;
 
-function UserProfile () {
+function UserProfile() {
 
   const [state, dispatch] = useContext(Context);
   const [inputValue, setInputValue] = useState('');
@@ -85,15 +86,17 @@ function UserProfile () {
       <div style={{ display: 'flex' }}>
         <div style={{ 'marginRight': '2vh' }}>
           <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '30vh' }}>
-            <div style={{ display: 'flex', 'justify-content': 'space-evenly' }}>
-              <Avatar size={130} src={state.userInfo && state.userInfo.picture} />
-              <div style={{ 'marginLeft': '4vh' }}>
-                <p>Name: {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}</p>
-                <p>Skills: {state.userInfo && state.userInfo.Skills.length && state.userInfo.Skills[0].skillName + ', ' + state.userInfo.Skills[1].skillName}</p>
-                <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('DD-mm-YYYY')}</p>
-                <p>Credits: {state.userInfo && state.userInfo.credits}</p>
+            <div style={{ display: 'flex', 'justify-content': 'space-between' }}>
+              <div style={{ display: 'flex' }}>
+                <Avatar size={130} src={state.userInfo && state.userInfo.picture} />
+                <div style={{ 'marginLeft': '4vh' }}>
+                  <p>Name: {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}</p>
+                  <p>Skills: {state.userInfo && state.userInfo.Skills.length && state.userInfo.Skills[0].skillName + ', ' + state.userInfo.Skills[1].skillName}</p>
+                  <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('DD-mm-YYYY')}</p>
+                  <p>Credits: {state.userInfo && state.userInfo.credits}</p>
+                </div>
               </div>
-              <Button type="primary" style={{ }}>Post a job</Button>
+              <Link to="/post"><Button type="primary">Create a new job</Button></Link>
             </div>
 
           </Card>
