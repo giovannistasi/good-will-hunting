@@ -1,8 +1,24 @@
 import React from 'react';
+import { Input, DatePicker } from 'antd';
 
 function JobForm () {
+
+  const { TextArea } = Input;
+  const { RangePicker } = DatePicker;
+  function onChange(value, dateString) {
+    console.log('Selected Time: ', value);
+    console.log('Formatted Selected Time: ', dateString);
+  }
+  
+  function onOk(value) {
+    console.log('onOk: ', value);
+  }
+
   return (
-    <div>This is the job posting page</div> 
+    <div style={{ display: 'flex' }}>
+      <TextArea rows={4} />
+      <DatePicker showTime onChange={onChange} onOk={onOk} />
+    </div>
   )
 }
 

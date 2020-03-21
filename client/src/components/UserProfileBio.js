@@ -1,13 +1,18 @@
 import React, { useContext } from 'react';
 import { Context } from '../global/Store';
 import { Link } from 'react-router-dom';
-import { Button, Card, Avatar } from 'antd';
+import { Button, Card, Avatar, Typography } from 'antd';
 import moment from 'moment';
-
 
 function UserProfileBio() {
 
   const [state, dispatch] = useContext(Context);
+  const { Paragraph } = Typography;
+
+  const onChangeName = name => {
+    console.log('Content change:', name);
+    //TODO: dispatch and change name in db
+  }
 
   return (
     <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '30vh' }}>
@@ -15,7 +20,7 @@ function UserProfileBio() {
         <div style={{ display: 'flex' }}>
           <Avatar size={130} src={state.userInfo && state.userInfo.picture} />
           <div style={{ 'marginLeft': '4vh' }}>
-            <p>Name: {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}</p>
+          Name:<Paragraph editable={{ onChange: onChangeName }}> {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}</Paragraph>
             <p>Skills: {state.userInfo && state.userInfo.Skills.length && state.userInfo.Skills[0].skillName + ', ' + state.userInfo.Skills[1].skillName}</p>
             <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('DD-mm-YYYY')}</p>
             <p>Credits: {state.userInfo && state.userInfo.credits}</p>
