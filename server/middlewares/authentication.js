@@ -1,8 +1,9 @@
 module.exports = {
   authorise: function (req, res, next) {
     if (req.isAuthenticated()) {
-      console.log('next');
+      console.log(req.session.passport.user);
 
+      res.send(req.session.passport.user)
       return next();
     }
     res.status(401).send('You need to be logged in to view this page');

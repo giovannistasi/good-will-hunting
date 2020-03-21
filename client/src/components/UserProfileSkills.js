@@ -3,7 +3,10 @@ import { Context } from '../global/Store';
 import { Card, Input, Select, Tag, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-function UserProfileSkills() {
+import apiService from '../apiService';
+
+
+function UserProfileSkills () {
 
   const [state, dispatch] = useContext(Context);
   const [inputValue, setInputValue] = useState('');
@@ -11,15 +14,19 @@ function UserProfileSkills() {
 
   const { Option } = Select;
 
-  function selectSkill(skill) {
-    if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;
-    dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, skill] })
-  }
-
-  const handleClose = removedSkill => {
-    const skills = state.userSkills.filter(skill => skill !== removedSkill);
-    dispatch({ type: 'SET-USER-SKILLS', payload: skills })
-  };
+  useEffect(() => {
+    apiService.fetchListingsByUserId()
+      .then(data => {
+        dispatch({ type: 'SET-JOBS', payload: data })
+      })
+    apiService.fetchSkillsByUserId()
+      .then(data => {
+        let skills = [];
+        console.log(data);
+        data.map(skill => skills.push(skill))
+        dispatch({ type: 'SET-USER-SKILLS', payload: skills })
+      })
+  }, []);
 
   useEffect(() => {
     const input = document.querySelector(".skill-input") || null;
@@ -28,7 +35,21 @@ function UserProfileSkills() {
     } else {
       return;
     }
-  }, [inputVisible]);
+  }, [inputVisible])
+
+  function selectSkill (skill) {
+    if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;
+    apiService.postUserSkill(skill).then((newSkill) => {
+      dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
+    })
+  }
+
+  const handleClose = removedSkill => {
+    apiService.deleteSkillByUserId(removedSkill).then(() => {
+      const skills = state.userSkills.filter(skill => skill !== removedSkill);
+      skills.map(skill => dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, skill] }))
+    })
+  };
 
   const showInput = () => {
     setInputVisible(true);
@@ -41,9 +62,10 @@ function UserProfileSkills() {
   const handleInputConfirm = () => {
     let skills = state.userSkills;
     if (inputValue && skills.indexOf(inputValue) === -1) {
-      skills = [...skills, inputValue];
+      apiService.postUserSkill(inputValue).then((newSkill) => {
+        dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
+      })
     }
-    dispatch({ type: 'SET-USER-SKILLS', payload: skills })
     setInputVisible(false);
     setInputValue('');
   };
@@ -72,19 +94,21 @@ function UserProfileSkills() {
 
       <div>
         {state.userSkills.map((skill, index) => {
-          const isLongSkill = skill.length > 20;
-          const skillElem = (
-            <Tag style={{ 'margin': '2.5px 5px 2.5px 0px' }} key={skill} closable={index !== -1} onClose={() => handleClose(skill)}>
-              {isLongSkill ? `${skill.slice(0, 20)}...` : skill}
-            </Tag>
-          );
-          return isLongSkill ? (
-            <Tooltip title={skill} key={skill}>
-              {skillElem}
-            </Tooltip>
-          ) : (
-              skillElem
+          if (skill) {
+            const isLongSkill = skill.skillName.length > 20;
+            const skillElem = (
+              <Tag style={{ 'margin': '2.5px 5px 2.5px 0px' }} key={skill.skillId} closable={index !== -1} onClose={() => handleClose(skill)}>
+                {isLongSkill ? `${skill.skillName.slice(0, 20)}...` : skill.skillName}
+              </Tag>
             );
+            return isLongSkill ? (
+              <Tooltip title={skill.skillName} key={skill.skillId}>
+                {skillElem}
+              </Tooltip>
+            ) : (
+                skillElem
+              );
+          }
         })}
         {inputVisible && (
           <Input
@@ -101,7 +125,7 @@ function UserProfileSkills() {
         {!inputVisible && (state.userSkills.length <= 9) && (
           <Tag className="site-skill-plus" onClick={showInput}>
             <PlusOutlined /> New Skill
-              </Tag>
+          </Tag>
         )}
       </div>
     </Card>

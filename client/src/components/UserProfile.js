@@ -4,7 +4,7 @@ import UserProfileBio from './UserProfileBio';
 import UserProfileJobs from './UserProfileJobs';
 import UserProfileSkills from './UserProfileSkills';
 
-function UserProfile() {
+function UserProfile () {
 
   return (
     <div>

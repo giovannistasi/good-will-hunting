@@ -39,7 +39,7 @@ function Login () {
         if (res.ok) {
           let user = await res.json()
           if (user.userId) {
-            dispatch({ type: 'LOGIN', payload: true, userInfo: user });
+            dispatch({ type: 'LOGIN', payload: { loggedIn: true, userInfo: user } });
           }
           return user
         } else {
@@ -101,7 +101,7 @@ function Login () {
           </Form.Item>
           <Link to="/signup"><p>Don't have an account? Sign up here</p></Link>
         </Form >
-        
+
       }
     </Route>
 

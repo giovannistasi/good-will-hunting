@@ -4,6 +4,7 @@ import {
   Input,
   Button,
   Upload,
+  message
 } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -66,7 +67,7 @@ function SignUp () {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Success:', data);
+        data.forEach(data => data.msg ? message.error(data.msg) : null)
       })
       .catch((error) => {
         console.error('Error:', error);

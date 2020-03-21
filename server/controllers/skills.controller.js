@@ -25,7 +25,7 @@ exports.getSkillByUserId = async (req, res) => {
       include: [
         {
           model: db.User,
-          where: { userId: req.session.passport.user.userId || null },
+          where: { userId: req.session.passport && req.session.passport.user.userId || null },
           attributes: ['firstName', 'lastName', 'picture', 'email']
         }
       ]
@@ -38,10 +38,10 @@ exports.getSkillByUserId = async (req, res) => {
 }
 
 exports.post = async (req, res) => {
-  const skill = req.body;
+  const skill = req.body.skill;
   try {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
-    const newSkill = await db.Skill.create(skill);
+    const newSkill = await db.Skill.create({ skillName: skill });
     await user.addSkills(newSkill);
     res.json(newSkill)
     res.status = 200;
@@ -50,3 +50,17 @@ exports.post = async (req, res) => {
     res.status = 500;
   }
 };
+
+exports.delete = async (req, res) => {
+  const removedSkill = req.body.skill;
+  try {
+    const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
+    const newSkill = await db.Skill.findOne({ skillName: removedSkill });
+    await user.addSkills(newSkill);
+    res.json(newSkill)
+    res.status = 200;
+  } catch (e) {
+    console.error(e);
+    res.status = 500;
+  }
+}
