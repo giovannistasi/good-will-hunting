@@ -3,9 +3,6 @@ import { Context } from '../global/Store';
 import { Card, Input, Select, Tag, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-import apiService from '../apiService';
-
-
 function UserProfileSkills() {
 
   const [state, dispatch] = useContext(Context);
@@ -13,13 +10,6 @@ function UserProfileSkills() {
   const [inputVisible, setInputVisible] = useState(false);
 
   const { Option } = Select;
-
-  useEffect(() => {
-    apiService.fetchListingsByUserId()
-      .then(data => {
-        dispatch({ type: 'SET-JOBS', payload: data })
-      })
-  }, []);
 
   function selectSkill(skill) {
     if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;

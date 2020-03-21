@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, DatePicker } from 'antd';
+import { Form, Input, DatePicker } from 'antd';
 
 function JobForm () {
 
@@ -16,7 +16,15 @@ function JobForm () {
 
   return (
     <div style={{ display: 'flex' }}>
-      <TextArea rows={4} />
+      <div>
+        <Form>
+          <Form.Item >
+            <Input></Input>
+          </Form.Item>
+        </Form>
+        
+        <TextArea rows={4} />
+      </div>
       <DatePicker showTime onChange={onChange} onOk={onOk} />
     </div>
   )
