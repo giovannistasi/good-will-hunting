@@ -22,7 +22,10 @@ router.get('/user-skills', skills.getSkillByUserId);
 router.post('/skills', skills.post); //, authMiddleWare.authorise
 
 router.get('/auth', authMiddleWare.authorise)
+<<<<<<< HEAD
+=======
 
 // router.get('/*', (req, res) => res.status(404).send('Page not found')); // Catchall for not found
+>>>>>>> 8268b3017b9a4c6bf6e11568f78d63c250151474
 
 module.exports = router;
