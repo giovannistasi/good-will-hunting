@@ -63,12 +63,13 @@ function UserProfileSkills () {
     let skills = state.userSkills;
     if (inputValue && skills.indexOf(inputValue) === -1) {
       apiService.postUserSkill(inputValue).then((newSkill) => {
-        dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
+        dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill] })
       })
     }
     setInputVisible(false);
     setInputValue('');
   };
+  console.log(state.userSkills);
 
   return (
     <Card style={{ width: '35vw', height: '77vh', 'margin-right': '2vh' }}>
