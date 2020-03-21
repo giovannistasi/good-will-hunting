@@ -8,39 +8,28 @@ const { TabPane } = Tabs;
 
 const { Option } = Select;
 
-function UserProfile() {
+function UserProfile () {
 
   const [state, dispatch] = useContext(Context);
   const [inputValue, setInputValue] = useState('');
   const [inputVisible, setInputVisible] = useState(false);
 
   useEffect(() => {
-    apiService.fetchListings()
-      .then(data => dispatch({ type: 'SET-JOBS', payload: data }))
+    apiService.fetchListingsByUserId()
+      .then(data => {
+        console.log(data);
+        dispatch({ type: 'SET-JOBS', payload: data })
+        console.log(state);
+      })
   }, []);
-
-  const data = [
-    {
-      title: 'Title 1',
-    },
-    {
-      title: 'Title 2',
-    },
-    {
-      title: 'Title 3',
-    },
-    {
-      title: 'Title 4',
-    },
-  ];
 
   const listings = (
     <List
       itemLayout="horizontal"
-      dataSource={data}
+      dataSource={state.jobs}
       style={{
         height: '150px',
-        'overflow-y': 'scroll'
+        'overflowY': 'scroll'
       }}
       renderItem={item => (
         <List.Item>
@@ -94,13 +83,13 @@ function UserProfile() {
   return (
     <div>
       <div style={{ display: 'flex' }}>
-        <div style={{ 'margin-right': '2vh' }}>
+        <div style={{ 'marginRight': '2vh' }}>
           <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '30vh' }}>
             <div style={{ display: 'flex', 'justify-content': 'space-evenly' }}>
               <Avatar size={130} src={state.userInfo && state.userInfo.picture} />
-              <div style={{ 'margin-left': '4vh' }}>
+              <div style={{ 'marginLeft': '4vh' }}>
                 <p>Name: {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}</p>
-                <p>Skills: {state.userInfo && state.userInfo.Skills[0].skillName + ', ' + state.userInfo.Skills[1].skillName}</p>
+                <p>Skills: {state.userInfo && state.userInfo.Skills.length && state.userInfo.Skills[0].skillName + ', ' + state.userInfo.Skills[1].skillName}</p>
                 <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('DD-mm-YYYY')}</p>
                 <p>Credits: {state.userInfo && state.userInfo.credits}</p>
               </div>
@@ -108,7 +97,7 @@ function UserProfile() {
             </div>
 
           </Card>
-          <Card style={{ 'margin-top': '2vh', width: '60vw', height: '45vh' }} >
+          <Card style={{ 'marginTop': '2vh', width: '60vw', height: '45vh' }} >
             <Tabs defaultActiveKey="1" type="card">
               <TabPane tab="Accepted" key="1">
                 <Tabs defaultActiveKey="3" tabPosition="left">

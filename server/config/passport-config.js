@@ -29,12 +29,14 @@ function initialise (passport) {
   }
 
   passport.serializeUser((user, done) => {
-    done(null, user.userId);
+    done(null, user);
   });
 
   passport.deserializeUser((id, done) => {
-    db.User.findByPk(id, (err, user) => {
-      done(err, user);
+    db.User.findByPk(id.userId).then((user) => {
+      done(null, user);
+    }).catch((error) => {
+      done(error)
     });
   });
 

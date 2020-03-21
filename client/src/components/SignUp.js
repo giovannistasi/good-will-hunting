@@ -52,14 +52,14 @@ function SignUp () {
     const { firstName, lastName, email, password, password2, address } = values;
     const signUpData = {
       firstName,
-      lastName, 
+      lastName,
       email,
       password,
       password2,
       address,
       picture: imageUrl
     }
-    fetch(`http://localhost:8000/register`, {
+    fetch(`http://localhost:8080/register`, {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(signUpData)
