@@ -44,10 +44,11 @@ function UserProfile () {
     if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;
     const newSkill = apiService.postUserSkill(skill)
     dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
+    console.log(state.userSkills);
+
   }
 
   const handleClose = removedSkill => {
-
     const skills = state.userSkills.filter(skill => skill !== removedSkill);
     dispatch({ type: 'SET-USER-SKILLS', payload: skills })
   };
