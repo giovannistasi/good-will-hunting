@@ -10,7 +10,7 @@ import { faCoins } from '@fortawesome/free-solid-svg-icons'
 const listData = [];
 for (let i = 0; i < 23; i++) {
   listData.push({
-    href: '/listing',
+    href: '/job',
     title: `Request #${i}`,
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
     description:

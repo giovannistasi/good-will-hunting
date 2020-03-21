@@ -55,14 +55,23 @@ function UserProfile() {
   )
 
   function selectSkill(skill) {
-    const skills = [...state.userSkills, skill];
-    dispatch({ type: 'SET-USER-SKILLS', payload: skills })
+    if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;
+    dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, skill] })
   }
 
   const handleClose = removedSkill => {
     const skills = state.userSkills.filter(skill => skill !== removedSkill);
     dispatch({ type: 'SET-USER-SKILLS', payload: skills })
   };
+
+  useEffect(() => {
+    const input = document.querySelector(".skill-input") || null;
+    if (input) {
+      input.focus()
+    } else {
+      return;
+    }
+  }, [inputVisible]);
 
   const showInput = () => {
     setInputVisible(true);
@@ -81,9 +90,6 @@ function UserProfile() {
     setInputVisible(false);
     setInputValue('');
   };
-
-  const saveInputRef = input => (input = input);
-
 
   return (
     <div>
@@ -125,10 +131,11 @@ function UserProfile() {
             </Tabs>
           </Card>
         </div>
-        <Card style={{ width: '30vw', height: '77vh' }}>
+        <Card style={{ width: '35vw', height: '77vh', 'margin-right': '2vh' }}>
+          <h1 style={{ margin: '0px 0px 10px 0px' }} >Skills</h1>
           <Select
             showSearch
-            style={{ width: 200 }}
+            style={{ width: '100%' }}
             onChange={selectSkill}
             placeholder="Select a skill"
             optionFilterProp="children"
@@ -149,7 +156,7 @@ function UserProfile() {
             {state.userSkills.map((skill, index) => {
               const isLongSkill = skill.length > 20;
               const skillElem = (
-                <Tag key={skill} closable={index !== 0} onClose={() => handleClose(skill)}>
+                <Tag style={{ 'margin': '2.5px 5px 2.5px 0px' }} key={skill} closable={index !== -1} onClose={() => handleClose(skill)}>
                   {isLongSkill ? `${skill.slice(0, 20)}...` : skill}
                 </Tag>
               );
@@ -163,17 +170,17 @@ function UserProfile() {
             })}
             {inputVisible && (
               <Input
-                ref={saveInputRef}
+                className="skill-input"
+                style={{ margin: '2.5px 5px 2.5px 0px', width: 78 }}
                 type="text"
                 size="small"
-                style={{ width: 78 }}
                 value={inputValue}
                 onChange={handleInputChange}
                 onBlur={handleInputConfirm}
                 onPressEnter={handleInputConfirm}
               />
             )}
-            {!inputVisible && (
+            {!inputVisible && (state.userSkills.length <= 9) && (
               <Tag className="site-skill-plus" onClick={showInput}>
                 <PlusOutlined /> New Skill
               </Tag>
