@@ -16,11 +16,7 @@ function UserProfile () {
 
   useEffect(() => {
     apiService.fetchListingsByUserId()
-      .then(data => {
-        console.log(data);
-        dispatch({ type: 'SET-JOBS', payload: data })
-        console.log(state);
-      })
+      .then(data => dispatch({ type: 'SET-JOBS', payload: data }))
   }, []);
 
   const listings = (
@@ -43,12 +39,14 @@ function UserProfile () {
     />
   )
 
-  function selectSkill(skill) {
+  function selectSkill (skill) {
     if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;
-    dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, skill] })
+    const newSkill = apiService.postUserSkill(skill)
+    dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
   }
 
   const handleClose = removedSkill => {
+
     const skills = state.userSkills.filter(skill => skill !== removedSkill);
     dispatch({ type: 'SET-USER-SKILLS', payload: skills })
   };
@@ -93,7 +91,7 @@ function UserProfile () {
                 <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('DD-mm-YYYY')}</p>
                 <p>Credits: {state.userInfo && state.userInfo.credits}</p>
               </div>
-              <Button type="primary" style={{ }}>Post a job</Button>
+              <Button type="primary" style={{}}>Post a job</Button>
             </div>
 
           </Card>

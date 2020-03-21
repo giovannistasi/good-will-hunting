@@ -38,10 +38,10 @@ exports.getSkillByUserId = async (req, res) => {
 }
 
 exports.post = async (req, res) => {
-  const skill = req.body;
+  const skill = req.body.skill;
   try {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
-    const newSkill = await db.Skill.create(skill);
+    const newSkill = await db.Skill.create({skillName:skill});
     await user.addSkills(newSkill);
     res.json(newSkill)
     res.status = 200;

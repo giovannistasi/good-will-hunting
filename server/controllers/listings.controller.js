@@ -20,8 +20,6 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getListingByUserId = async (req, res) => {
-  console.log(req.user);
-
   try {
     const listings = await db.Listing.findAll({
       include: [
