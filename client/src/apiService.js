@@ -13,6 +13,18 @@ exports.fetchListingsAll = () => {
   return listings
 }
 
+exports.postListing =  (job) => {
+  const listing = fetch('http://localhost:8080/listings', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ job })
+  })
+    .then(res => res.json())
+    .then(job => job)
+  return listing;
+}
+
 exports.postUserSkill = async (skill) => {
   const newSkill = fetch('http://localhost:8080/skills', {
     method: 'POST',

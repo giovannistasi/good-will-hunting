@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../global/Store';
+import { useParams } from 'react-router-dom';
 
 function Job () {
+
+  const { id } = useParams();
+  const [state, dispatch] = useContext(Context);
+  const job = state.jobs.find(job => job.listingId === id);
+  
   return (
-    <div>This is the job listing page</div> 
+    <div>
+      <div>This is listing {id} </div> 
+      <div>{job.description}</div>
+    </div>
   )
 }
 

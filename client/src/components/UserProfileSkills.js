@@ -67,6 +67,7 @@ function UserProfileSkills () {
         dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill] })
       })
     }
+
     setInputVisible(false);
     setInputValue('');
   };

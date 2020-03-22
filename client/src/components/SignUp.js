@@ -49,7 +49,7 @@ function SignUp () {
     </div>
   );
 
-  const onFinish = values => {
+  const submitForm = values => {
     const { firstName, lastName, email, password, password2, address } = values;
     const signUpData = {
       firstName,
@@ -80,7 +80,7 @@ function SignUp () {
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         {...layout}
-        onFinish={onFinish}
+        onFinish={submitForm}
       >
         <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
           <Input />

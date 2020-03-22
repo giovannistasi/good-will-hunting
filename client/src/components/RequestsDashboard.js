@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { List, Avatar } from 'antd';
 import { UsergroupAddOutlined } from '@ant-design/icons';
 import Icon from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
-
+import apiService from '../apiService';
 
 
 const listData = [];
 for (let i = 0; i < 23; i++) {
   listData.push({
-    href: '/job',
+    href: '/job/',
     title: `Request #${i}`,
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
     description:
@@ -32,6 +32,14 @@ const CreditsIcon = props => <Icon component={() => (
 )} {...props} />;
 
 function RequestsDashboard() {
+
+  useEffect(() => {
+    apiService.fetchListingsAll()
+      .then(jobs => {
+        console.log(jobs);
+      })
+  }, [])
+
   return (
     <List
       itemLayout="vertical"
