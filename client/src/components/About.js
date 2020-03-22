@@ -30,7 +30,7 @@ function About () {
           </h1>
         </div>
         <div>
-        <h1
+          <h1
             style={{
               'margin': '8% 8% 0 8%',
               'font-style': 'oblique',
@@ -44,7 +44,7 @@ function About () {
           </h1>
         </div>
         <div>
-        <h1
+          <h1
             style={{
               'margin': '8% 8% 0 8%',
               'font-style': 'oblique',
@@ -54,7 +54,7 @@ function About () {
           >
             Community members in need can request the help of volunteers within
             their respective communities with the appropriate skills. For
-            instance,<br></br> a neighbor who has a plumbing issue but can't
+            instance, a neighbor who has a plumbing issue but can't
             afford to call a professinal,<br></br> a parent who is looking for a
             math tutor but is living paycheck to paycheck,<br></br> or an
             elderly person who is looking for a ride to the doctors.<br></br> In
@@ -63,9 +63,9 @@ function About () {
           </h1>
         </div>
         <div>
-        <h1
+          <h1
             style={{
-              'margin': '8% 8% 0 8%',
+              'padding': '8% 8% 0 8%',
               'font-style': 'oblique',
               'font-size': '25px',
               'color': '#fff'

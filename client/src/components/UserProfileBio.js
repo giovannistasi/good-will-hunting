@@ -24,7 +24,7 @@ function UserProfileBio () {
             <div style={{ 'marginLeft': '4vh' }}>
               Name: {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}
               <p>Bio: <Paragraph editable={{ onChange: changeBio }}>Write something about yourself</Paragraph></p>
-              <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('DD-mm-YYYY')}</p>
+              <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('MMMM Do YYYY')}</p>
               <p>Credits: {state.userInfo && state.userInfo.credits}</p>
             </div>
           </div> :
