@@ -5,7 +5,7 @@ const initialState = {
   loggedIn: false,
   userInfo: {},
   jobs: [],
-  skills: ['cooking', 'gardening', 'plumbing', 'carpentry', 'stuff like that'],
+  skills: [],
   userSkills: []
 };
 
