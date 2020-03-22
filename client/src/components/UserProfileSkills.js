@@ -39,16 +39,18 @@ function UserProfileSkills () {
 
   function selectSkill (skill) {
     if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;
-    apiService.postUserSkill(skill).then((newSkill) => {
-      dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
-    })
+    apiService.postUserSkill(skill)
+      .then((newSkill) => {
+        dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
+      })
   }
 
   const handleClose = removedSkill => {
-    apiService.deleteSkillByUserId(removedSkill).then(() => {
-      const skills = state.userSkills.filter(skill => skill !== removedSkill);
-      skills.map(skill => dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, skill] }))
-    })
+    apiService.deleteSkillByUserId(removedSkill)
+      .then(() => {
+        const skills = state.userSkills.filter(skill => skill !== removedSkill);
+        skills.map(skill => dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, skill] }))
+      })
   };
 
   const showInput = () => {
@@ -60,12 +62,14 @@ function UserProfileSkills () {
   };
 
   const handleInputConfirm = () => {
+    console.log(state);
     let skills = state.userSkills;
     if (inputValue && skills.indexOf(inputValue) === -1) {
       apiService.postUserSkill(inputValue).then((newSkill) => {
         dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
       })
     }
+    
     setInputVisible(false);
     setInputValue('');
   };
