@@ -39,7 +39,9 @@ exports.getListingByUserId = async (req, res) => {
 
 
 exports.post = async (req, res) => {
-  const listing = req.body;
+  const listing = req.body.job;
+  console.log(listing);
+  
   try {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
     const newListing = await db.Listing.create(listing);

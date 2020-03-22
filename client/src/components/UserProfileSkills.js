@@ -22,7 +22,6 @@ function UserProfileSkills () {
     apiService.fetchSkillsByUserId()
       .then(data => {
         let skills = [];
-        console.log(data);
         data.map(skill => skills.push(skill))
         dispatch({ type: 'SET-USER-SKILLS', payload: skills })
       })
@@ -62,7 +61,6 @@ function UserProfileSkills () {
   };
 
   const handleInputConfirm = () => {
-    console.log(state);
     let skills = state.userSkills;
     if (inputValue && skills.indexOf(inputValue) === -1) {
       apiService.postUserSkill(inputValue).then((newSkill) => {
@@ -73,7 +71,6 @@ function UserProfileSkills () {
     setInputVisible(false);
     setInputValue('');
   };
-  console.log(state.userSkills);
 
   return (
     <Card style={{ width: '35vw', height: '77vh', 'margin-right': '2vh' }}>

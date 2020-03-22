@@ -17,8 +17,6 @@ function UserProfileJobs () {
   }, []);
 
   const listings = jobs => {
-    console.log(jobs);
-
     return (
       <List
         itemLayout="horizontal"
