@@ -13,6 +13,10 @@ exports.fetchListingsAll = () => {
   return listings
 }
 
+exports.postListing = () => {
+  
+}
+
 exports.postUserSkill = async (skill) => {
   const newSkill = fetch('http://localhost:8080/skills', {
     method: 'POST',

@@ -28,7 +28,7 @@ function UserProfileJobs () {
           'overflowY': 'scroll'
         }}
         renderItem={item => (
-          <Link to="/job">
+          <Link to={'/job/' + item.listingId}>
             <List.Item>
               <List.Item.Meta
                 title={<a href="https://ant.design">{item.title}</a>}

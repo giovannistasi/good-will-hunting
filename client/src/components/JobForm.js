@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Form, Input, DatePicker, Select } from 'antd';
+import { Form, Input, DatePicker, Select, Button } from 'antd';
 
 function JobForm () {
 
-  const [date, setDate] = useState('');
+  const [eventTime, setEventTime] = useState(new Date());
   const [maxParticipants, setMaxParticipants] = useState(1);
 
   const { Option } = Select;
@@ -20,20 +20,28 @@ function JobForm () {
     wrapperCol: { span: 14 },
   };
 
-  function onChange (value, dateString) {
-    console.log('Selected Time: ', value);
-    console.log('Formatted Selected Time: ', dateString);
-  }
+  // function onChange (value, dateString) {
+  //   console.log('Selected Time: ', value);
+  //   console.log('Formatted Selected Time: ', dateString);
+  // }
 
   function timeSelect (value) {
-    console.log('onOk: ', value);
+    setEventTime(value._d)
   }
 
   function changeMaxParticipants (value) {
-    console.log(`Selected: ${value}`);
+    setMaxParticipants(value);
   }
 
   function submitForm (values) {
+    const { title, description, address } = values;
+    const formData = {
+      title,
+      description,
+      address,
+      maxParticipants,
+      eventTime
+    }
 
   }
 
@@ -43,7 +51,7 @@ function JobForm () {
       'display': 'flex',
       'flex-direction': 'column'
     }}>
-      <h1 style={{'margin': 'auto', 'padding-bottom': '3vh'}}>Insert a new job</h1>
+      <h1 style={{ 'margin': 'auto', 'padding-bottom': '3vh' }}>Post a new job</h1>
       <Form
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 14 }}
@@ -67,6 +75,11 @@ function JobForm () {
         </Form.Item>
         <Form.Item name="eventTime" label="Date and time" rules={[{ required: true }]}>
           <DatePicker showTime={{ format: 'HH' }} onOk={timeSelect} />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Submit
+        </Button>
         </Form.Item>
       </Form>
     </div>

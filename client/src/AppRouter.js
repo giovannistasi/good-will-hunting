@@ -149,7 +149,7 @@ function AppRouter () {
                 <Route path="/signup" component={SignUp} />
                 <Route path="/login" component={Login} />
                 <Route path="/post" component={JobForm} />
-                <Route path="/job" component={Job} />
+                <Route path="/job/:id" component={Job} />
               </Switch>
             </div>
           </Content>
