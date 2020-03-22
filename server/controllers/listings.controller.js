@@ -37,11 +37,8 @@ exports.getListingByUserId = async (req, res) => {
   }
 };
 
-
 exports.post = async (req, res) => {
   const listing = req.body.job;
-  console.log(listing);
-  
   try {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
     const newListing = await db.Listing.create(listing);
@@ -53,3 +50,15 @@ exports.post = async (req, res) => {
     res.status = 500;
   }
 };
+
+exports.delete = async (req, res) => {
+  const removedListing = req.body
+  try {
+    await db.Listing.destroy({ where: { listingId: removedListing.listingId } });
+    res.json(removedListing)
+    res.status = 200;
+  } catch (e) {
+    console.error(e);
+    res.status = 500;
+  }
+}

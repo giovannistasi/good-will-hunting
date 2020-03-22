@@ -37,9 +37,6 @@ function RequestsDashboard () {
     apiService.fetchListingsAll()
       .then(jobs => {
         jobs.forEach(job => listData.push(job))
-      }).then(() => {
-        console.log(listData);
-
       })
 
   }, [])

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Context } from '../global/Store';
 import { Link } from 'react-router-dom';
-import { Avatar, Card, Tabs, List } from 'antd';
+import { Card, Tabs, List } from 'antd';
 import apiService from '../apiService';
 
 function UserProfileJobs () {
@@ -22,8 +22,8 @@ function UserProfileJobs () {
         itemLayout="horizontal"
         dataSource={jobs}
         style={{
-          height: '150px',
-          'overflowY': 'scroll'
+          height: '200px',
+          'overflowY': 'scroll',
         }}
         renderItem={item => (
           <Link to={'/job/' + item.listingId}>
