@@ -8,15 +8,14 @@ const skills = require('./controllers/skills.controller.js');
 
 // router.get('/login', users.login)
 
-router.post('/login', users.login)
+router.post('/login', users.login);
 router.post('/register', users.register);
 
 router.get('/logout', users.logout);
 
-router.get('/login',
-  function (req, res) {
-    res.render('login')
-  });
+router.get('/login', function(req, res) {
+  res.render('login');
+});
 
 router.get('/users', users.getAll);
 

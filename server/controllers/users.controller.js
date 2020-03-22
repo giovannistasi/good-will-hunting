@@ -79,14 +79,24 @@ exports.login = (req, res, next) => {
     }
     req.logIn(user, function (err) {
       if (err) { return next(err); }
-      return res.redirect('http://localhost:3000/');
+      res.set({ "Access-Control-Allow-Origin": "http://localhost:3000" })
+      res.status(200)
+      res.send(user)
     });
-    console.log('req.isAuthenticated : ', req.isAuthenticated());
-    console.log('session.passport.user', req.session.passport);
   })(req, res, next);
 };
 
 exports.logout = (req, res) => {
+
   req.logout();
-  res.redirect('/');
+  req.session.destroy(function (err) {
+    if (!err) {
+      req.session = null
+      res.status(200).clearCookie('connect.sid', { path: '/' }).send({ status: 'Successfully logged out' });
+    } else {
+      console.error(err)
+      res.status(301).json({ status: 'Failed to log out' })
+    }
+  });
+  console.log('req.isAuthenticated : ', req.isAuthenticated());
 }

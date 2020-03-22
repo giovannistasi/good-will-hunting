@@ -4,7 +4,15 @@ const bcrypt = require('bcrypt');
 
 function initialise (passport) {
   const authenticateUser = async (email, password, done) => {
-    const user = await db.User.findOne({ where: { email } })
+    const user = await db.User.findOne({
+      where: { email },
+      include: [
+        {
+          model: db.Skill
+        }, {
+          model: db.Listing
+        }]
+    })
     if (!user) {
       return done(null, false, { message: 'No user with that email' })
     }

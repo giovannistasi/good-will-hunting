@@ -22,7 +22,7 @@ exports.getAll = async (req, res) => {
 exports.post = async (req, res) => {
   const listing = req.body;
   try {
-    const user = await db.User.findOne({ where: { userId: "79821dea-6910-11ea-bc55-0242ac130003" } })
+    const user = await db.User.findOne({ where: { userId: "3fa69f80-6986-11ea-8277-033864135ace" } })
     const newListing = await db.Listing.create(listing);
     await user.addListings(newListing);
     res.json(newListing);
