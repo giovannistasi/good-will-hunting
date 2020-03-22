@@ -25,6 +25,13 @@ exports.postUserSkill = async (skill) => {
   return newSkill
 }
 
+exports.fetchSkills = () => {
+  const skills = fetch('http://localhost:8080/skills', {
+    method: 'GET'
+  }).then(res => res.json())
+  return skills
+}
+
 exports.fetchSkillsByUserId = () => {
   const skills = fetch('http://localhost:8080/user-skills', {
     credentials: 'include',
@@ -33,13 +40,14 @@ exports.fetchSkillsByUserId = () => {
   return skills
 }
 
-exports.deleteSkillByUserId = (skill) => {
-  fetch('http://localhost:8080/user-skills', {
+exports.deleteSkillById = (skill) => {
+  const removedSkill = fetch('http://localhost:8080/user-skills', {
     credentials: 'include',
     method: 'DELETE',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ skill })
-  })
+  }).then(res => res.json())
+  return removedSkill;
 }
 
 exports.authenticate = () => {

@@ -17,7 +17,7 @@ function UserProfileBio () {
 
   return (
     <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '30vh' }}>
-      <div style={{ display: 'flex', 'justify-content': 'space-between' }}>
+      <div style={{ display: 'flex', 'justifyContent': 'space-between' }}>
         <div style={{ display: 'flex' }}>
           <Avatar size={130} src={state.userInfo && state.userInfo.picture} />
           <div style={{ 'marginLeft': '4vh' }}>

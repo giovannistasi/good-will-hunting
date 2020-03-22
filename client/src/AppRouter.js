@@ -47,11 +47,12 @@ function AppRouter () {
   useEffect(() => {
     apiService.authenticate().then(user => {
       if (user) {
-        console.log(user);
         dispatch({ type: 'LOGIN', payload: { loggedIn: true, userInfo: user } })
       }
     })
-
+    apiService.fetchSkills().then(fetchedSkills => {
+      dispatch({ type: 'SET-SKILLS', payload: [...state.skills, ...fetchedSkills] })
+    })
   }, [])
 
   async function logOut () {

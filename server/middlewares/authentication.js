@@ -1,8 +1,6 @@
 module.exports = {
   authorise: function (req, res, next) {
     if (req.isAuthenticated()) {
-      console.log(req.session.passport.user);
-
       res.send(req.session.passport.user)
       return next();
     }

@@ -19,6 +19,7 @@ router.post('/listings', listings.post); // , authMiddleWare.authorise
 
 router.get('/skills', skills.getAll);
 router.get('/user-skills', skills.getSkillByUserId);
+router.delete('/user-skills', skills.delete);
 router.post('/skills', skills.post); //, authMiddleWare.authorise
 
 router.get('/auth', authMiddleWare.authorise)

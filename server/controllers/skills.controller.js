@@ -54,10 +54,8 @@ exports.post = async (req, res) => {
 exports.delete = async (req, res) => {
   const removedSkill = req.body.skill;
   try {
-    const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
-    const newSkill = await db.Skill.findOne({ skillName: removedSkill });
-    await user.addSkills(newSkill);
-    res.json(newSkill)
+    await db.Skill.destroy({ where: { skillId: removedSkill.skillId } });
+    res.json(removedSkill)
     res.status = 200;
   } catch (e) {
     console.error(e);

@@ -1,5 +1,4 @@
 const Reducer = (state, action) => {
-  // console.log(action.payload);
   switch (action.type) {
     case 'LOGIN':
       return {
@@ -16,6 +15,11 @@ const Reducer = (state, action) => {
       return {
         ...state,
         userSkills: action.payload,
+      }
+    case 'SET-SKILLS':
+      return {
+        ...state,
+        skills: action.payload,
       }
     default:
       return state;
