@@ -29,7 +29,7 @@ function UserProfileJobs () {
           <Link to={'/job/' + item.listingId}>
             <List.Item>
               <List.Item.Meta
-                title={<a href="https://ant.design">{item.title}</a>}
+                title={item.title}
                 description={item.description}
               />
             </List.Item>
