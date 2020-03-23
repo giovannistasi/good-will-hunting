@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Context } from './global/Store'
+import { Context } from './global/Store';
 import {
   BrowserRouter as Router,
   Route,
@@ -116,12 +116,10 @@ function AppRouter () {
             {state.loggedIn ? (<SubMenu
               key="sub1"
               title={
-                // <Link to="/user">
                   <span>
                     <UserOutlined />
                     <span>User</span>
                   </span>
-                // </Link>
               }
             >
               <Menu.Item key="3"><Link to="/user">Profile</Link></Menu.Item>
@@ -161,7 +159,7 @@ function AppRouter () {
               </Switch>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Codeworks 2020</Footer>
+          <Footer style={{ textAlign: 'center' }}>Goodwill Hunting</Footer>
         </Layout>
       </Layout>
     </Router>
