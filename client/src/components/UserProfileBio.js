@@ -6,7 +6,7 @@ import moment from 'moment';
 
 function UserProfileBio () {
 
-  const [state, dispatch] = useContext(Context);
+  const [state] = useContext(Context);
   const { Paragraph } = Typography;
 
   const changeBio = bio => {
@@ -16,16 +16,16 @@ function UserProfileBio () {
 
 
   return (
-    <Card hoverable="true" style={{ cursor: 'default', width: '60vw', minHeight: '30vh' }}>
-      <div style={{ display: 'flex', 'justifyContent': 'space-between' }}>
+    <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '200px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         {state.userInfo ?
           <div style={{ display: 'flex' }}>
             <Avatar size={100} src={state.userInfo && state.userInfo.picture} />
             <div style={{ 'marginLeft': '40px' }}>
               Name: {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}
               <div>Bio: <Paragraph editable={{ onChange: changeBio }}>Write something about yourself</Paragraph></div>
-              <p>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('MMMM Do YYYY')}</p>
-              <p>Credits: {state.userInfo && state.userInfo.credits}</p>
+              <div>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('MMMM Do YYYY')}</div>
+              <div>Credits: {state.userInfo && state.userInfo.credits}</div>
             </div>
           </div> :
           <Skeleton avatar paragraph={{ rows: 4 }} />

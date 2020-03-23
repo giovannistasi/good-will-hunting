@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import { Context } from '../global/Store';
+import React, { useState } from 'react';
 import {
   Route,
   Redirect,
@@ -8,8 +7,6 @@ import { Form, Input, DatePicker, Select, Button, InputNumber } from 'antd';
 import apiService from '../apiService';
 
 function JobForm () {
-
-  const [state, dispatch] = useContext(Context);
 
   const [eventTime, setEventTime] = useState(new Date());
   const [maxParticipants, setMaxParticipants] = useState(1);
@@ -54,8 +51,6 @@ function JobForm () {
     }
     apiService.postListing(formData)
       .then(job => {
-        // const jobs = [...state.jobs, job]
-        // dispatch({ type: 'SET-JOBS', payload: jobs })
         setJobId(job.listingId);
       })
   }
@@ -64,11 +59,11 @@ function JobForm () {
     <Route>
       {jobId ? <Redirect to={'/job/' + jobId} /> :
         <div style={{
-          'justify-content': 'center',
-          'display': 'flex',
-          'flex-direction': 'column'
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column'
         }}>
-          <h1 style={{ 'margin': 'auto', 'padding-bottom': '3vh' }}>Post a new job</h1>
+          <h1 style={{ margin: 'auto', paddingBottom: '3vh' }}>Post a new job</h1>
           <Form
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 14 }}

@@ -94,7 +94,7 @@ function AppRouter () {
             margin: '15px',
             background: 'rgba(255, 255, 255, 0.2)'
           }} />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys="sub1">
             {state.loggedIn ? null : <Menu.Item key="0">
               <Link to="/login">
                 <LoginOutlined />
