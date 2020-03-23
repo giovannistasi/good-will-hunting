@@ -14,13 +14,15 @@ router.get('/logout', users.logout);
 router.get('/users', users.getAll);
 
 router.get('/listings', listings.getAll);
-router.get('/user-listings', listings.getListingByUserId);
-router.post('/listings', listings.post); // , authMiddleWare.authorise
+router.get('/user-listings', authMiddleWare.authorise, listings.getListingByUserId);
+router.delete('/user-listings', authMiddleWare.authorise, listings.delete);
+router.post('/listings', authMiddleWare.authorise, listings.post);
 
 router.get('/skills', skills.getAll);
 router.get('/user-skills', skills.getSkillByUserId);
-router.post('/skills', skills.post); //, authMiddleWare.authorise
+router.delete('/user-skills', authMiddleWare.authorise, skills.delete);
+router.post('/skills', authMiddleWare.authorise, skills.post);
 
-router.get('/auth', authMiddleWare.authorise)
+router.get('/auth', authMiddleWare.authoriseAndRespond)
 
 module.exports = router;

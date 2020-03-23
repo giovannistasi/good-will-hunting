@@ -38,18 +38,18 @@ function UserProfileSkills () {
 
   function selectSkill (skill) {
     if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;
-    apiService.postUserSkill(skill)
-      .then((newSkill) => {
-        dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
-      })
+    apiService.postUserSkill(skill).then((newSkill) => {
+      dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill.skillName] })
+      dispatch({ type: 'SET-SKILLS', payload: [...state.skills, newSkill] })
+    })
   }
 
   const handleClose = removedSkill => {
-    apiService.deleteSkillByUserId(removedSkill)
-      .then(() => {
-        const skills = state.userSkills.filter(skill => skill !== removedSkill);
-        skills.map(skill => dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, skill] }))
-      })
+    apiService.deleteSkillById(removedSkill).then(() => {
+      const skills = state.userSkills.filter(skill => skill.skillId !== removedSkill.skillId);
+      dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills] })
+      dispatch({ type: 'SET-SKILLS', payload: skills })
+    })
   };
 
   const showInput = () => {
@@ -67,13 +67,13 @@ function UserProfileSkills () {
         dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill] })
       })
     }
-    
+
     setInputVisible(false);
     setInputValue('');
   };
 
   return (
-    <Card style={{ width: '35vw', height: '77vh', 'margin-right': '2vh' }}>
+    <Card style={{ width: '35vw', height: '77vh', 'marginRight': '2vh' }}>
       <h1 style={{ margin: '0px 0px 10px 0px' }} >Skills</h1>
       <Select
         showSearch
@@ -87,7 +87,7 @@ function UserProfileSkills () {
       >
         {
           state.skills.map(skill =>
-            <Option value={skill}>{skill}</Option>)
+            <Option key={skill.skillId} value={skill.skillName}>{skill.skillName}</Option>)
         }
       </Select>
 
@@ -97,7 +97,7 @@ function UserProfileSkills () {
       <div>
         {state.userSkills.map((skill, index) => {
           if (skill) {
-            const isLongSkill = skill.skillName.length > 20;
+            const isLongSkill = skill.length > 20;
             const skillElem = (
               <Tag style={{ 'margin': '2.5px 5px 2.5px 0px' }} key={skill.skillId} closable={index !== -1} onClose={() => handleClose(skill)}>
                 {isLongSkill ? `${skill.skillName.slice(0, 20)}...` : skill.skillName}

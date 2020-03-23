@@ -54,9 +54,8 @@ function JobForm () {
     }
     apiService.postListing(formData)
       .then(job => {
-        console.log(job);
         const jobs = [...state.jobs, job]
-        dispatch({type: 'SET-JOBS', payload: jobs })
+        dispatch({ type: 'SET-JOBS', payload: jobs })
         setJobId(job.listingId);
       })
   }

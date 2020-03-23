@@ -47,11 +47,12 @@ function AppRouter () {
   useEffect(() => {
     apiService.authenticate().then(user => {
       if (user) {
-        console.log(user);
         dispatch({ type: 'LOGIN', payload: { loggedIn: true, userInfo: user } })
       }
     })
-
+    apiService.fetchSkills().then(fetchedSkills => {
+      dispatch({ type: 'SET-SKILLS', payload: [...state.skills, ...fetchedSkills] })
+    })
   }, [])
 
   async function logOut () {
@@ -79,6 +80,13 @@ function AppRouter () {
           collapsible
           collapsed={collapsed}
           onCollapse={onCollapse}
+          style={{
+            overflow: "auto",
+            height: "100vh",
+            position: "sticky",
+            top: 0,
+            left: 0
+          }}
           breakpoint="lg"
         >
           <div className="logo" style={{
@@ -137,9 +145,9 @@ function AppRouter () {
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }} />
+          <Header className="site-layout-background" style={{ padding: 0, position: 'fixed', zIndex: 1, width: '100%' }} />
           <Content style={{ margin: '0 16px' }}>
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+            <div className="site-layout-background" style={{ marginTop: 50, padding: 24, minHeight: 360 }}>
               <Switch>
                 <Route path="/user" component={UserProfile} />
                 <Route path="/requests" component={RequestsDashboard} />

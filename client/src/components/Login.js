@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import { Context } from '../global/Store'
 import { message, Form, Input, Button, Checkbox } from 'antd';
-import Cookie from 'js-cookie';
 
 const layout = {
   labelCol: {
