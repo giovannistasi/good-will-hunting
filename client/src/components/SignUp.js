@@ -78,6 +78,7 @@ function SignUp () {
     <div>
       <Form
         labelCol={{ span: 4 }}
+        style={{ marginTop: 50 }}
         wrapperCol={{ span: 14 }}
         {...layout}
         onFinish={submitForm}

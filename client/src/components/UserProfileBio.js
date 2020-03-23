@@ -21,7 +21,7 @@ function UserProfileBio () {
         {state.userInfo ?
           <div style={{ display: 'flex' }}>
             <Avatar size={100} src={state.userInfo && state.userInfo.picture} />
-            <div style={{ 'marginLeft': '4vh' }}>
+            <div style={{ 'marginLeft': '40px' }}>
               Name: {state.userInfo && state.userInfo.firstName + ' ' + state.userInfo.lastName}
               <div>Bio: <Paragraph editable={{ onChange: changeBio }}>Write something about yourself</Paragraph></div>
               <div>Member since: {state.userInfo && moment(state.userInfo.createdAt).format('MMMM Do YYYY')}</div>
