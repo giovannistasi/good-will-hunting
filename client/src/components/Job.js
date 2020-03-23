@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Context } from '../global/Store';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { Card, Button } from 'antd';
 import Icon from '@ant-design/icons';
 import { UsergroupAddOutlined, EditOutlined } from '@ant-design/icons';

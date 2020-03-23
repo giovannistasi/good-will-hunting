@@ -6,7 +6,7 @@ import moment from 'moment';
 
 function UserProfileBio () {
 
-  const [state, dispatch] = useContext(Context);
+  const [state] = useContext(Context);
   const { Paragraph } = Typography;
 
   const changeBio = bio => {
@@ -17,7 +17,7 @@ function UserProfileBio () {
 
   return (
     <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '30vh' }}>
-      <div style={{ display: 'flex', 'justifyContent': 'space-between' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         {state.userInfo ?
           <div style={{ display: 'flex' }}>
             <Avatar size={100} src={state.userInfo && state.userInfo.picture} />

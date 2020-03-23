@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { List, Avatar } from 'antd';
 import { UsergroupAddOutlined } from '@ant-design/icons';
@@ -7,19 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import apiService from '../apiService';
 
-
-let listData = [];
-// for (let i = 0; i < 23; i++) {
-//   listData.push({
-//     href: '/job/',
-//     title: `Request #${i}`,
-//     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-//     description:
-//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-//     content:
-//       'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-//   });
-// }
 
 const IconText = ({ icon, text }) => (
   <span>
@@ -34,13 +21,14 @@ const CreditsIcon = props => <Icon component={() => (
 
 function RequestsDashboard () {
 
+  const [listData, setListData] = useState([]);
+
   useEffect(() => {
     apiService.fetchListingsAll()
       .then(jobs => {
-        // jobs.forEach(job => listData.push(job))
-        listData = jobs;
+        setListData(jobs);
+        console.log(jobs);
       })
-
   }, [])
 
   return (
@@ -55,7 +43,7 @@ function RequestsDashboard () {
       renderItem={item => (
         <Link to={'/job/' + item.listingId}>
           <List.Item
-            style={{color: 'black', 'text-decoration': 'none'}}
+            style={{ color: 'black', textDecoration: 'none' }}
             key={item.title}
             actions={[
               <IconText icon={CreditsIcon} text={`${item.creditValue} credits`} key="list-vertical-credits" />,
@@ -71,7 +59,7 @@ function RequestsDashboard () {
           >
             <List.Item.Meta
               avatar={<Avatar src={item.Users[0].picture} />}
-              title={<h1><a href={item.href}>{item.title}</a></h1>}
+              title={item.title}
               description={`Posted by ${item.Users[0].firstName} ${item.Users[0].lastName}`}
             />
             {item.description}
