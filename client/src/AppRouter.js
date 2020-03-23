@@ -6,6 +6,7 @@ import {
   Link,
   Switch,
 } from "react-router-dom";
+import AuthenticatedRoute from './AuthenticatedRoute';
 import { Layout, Menu, message } from 'antd';
 import Icon from '@ant-design/icons';
 import { FileOutlined, UserOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
@@ -147,14 +148,14 @@ function AppRouter () {
           <Content style={{ margin: '0 16px' }}>
             <div className="site-layout-background" style={{ marginTop: 50, padding: 24, minHeight: 360 }}>
               <Switch>
-                <Route path="/user" component={UserProfile} />
+                <AuthenticatedRoute path="/user" loggedIn={state.loggedIn} component={UserProfile} />
                 <Route path="/requests" component={RequestsDashboard} />
                 <Route path="/offers" component={OffersDashboard} />
                 <Route path="/about" component={About} />
-                <Route path="/messages" component={Messages} />
+                <AuthenticatedRoute path="/messages" loggedIn={state.loggedIn} component={Messages} />
                 <Route path="/signup" component={SignUp} />
                 <Route path="/login" component={Login} />
-                <Route path="/post" component={JobForm} />
+                <AuthenticatedRoute path="/post" loggedIn={state.loggedIn} component={JobForm} />
                 <Route path="/job/:id" component={Job} />
               </Switch>
             </div>
