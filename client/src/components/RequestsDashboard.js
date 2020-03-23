@@ -7,7 +7,7 @@ import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import apiService from '../apiService';
 
 
-const listData = [];
+let listData = [];
 // for (let i = 0; i < 23; i++) {
 //   listData.push({
 //     href: '/job/',
@@ -36,7 +36,8 @@ function RequestsDashboard () {
   useEffect(() => {
     apiService.fetchListingsAll()
       .then(jobs => {
-        jobs.forEach(job => listData.push(job))
+        // jobs.forEach(job => listData.push(job))
+        listData = jobs;
       })
 
   }, [])

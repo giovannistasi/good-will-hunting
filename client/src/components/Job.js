@@ -1,13 +1,24 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from '../global/Store';
 import { useParams } from 'react-router-dom';
-import moment from 'moment'
+import moment from 'moment';
+import apiService from '../apiService';
 
 function Job () {
 
+
+
   const { id } = useParams();
-  const [state] = useContext(Context);
+  const [state, dispatch] = useContext(Context);
   const job = state.jobs.find(job => job.listingId === id);
+
+  useEffect(() => {
+    apiService.fetchListingsAll()
+      .then(jobs => {
+        dispatch({ type: 'SET-JOBS', payload: jobs });
+      })
+  }, [])
+
   return job ?
     (
       <div>
