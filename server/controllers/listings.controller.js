@@ -61,4 +61,18 @@ exports.delete = async (req, res) => {
     console.error(e);
     res.status = 500;
   }
-}
+};
+
+exports.volunteer = async (req, res) => {
+  const listingId = req.body.listingId
+  try {
+    const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || "40ef4940-6d01-11ea-9ea1-6d07aef08093" } })
+    const newVolunteer = await db.Volunteer.create();
+    await listing.addVolunteers(newVolunteer);
+    res.json(newVolunteer);
+    res.status = 200;
+  } catch (e) {
+    console.error(e);
+    res.status = 500;
+  }
+};

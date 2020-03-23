@@ -55,11 +55,11 @@ function Login () {
       {state.loggedIn ? <Redirect to="/user" /> :
         < Form
           {...layout}
+          style={{ marginTop: 50 }}
           name="basic"
           initialValues={{
             remember: true,
-          }
-          }
+          }}
           onFinish={onFinish}
         >
           <Form.Item
@@ -96,9 +96,9 @@ function Login () {
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit">
               Log in
-        </Button>
+            </Button>
           </Form.Item>
-          <Link to="/signup"><p>Don't have an account? Sign up here</p></Link>
+          <Link to="/signup"><p style={{ textAlign: 'center' }}>Don't have an account? Sign up here</p></Link>
         </Form >
 
       }

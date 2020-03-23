@@ -23,6 +23,8 @@ router.get('/user-skills', skills.getSkillByUserId);
 router.delete('/user-skills', authMiddleWare.authorise, skills.delete);
 router.post('/skills', authMiddleWare.authorise, skills.post);
 
+router.post('/volunteer', authMiddleWare.authorise, listings.volunteer)
+
 router.get('/auth', authMiddleWare.authoriseAndRespond)
 
 module.exports = router;

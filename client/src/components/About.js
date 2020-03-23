@@ -6,9 +6,9 @@ function About () {
     <div>
       <Carousel
         style={{
-          'text-align': 'center',
+          'textAlign': 'center',
           'height': '520px',
-          'line-height': '45px',
+          'lineHeight': '45px',
           'background': '#4266a3',
           'overflow': 'hidden'
         }}
@@ -17,8 +17,8 @@ function About () {
           <h1
             style={{
               'margin': '8% 8% 0 8%',
-              'font-style': 'oblique',
-              'font-size': '25px',
+              'fontStyle': 'oblique',
+              'fontSize': '25px',
               'color': '#fff'
             }}
           >
@@ -33,8 +33,8 @@ function About () {
           <h1
             style={{
               'margin': '8% 8% 0 8%',
-              'font-style': 'oblique',
-              'font-size': '25px',
+              'fontStyle': 'oblique',
+              'fontSize': '25px',
               'color': '#fff'
             }}
           >
@@ -47,8 +47,8 @@ function About () {
           <h1
             style={{
               'margin': '8% 8% 0 8%',
-              'font-style': 'oblique',
-              'font-size': '25px',
+              'fontStyle': 'oblique',
+              'fontSize': '25px',
               'color': '#fff'
             }}
           >
@@ -66,8 +66,8 @@ function About () {
           <h1
             style={{
               'padding': '8% 8% 0 8%',
-              'font-style': 'oblique',
-              'font-size': '25px',
+              'fontStyle': 'oblique',
+              'fontSize': '25px',
               'color': '#fff'
             }}
           >

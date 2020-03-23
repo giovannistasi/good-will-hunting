@@ -116,14 +116,13 @@ function AppRouter () {
             {state.loggedIn ? (<SubMenu
               key="sub1"
               title={
-                <Link to="/user">
-                  <span>
-                    <UserOutlined />
-                    <span>User</span>
-                  </span>
-                </Link>
+                <span>
+                  <UserOutlined />
+                  <span>User</span>
+                </span>
               }
             >
+              <Menu.Item key="2.5"><Link to="/user">Profile</Link></Menu.Item>
               <Menu.Item key="3"><Link to="/messages">Messages</Link></Menu.Item>
               <Menu.Item key="4">Posted</Menu.Item>
               <Menu.Item key="5">Accepted</Menu.Item>
