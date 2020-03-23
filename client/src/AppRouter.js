@@ -94,7 +94,7 @@ function AppRouter () {
             margin: '15px',
             background: 'rgba(255, 255, 255, 0.2)'
           }} />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys="sub1">
             {state.loggedIn ? null : <Menu.Item key="0">
               <Link to="/login">
                 <LoginOutlined />
@@ -116,17 +116,16 @@ function AppRouter () {
             {state.loggedIn ? (<SubMenu
               key="sub1"
               title={
-                <Link to="/user">
+                // <Link to="/user">
                   <span>
                     <UserOutlined />
                     <span>User</span>
                   </span>
-                </Link>
+                // </Link>
               }
             >
-              <Menu.Item key="3"><Link to="/messages">Messages</Link></Menu.Item>
-              <Menu.Item key="4">Posted</Menu.Item>
-              <Menu.Item key="5">Accepted</Menu.Item>
+              <Menu.Item key="3"><Link to="/user">Profile</Link></Menu.Item>
+              <Menu.Item key="4"><Link to="/messages">Messages</Link></Menu.Item>
             </SubMenu>) : null}
             <Menu.Item key="6">
               <Link to="/about">
