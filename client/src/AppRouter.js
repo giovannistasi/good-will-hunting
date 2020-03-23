@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Context } from './global/Store'
+import { Context } from './global/Store';
 import {
   BrowserRouter as Router,
   Route,
@@ -122,10 +122,9 @@ function AppRouter () {
                 </span>
               }
             >
-              <Menu.Item key="2.5"><Link to="/user">Profile</Link></Menu.Item>
-              <Menu.Item key="3"><Link to="/messages">Messages</Link></Menu.Item>
-              <Menu.Item key="4">Posted</Menu.Item>
-              <Menu.Item key="5">Accepted</Menu.Item>
+              <Menu.Item key="3"><Link to="/user">Profile</Link></Menu.Item>
+              <Menu.Item key="4"><Link to="/messages">Messages</Link></Menu.Item>
+              <Menu.Item key="5"><Link to="/post">Post a new job</Link></Menu.Item>
             </SubMenu>) : null}
             <Menu.Item key="6">
               <Link to="/about">
@@ -160,7 +159,7 @@ function AppRouter () {
               </Switch>
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Codeworks 2020</Footer>
+          <Footer style={{ textAlign: 'center' }}>Goodwill Hunting</Footer>
         </Layout>
       </Layout>
     </Router>

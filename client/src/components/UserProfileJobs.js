@@ -40,7 +40,7 @@ function UserProfileJobs () {
   }
 
   return (
-    <Card style={{ 'marginTop': '2vh', width: '60vw', minHeight: '400px' }} >
+    <Card style={{ marginTop: '2vh', width: '60vw', minHeight: '400px' }} >
       <Tabs defaultActiveKey="1" type="card">
         <TabPane tab="Accepted" key="1">
           <Tabs defaultActiveKey="3" tabPosition="left">
