@@ -22,8 +22,6 @@ const CreditsIcon = props => <Icon component={() => (
   <FontAwesomeIcon icon={faCoins} />
 )} {...props} />;
 
-
-
 function Job () {
 
   const { id } = useParams();
@@ -46,7 +44,6 @@ function Job () {
       </div>
     )
   }
-
 
   function clickCredits () {
     console.log('click');

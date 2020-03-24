@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoins } from '@fortawesome/free-solid-svg-icons'
 import apiService from '../apiService';
 
-
 const IconText = ({ icon, text }) => (
   <span>
     {React.createElement(icon, { style: { marginRight: 8 } })}
@@ -27,7 +26,6 @@ function RequestsDashboard () {
     apiService.fetchListingsAll()
       .then(jobs => {
         setListData(jobs);
-        console.log(jobs);
       })
   }, [])
 
@@ -40,8 +38,8 @@ function RequestsDashboard () {
       }}
       dataSource={listData}
 
-      renderItem={item => (
-        
+      renderItem={item => {
+        return (
           <List.Item
             style={{ color: 'black', textDecoration: 'none' }}
             key={item.title}
@@ -59,13 +57,24 @@ function RequestsDashboard () {
           >
             <List.Item.Meta
               avatar={<Avatar src={item.Users[0].picture} />}
-              title={<Link to={'/job/' + item.listingId}>{item.title}</Link>}
-              description={`Posted by ${item.Users[0].firstName} ${item.Users[0].lastName}`}
+              title={<Link
+                to={'/job/' + item.listingId}
+              >{item.title}</Link>}
+              description={
+                <Link
+                  style={{ color: 'inherit' }}
+                  to={{
+                    pathname: '/profile/' + item.Users[0].users_listings.UserUserId,
+                    state: { user: item.Users[0] },
+                  }}
+                >{`Posted by ${item.Users[0].firstName} ${item.Users[0].lastName}`}
+                </Link>}
             />
             {item.description}
             {/* TODO: add button to volunteer for job */}
           </List.Item>
-      )}
+        )
+      }}
     />
   );
 }

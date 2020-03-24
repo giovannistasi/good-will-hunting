@@ -22,6 +22,7 @@ import SignUp from './components/SignUp';
 import UserProfile from './components/UserProfile';
 import JobForm from './components/JobForm';
 import Job from './components/Job';
+import OtherUserPage from './components/OtherUserPage/OtherUserPage';
 import Cookies from 'js-cookie';
 import apiService from './apiService';
 
@@ -149,6 +150,7 @@ function AppRouter () {
             <div className="site-layout-background" style={{ marginTop: 50, padding: 24, minHeight: 360 }}>
               <Switch>
                 <AuthenticatedRoute path="/user" loggedIn={state.loggedIn} component={UserProfile} />
+                <Route path="/profile/:id" component={OtherUserPage} />
                 <Route path="/requests" component={RequestsDashboard} />
                 <Route path="/offers" component={OffersDashboard} />
                 <Route path="/about" component={About} />

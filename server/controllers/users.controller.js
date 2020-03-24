@@ -23,6 +23,30 @@ exports.getAll = async (req, res) => {
   }
 };
 
+exports.getUserById = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    
+    const userId = req.params.id;
+    const user = await db.User.findOne({
+      where: { userId: userId },
+      include: [
+        {
+          model: db.Skill,
+        },
+        {
+          model: db.Listing,
+        }
+      ]
+    });
+    res.json(user);
+    res.status = 200;
+  } catch (e) {
+    console.error(e);
+    res.status = 500;
+  }
+}
+
 exports.register = async (req, res) => {
   const { firstName, lastName, email, password, password2, address, picture } = req.body;
   let errors = [];

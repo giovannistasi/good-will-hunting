@@ -79,3 +79,10 @@ exports.volunteer = (listingId) => {
     .then(res => res.json())
   return listing;
 }
+
+exports.getUserById = (userId) => {
+  const user = fetch('http://localhost:8080/user/' + userId, {
+    method: 'GET'
+  }).then(res => res.json())
+  return user;
+}

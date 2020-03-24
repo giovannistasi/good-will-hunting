@@ -12,6 +12,7 @@ router.post('/register', users.register);
 router.get('/logout', users.logout);
 
 router.get('/users', users.getAll);
+router.get('/user/:id', users.getUserById)
 
 router.get('/listings', listings.getAll);
 router.get('/user-listings', authMiddleWare.authorise, listings.getListingByUserId);
