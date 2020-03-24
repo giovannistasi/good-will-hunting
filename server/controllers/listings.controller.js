@@ -58,8 +58,8 @@ exports.post = async (req, res) => {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
     const newListing = await db.Listing.create(listing);
     await user.addListings(newListing);
-    res.json(newListing);
     res.status = 200;
+    res.json(newListing);
   } catch (e) {
     console.error(e);
     res.status = 500;
@@ -70,8 +70,8 @@ exports.delete = async (req, res) => {
   const removedListing = req.body
   try {
     await db.Listing.destroy({ where: { listingId: removedListing.listingId } });
-    res.json(removedListing)
     res.status = 200;
+    res.json(removedListing)
   } catch (e) {
     console.error(e);
     res.status = 500;
@@ -85,8 +85,8 @@ exports.volunteer = async (req, res) => {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
     const listing = await db.Listing.findOne({ where: { listingId: listingId } });
     await user.addVolunteeredFor(listing);
-    res.json(listing);
     res.status = 200;
+    res.json(listing);
   } catch (e) {
     console.error(e);
     res.status = 500;

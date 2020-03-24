@@ -1,18 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Context } from './global/Store';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Switch,
 } from "react-router-dom";
 import AuthenticatedRoute from './AuthenticatedRoute';
-import { Layout, Menu, message } from 'antd';
-import Icon from '@ant-design/icons';
-import { FileOutlined, UserOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHandsHelping, faHands } from '@fortawesome/free-solid-svg-icons'
+import { Layout } from 'antd';
 
+import Sidebar from './components/Sidebar';
 import About from './components/About';
 import Login from './components/Login';
 import Messages from './components/Messages';
@@ -23,28 +19,13 @@ import UserProfile from './components/UserProfile';
 import JobForm from './components/JobForm';
 import Job from './components/Job';
 import OtherUserPage from './components/OtherUserPage/OtherUserPage';
-import Cookies from 'js-cookie';
 import apiService from './apiService';
 
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Header, Content, Footer } = Layout;
 
 function AppRouter () {
 
   const [state, dispatch] = useContext(Context);
-
-  const [collapsed, setCollapsed] = useState(false);
-
-  const onCollapse = collapsed => {
-    setCollapsed(collapsed);
-  };
-
-  const HelpOfferIcon = props => <Icon component={() => (
-    <FontAwesomeIcon icon={faHandsHelping} />
-  )} {...props} />;
-  const HelpRequestIcon = props => <Icon component={() => (
-    <FontAwesomeIcon icon={faHands} />
-  )} {...props} />;
 
   useEffect(() => {
     apiService.authenticate().then(user => {
@@ -57,93 +38,10 @@ function AppRouter () {
     })
   }, [])
 
-  async function logOut () {
-    await fetch('http://localhost:8080/logout', {
-      method: 'GET'
-    })
-      .then(async (res) => {
-        if (res.ok) {
-          dispatch({ type: 'LOGIN', payload: false })
-          Cookies.remove('connect.sid')
-          return await res.json()
-        } else {
-          throw new Error('Something went wrong with your fetch');
-        }
-      })
-      .then((json) => {
-        message.success(`${json.status}`, 5)
-      })
-  }
-
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={onCollapse}
-          style={{
-            overflow: "auto",
-            height: "100vh",
-            position: "sticky",
-            top: 0,
-            left: 0
-          }}
-          breakpoint="lg"
-        >
-          <div className="logo" style={{
-            height: '30px',
-            margin: '15px',
-            background: 'rgba(255, 255, 255, 0.2)'
-          }} />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" defaultOpenKeys="sub1">
-            {state.loggedIn ? null : <Menu.Item key="0">
-              <Link to="/login">
-                <LoginOutlined />
-                <span>Log In</span>
-              </Link>
-            </Menu.Item>}
-            <Menu.Item key="1">
-              <Link to="/requests">
-                <HelpRequestIcon />
-                <span>All requests</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/offers">
-                <HelpOfferIcon />
-                <span>All offers</span>
-              </Link>
-            </Menu.Item>
-            {state.loggedIn ? (<SubMenu
-              key="sub1"
-              title={
-                <span>
-                  <UserOutlined />
-                  <span>User</span>
-                </span>
-              }
-            >
-              <Menu.Item key="3"><Link to="/user">Profile</Link></Menu.Item>
-              <Menu.Item key="4"><Link to="/messages">Messages</Link></Menu.Item>
-              <Menu.Item key="5"><Link to="/post">Post a new job</Link></Menu.Item>
-            </SubMenu>) : null}
-            <Menu.Item key="6">
-              <Link to="/about">
-                <FileOutlined />
-                <span>About</span>
-              </Link>
-            </Menu.Item>
-            {state.loggedIn ?
-              <Menu.Item key="7"
-                onClick={logOut}>
-                <Link to="/">
-                  <LogoutOutlined />
-                  <span>Log Out</span>
-                </Link>
-              </Menu.Item> : null}
-          </Menu>
-        </Sider>
+        <Sidebar />
         <Layout className="site-layout">
           <Header className="site-layout-background" style={{ padding: 0, position: 'fixed', zIndex: 3, width: '100%' }} />
           <Content style={{ margin: '0 16px' }}>
@@ -159,6 +57,7 @@ function AppRouter () {
                 <Route path="/login" component={Login} />
                 <AuthenticatedRoute path="/post" loggedIn={state.loggedIn} component={JobForm} />
                 <Route path="/job/:id" component={Job} />
+                <Route path="/" component={RequestsDashboard}></Route>
               </Switch>
             </div>
           </Content>
