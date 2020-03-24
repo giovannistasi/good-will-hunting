@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from "react-router-dom"
 import {
   Form,
   Input,
@@ -17,6 +18,7 @@ function SignUp () {
 
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
+  const [signedUp, setSignedUp] = useState(false);
 
   const uploadPicture = info => {
     if (info.file.status === 'uploading') {
@@ -66,15 +68,15 @@ function SignUp () {
       body: JSON.stringify(signUpData)
     })
       .then((response) => response.json())
-      .then((data) => {
-        data.forEach(data => data.msg ? message.error(data.msg) : null)
+      .then(() => {
+        setSignedUp(true);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   };
 
-  return (
+  return signedUp ? <Redirect to="/login" /> : (
     <div>
       <Form
         labelCol={{ span: 4 }}
