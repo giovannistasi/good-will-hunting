@@ -27,7 +27,7 @@ app.use(router);
 
 (async () => {
   try {
-    await db.sequelize.sync(); // { force: true }
+    await db.sequelize.sync(/* { force: true } */); // { force: true }
     const port = 8080;  // store in env
     app.listen(port, () => {
       console.log(`Server listening at http://localhost:${port}`);

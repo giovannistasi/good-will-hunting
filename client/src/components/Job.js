@@ -52,9 +52,21 @@ function Job () {
     console.log('click');
   }
 
+  function volunteer () {
+    apiService.volunteer(id).then(
+      apiService.fetchListingsAll()
+        .then(jobs => {
+          dispatch({ type: 'SET-JOBS', payload: jobs });
+        }).then(() => {
+          const listingVolunteers = state.jobs.find(job => job.listingId === id).Volunteers
+          console.log(state.jobs.find(job => job.listingId === id));
+          console.log(listingVolunteers);
+        })
+    )
+  }
+
   return job ?
     (
-
       <div>
         <Card
           style={{ width: '40vw' }}
@@ -66,8 +78,8 @@ function Job () {
           }
           actions={[
             <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={CreditsIcon} text={`${job.creditValue} credits`} key="list-vertical-credits" onClick={clickCredits} /></Button>,
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>,
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><EditOutlined key="edit" onClick={clickCredits} /></Button>,
+            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>, // TODO: logic to change button when job.maxParticipants === state.jobs.find(job => job.listingId === id).Volunteers.length
+            <Button onClick={volunteer} style={{ border: 'none', backgroundColor: 'inherit' }}>Volunteer</Button>,
           ]}
         >
           <Meta

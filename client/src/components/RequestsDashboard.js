@@ -27,7 +27,6 @@ function RequestsDashboard () {
     apiService.fetchListingsAll()
       .then(jobs => {
         setListData(jobs);
-        console.log(jobs);
       })
   }, [])
 
@@ -58,12 +57,11 @@ function RequestsDashboard () {
             }
           >
             <List.Item.Meta
-              avatar={<Avatar src={item.Users[0].picture} />}
+              avatar={<Avatar src={item.Users[0] && item.Users[0].picture} />}
               title={item.title}
-              description={`Posted by ${item.Users[0].firstName} ${item.Users[0].lastName}`}
+              description={`Posted by ${item.Users[0] && item.Users[0].firstName} ${item.Users[0] && item.Users[0].lastName}`}
             />
             {item.description}
-            {/* TODO: add button to volunteer for job */}
           </List.Item>
         </Link>
       )}
