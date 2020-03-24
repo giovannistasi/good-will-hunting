@@ -46,6 +46,7 @@ function UserProfileSkills () {
   }
 
   const deleteSkill = removedSkill => {
+    console.log(removedSkill);
     apiService.deleteSkillById(removedSkill).then(() => {
       const skills = state.userSkills.filter(skill => {
         return skill.skillId !== removedSkill.skillId;
@@ -107,7 +108,7 @@ function UserProfileSkills () {
           if (skill) {
             const isLongSkill = skill.skillName.length > 20;
             const skillElem = (
-              <Tag style={{ 'margin': '2.5px 5px 2.5px 0px' }} key={skill.skillId} closable={index !== -1} onClose={() => deleteSkill(skill)}>
+              <Tag style={{ 'margin': '2.5px 5px 2.5px 0px', display: 'block', textAlign: 'center', width: 'fit-content' }} key={skill.skillId} closable={index !== -1} onClose={() => deleteSkill(skill)}>
                 {isLongSkill ? `${skill.skillName.slice(0, 20)}...` : skill.skillName}
               </Tag>
             );

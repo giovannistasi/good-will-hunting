@@ -9,6 +9,10 @@ exports.getAll = async (req, res) => {
         {
           model: db.User,
           attributes: ['firstName', 'lastName', 'picture', 'email']
+        },
+        {
+          model: db.User,
+          as: 'Volunteers'
         }
       ]
     });
@@ -30,6 +34,17 @@ exports.getListingByUserId = async (req, res) => {
         }
       ]
     });
+    res.json(listings);
+  } catch (e) {
+    console.error(e);
+    res.status = 500;
+  }
+};
+
+exports.getListingByListingId = async (req, res) => {
+  const listingId = req.body.listingId;
+  try {
+    const listings = await db.Listing.findAll({ where: { listingId } });
     res.json(listings);
   } catch (e) {
     console.error(e);
@@ -65,11 +80,12 @@ exports.delete = async (req, res) => {
 
 exports.volunteer = async (req, res) => {
   const listingId = req.body.listingId
+  console.log(listingId);
   try {
-    const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || "40ef4940-6d01-11ea-9ea1-6d07aef08093" } })
-    const newVolunteer = await db.Volunteer.create();
-    await listing.addVolunteers(newVolunteer);
-    res.json(newVolunteer);
+    const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
+    const listing = await db.Listing.findOne({ where: { listingId: listingId } });
+    await user.addVolunteeredFor(listing);
+    res.json(listing);
     res.status = 200;
   } catch (e) {
     console.error(e);

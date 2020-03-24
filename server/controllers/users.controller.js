@@ -13,6 +13,10 @@ exports.getAll = async (req, res) => {
         },
         {
           model: db.Listing,
+        },
+        {
+          model: db.Listing,
+          as: 'VolunteeredFor'
         }
       ]
     })

@@ -22,7 +22,7 @@ function UserProfileJobs () {
         itemLayout="horizontal"
         dataSource={jobs}
         style={{
-          height: '30vh',
+          height: '200px',
           'overflowY': 'scroll',
         }}
         renderItem={item => (
