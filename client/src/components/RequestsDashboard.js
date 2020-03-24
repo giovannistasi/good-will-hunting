@@ -25,7 +25,8 @@ function RequestsDashboard () {
   useEffect(() => {
     apiService.fetchListingsAll()
       .then(jobs => {
-        setListData(jobs);
+        const sortedJobs = jobs.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        setListData(sortedJobs);
       })
   }, [])
 
