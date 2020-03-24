@@ -5,7 +5,6 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import apiService from '../apiService';
 
-
 function UserProfileSkills () {
 
   const [state, dispatch] = useContext(Context);
@@ -37,18 +36,21 @@ function UserProfileSkills () {
   }, [inputVisible])
 
   function selectSkill (skill) {
-    if (state.userSkills.length >= 9 || state.userSkills.includes(skill)) return;
+    if (
+      state.userSkills.length >= 9 ||
+      state.userSkills.some(e => e.skillName.toLowerCase() === skill.toLowerCase())
+    ) return;
     apiService.postUserSkill(skill).then((newSkill) => {
       dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills, newSkill] })
-      dispatch({ type: 'SET-SKILLS', payload: [...state.skills, newSkill] })
     })
   }
 
   const deleteSkill = removedSkill => {
     apiService.deleteSkillById(removedSkill).then(() => {
-      const skills = state.userSkills.filter(skill => skill.skillId !== removedSkill.skillId);
-      dispatch({ type: 'SET-USER-SKILLS', payload: [...state.userSkills] })
-      dispatch({ type: 'SET-SKILLS', payload: skills })
+      const skills = state.userSkills.filter(skill => {
+        return skill.skillId !== removedSkill.skillId;
+      })
+      dispatch({ type: 'SET-USER-SKILLS', payload: skills })
     })
   };
 
@@ -61,6 +63,12 @@ function UserProfileSkills () {
   };
 
   const createNewSkill = () => {
+    if (state.userSkills.some(e => e.skillName.toLowerCase() === inputValue.toLowerCase())) {
+      setInputVisible(false);
+      setInputValue('');
+      return;
+    }
+
     let skills = state.userSkills;
     if (inputValue && skills.indexOf(inputValue) === -1) {
       apiService.postUserSkill(inputValue).then((newSkill) => {
@@ -97,7 +105,7 @@ function UserProfileSkills () {
       <div>
         {state.userSkills.map((skill, index) => {
           if (skill) {
-            const isLongSkill = skill.length > 20;
+            const isLongSkill = skill.skillName.length > 20;
             const skillElem = (
               <Tag style={{ 'margin': '2.5px 5px 2.5px 0px' }} key={skill.skillId} closable={index !== -1} onClose={() => deleteSkill(skill)}>
                 {isLongSkill ? `${skill.skillName.slice(0, 20)}...` : skill.skillName}
@@ -124,7 +132,7 @@ function UserProfileSkills () {
             onPressEnter={createNewSkill}
           />
         )}
-        {!inputVisible && (state.userSkills.length <= 9) && (
+        {!inputVisible && (state.userSkills.length < 9) && (
           <Tag className="site-skill-plus" onClick={showInput}>
             <PlusOutlined /> Create New Skill
           </Tag>

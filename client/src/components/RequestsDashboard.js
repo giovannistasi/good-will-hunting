@@ -41,7 +41,7 @@ function RequestsDashboard () {
       dataSource={listData}
 
       renderItem={item => (
-        <Link to={'/job/' + item.listingId}>
+        
           <List.Item
             style={{ color: 'black', textDecoration: 'none' }}
             key={item.title}
@@ -59,13 +59,12 @@ function RequestsDashboard () {
           >
             <List.Item.Meta
               avatar={<Avatar src={item.Users[0].picture} />}
-              title={item.title}
+              title={<Link to={'/job/' + item.listingId}>{item.title}</Link>}
               description={`Posted by ${item.Users[0].firstName} ${item.Users[0].lastName}`}
             />
             {item.description}
             {/* TODO: add button to volunteer for job */}
           </List.Item>
-        </Link>
       )}
     />
   );
