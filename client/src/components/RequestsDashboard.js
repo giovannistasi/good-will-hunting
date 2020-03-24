@@ -40,30 +40,29 @@ function RequestsDashboard () {
       dataSource={listData}
 
       renderItem={item => (
-        <Link to={'/job/' + item.listingId}>
-          <List.Item
-            style={{ color: 'black', textDecoration: 'none' }}
-            key={item.title}
-            actions={[
-              <IconText icon={CreditsIcon} text={`${item.creditValue} credits`} key="list-vertical-credits" />,
-              <IconText icon={UsergroupAddOutlined} text={`${item.maxParticipants} spots available`} key="list-vertical-avaliable-spots" />,
-            ]}
-            extra={
-              <img
-                width={250}
-                alt="logo"
-                src="https://www.google.com/maps/about/images/mymaps/mymaps-desktop-16x9.png"
-              />
-            }
-          >
-            <List.Item.Meta
-              avatar={<Avatar src={item.Users[0] && item.Users[0].picture} />}
-              title={item.title}
-              description={`Posted by ${item.Users[0] && item.Users[0].firstName} ${item.Users[0] && item.Users[0].lastName}`}
+
+        <List.Item
+          style={{ color: 'black', textDecoration: 'none' }}
+          key={item.title}
+          actions={[
+            <IconText icon={CreditsIcon} text={`${item.creditValue} credits`} key="list-vertical-credits" />,
+            <IconText icon={UsergroupAddOutlined} text={`${item.maxParticipants} spots available`} key="list-vertical-avaliable-spots" />,
+          ]}
+          extra={
+            <img
+              width={250}
+              alt="logo"
+              src="https://www.google.com/maps/about/images/mymaps/mymaps-desktop-16x9.png"
             />
-            {item.description}
-          </List.Item>
-        </Link>
+          }
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={item.Users[0] && item.Users[0].picture} />}
+            title={<Link to={'/job/' + item.listingId}>{item.title}</Link>}
+            description={`Posted by ${item.Users[0] && item.Users[0].firstName} ${item.Users[0] && item.Users[0].lastName}`}
+          />
+          {item.description}
+        </List.Item>
       )}
     />
   );
