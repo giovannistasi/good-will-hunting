@@ -145,7 +145,7 @@ function AppRouter () {
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0, position: 'fixed', zIndex: 1, width: '100%' }} />
+          <Header className="site-layout-background" style={{ padding: 0, position: 'fixed', zIndex: 3, width: '100%' }} />
           <Content style={{ margin: '0 16px' }}>
             <div className="site-layout-background" style={{ marginTop: 50, padding: 24, minHeight: 360 }}>
               <Switch>
