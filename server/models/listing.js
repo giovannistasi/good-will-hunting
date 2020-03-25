@@ -26,6 +26,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.TEXT
     },
+    latitude: {
+      type: DataTypes.DECIMAL
+    },
+    longitude: {
+      type: DataTypes.DECIMAL
+    },
     creditValue: {
       allowNull: false,
       type: DataTypes.DECIMAL
