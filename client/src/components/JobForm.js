@@ -50,6 +50,8 @@ function JobForm () {
       title,
       description,
       address,
+      latitude: coordinates.lat,
+      longitude: coordinates.lng,
       maxParticipants,
       creditValue,
       eventTime,
