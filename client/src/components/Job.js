@@ -75,7 +75,7 @@ function Job () {
     (
       <div style={{ display: 'flex' }}>
         <Card
-          style={{ width: '50vw', marginRight: '3vw' }}
+          style={{ width: '40vw', marginRight: '3vw' }}
           cover={
             <img
               alt="example"

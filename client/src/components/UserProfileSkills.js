@@ -82,7 +82,7 @@ function UserProfileSkills () {
   };
 
   return (
-    <Card style={{ width: '35vw', minHeight: '600px', 'marginRight': '2vh' }}>
+    <Card style={{ width: '35vw', minHeight: '600px', 'marginRight': '2vh', textAlign: 'center' }}>
       <h1 style={{ margin: '0px 0px 10px 0px' }} >Skills</h1>
       <Select
         showSearch
