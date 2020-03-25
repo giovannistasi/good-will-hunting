@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../global/Store';
 import { useParams, Link } from 'react-router-dom';
-import { Card, Button } from 'antd';
+import { Card, Button, Avatar } from 'antd';
 import Icon from '@ant-design/icons';
 import { UsergroupAddOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,17 +18,14 @@ const IconText = ({ icon, text }) => (
   </span>
 );
 
-const HelpOfferIcon = props => <Icon component={() => (
-  <FontAwesomeIcon icon={faHandshake} />
-)} {...props} />;
-
-const HelpRemoveIcon = props => <Icon component={() => (
-  <FontAwesomeIcon icon={faUndo} />
-)} {...props} />;
-
-const CreditsIcon = props => <Icon component={() => (
-  <FontAwesomeIcon icon={faCoins} />
-)} {...props} />;
+const createIcon = icon => {
+  return function (props) {
+    return (
+    <Icon component={() => (
+      <FontAwesomeIcon icon={icon} />
+    )} {...props} />)
+  }
+}
 
 function Job () {
 
@@ -49,10 +46,8 @@ function Job () {
   useEffect(() => {
     if (job) {
       setVolunteers(job.Volunteers);
-      console.log(job);
       if (job.Volunteers.some(volunteer => volunteer.userId === state.userInfo.userId))
         setHasVolunteered(true);
-
     }
   }, [state])
 
@@ -95,17 +90,17 @@ function Job () {
             />
           }
           actions={[
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={CreditsIcon} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
+            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faCoins)} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
             <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>,
             <div>
               {hasVolunteered ?
-                <Button onClick={unvolunteer} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={HelpRemoveIcon} text={`Unvolunteer`} key="list-vertical-volunteer" /></Button> :
-                <Button onClick={volunteer} disabled={!job.maxParticipants} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={HelpOfferIcon} text={`Volunteer`} key="list-vertical-volunteer" /></Button>}
+                <Button onClick={unvolunteer} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faUndo)} text={`Unvolunteer`} key="list-vertical-volunteer" /></Button> :
+                <Button onClick={volunteer} disabled={!job.maxParticipants} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faHandshake)} text={`Volunteer`} key="list-vertical-volunteer" /></Button>}
             </div>,
           ]}
         >
           <Meta
-            // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
             title={job.title}
             description={description()}
           />
@@ -113,7 +108,7 @@ function Job () {
         <Card style={{ width: '18vw' }}>
           <h1>Participants</h1>
           {volunteers && volunteers.map(volunteer => {
-            return <div><Link to={'/profile/' + volunteer.userId}>{volunteer.firstName + ' ' + volunteer.lastName}</Link></div>
+            return <div><Link style={{ color: 'inherit' }} to={'/profile/' + volunteer.userId}>{volunteer.firstName + ' ' + volunteer.lastName}</Link></div>
           })}
         </Card>
       </div>

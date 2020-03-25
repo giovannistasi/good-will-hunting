@@ -124,7 +124,7 @@ function UserProfileSkills () {
         {inputVisible && (
           <Input
             className="skill-input"
-            style={{ margin: '2.5px 5px 2.5px 0px', width: 78 }}
+            style={{ margin: '2.5px 5px 2.5px 0px', display: 'block' }}
             type="text"
             size="small"
             value={inputValue}
@@ -134,7 +134,7 @@ function UserProfileSkills () {
           />
         )}
         {!inputVisible && (state.userSkills.length < 9) && (
-          <Tag className="site-skill-plus" onClick={showInput}>
+          <Tag style={{display: 'block', marginTop: '2px'}} className="site-skill-plus" onClick={showInput}>
             <PlusOutlined /> Create New Skill
           </Tag>
         )}

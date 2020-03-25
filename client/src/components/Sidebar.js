@@ -82,16 +82,16 @@ function Sidebar () {
         </Menu.Item>}
         <Menu.Item key="1">
           <Link to="/requests">
-            <HelpRequestIcon />
-            <span>All requests</span>
+            <HelpOfferIcon />
+            <span>See all jobs</span>
           </Link>
         </Menu.Item>
-        <Menu.Item key="2">
+        {/* <Menu.Item key="2">
           <Link to="/offers">
             <HelpOfferIcon />
             <span>All offers</span>
           </Link>
-        </Menu.Item>
+        </Menu.Item> */}
         {state.loggedIn ? (<SubMenu
           key="sub1"
           title={
@@ -103,7 +103,7 @@ function Sidebar () {
         >
           <Menu.Item key="3"><Link to="/user">Profile</Link></Menu.Item>
           <Menu.Item key="4"><Link to="/messages">Messages</Link></Menu.Item>
-          <Menu.Item key="5"><Link to="/post">Post a new job</Link></Menu.Item>
+          <Menu.Item key="5"><Link to="/post">Create a new job</Link></Menu.Item>
         </SubMenu>) : null}
         <Menu.Item key="6">
           <Link to="/about">

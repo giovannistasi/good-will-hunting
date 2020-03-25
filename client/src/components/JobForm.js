@@ -63,7 +63,7 @@ function JobForm () {
           justifyContent: 'center',
           flexDirection: 'column'
         }}>
-          <h1 style={{ margin: 'auto', paddingBottom: '3vh' }}>Post a new job</h1>
+          <h1 style={{ margin: 'auto', paddingBottom: '3vh' }}>Create a new job</h1>
           <Form
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 14 }}
