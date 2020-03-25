@@ -33,6 +33,7 @@ function RequestsDashboard () {
 
   return (
     <List
+      hoverable="true"
       itemLayout="vertical"
       size="large"
       pagination={{
@@ -42,7 +43,7 @@ function RequestsDashboard () {
       renderItem={item => {
         return (
           <List.Item
-            style={{ color: 'black', textDecoration: 'none', maxWidth: '800px', justifyContent: 'center' }}
+            style={{ /* marginRight: 'auto', */ color: 'black', textDecoration: 'none', maxWidth: '800px', justifyContent: 'center' }}
             key={item.title}
             actions={[
               <IconText

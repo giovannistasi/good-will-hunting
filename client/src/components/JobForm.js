@@ -117,8 +117,6 @@ function JobForm () {
                       getSuggestionItemProps,
                     }) => (
                         <div>
-                          <p>Latitude: {coordinates.lat}</p>
-                          <p>Longitude: {coordinates.lng}</p>
                           <div className="ant-form-item-control-input">
                             <div className="ant-form-item-control-input-content">
                               <input className="ant-input"
