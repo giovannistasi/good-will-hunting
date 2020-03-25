@@ -8,7 +8,7 @@ exports.getAll = async (req, res) => {
       include: [
         {
           model: db.User,
-          attributes: ['firstName', 'lastName', 'picture', 'email']
+          attributes: ['firstName', 'lastName', 'picture', 'email', 'userId']
         },
         {
           model: db.User,

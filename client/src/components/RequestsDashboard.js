@@ -57,7 +57,7 @@ function RequestsDashboard() {
               />,
             ]}
             extra={
-              <div className="map" style={{ height: '20vh', width: '30vw' }}>
+              <div className="map" style={{ height: '20vh', width: '20vw' }}>
                 <SimpleMap address={item.address} />
               </div>
             }

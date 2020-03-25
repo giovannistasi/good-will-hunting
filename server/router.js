@@ -5,6 +5,7 @@ const authMiddleWare = require('./middlewares/authentication');
 const users = require('./controllers/users.controller.js');
 const listings = require('./controllers/listings.controller.js');
 const skills = require('./controllers/skills.controller.js');
+const exchange = require('./controllers/exchange.controller.js');
 
 router.post('/login', users.login)
 router.post('/register', users.register);
@@ -25,6 +26,8 @@ router.delete('/user-skills', authMiddleWare.authorise, skills.delete);
 router.post('/skills', authMiddleWare.authorise, skills.post);
 
 router.post('/volunteer', authMiddleWare.authorise, listings.volunteer)
+
+router.post('/exchange', authMiddleWare.authorise, exchange.exchange)
 
 router.get('/auth', authMiddleWare.authoriseAndRespond)
 

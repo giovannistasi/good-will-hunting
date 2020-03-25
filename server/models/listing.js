@@ -18,10 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false,
       type: DataTypes.BOOLEAN
     },
-    pending: {
-      defaultValue: true,
-      type: DataTypes.BOOLEAN
-    },
     eventTime: {
       allowNull: false,
       type: DataTypes.DATE
@@ -29,6 +25,12 @@ module.exports = (sequelize, DataTypes) => {
     address: {
       allowNull: false,
       type: DataTypes.TEXT
+    },
+    latitude: {
+      type: DataTypes.DECIMAL
+    },
+    longitude: {
+      type: DataTypes.DECIMAL
     },
     creditValue: {
       allowNull: false,
