@@ -42,14 +42,9 @@ function Job () {
   }, [])
 
   useEffect(() => {
-    if (state.jobs.length) {
-      const listing = state.jobs.find(job => job.listingId === id)
-      if (listing) {
-        const listingVolunteers = listing.Volunteers;
-        setVolunteers(listingVolunteers);
-        console.log('listingVolunteers', listingVolunteers);
-        console.log('volunteers', volunteers);
-      }
+    if (job) {
+      const listingVolunteers = job.Volunteers;
+      setVolunteers(listingVolunteers);
     }
   }, [state])
 
@@ -73,12 +68,6 @@ function Job () {
     apiService.fetchListingsAll()
       .then(jobs => {
         dispatch({ type: 'SET-JOBS', payload: jobs });
-      }).then(() => {
-        const listing = state.jobs.find(job => job.listingId === id)
-        if (listing) {
-          const listingVolunteers = listing.Volunteers;
-          setVolunteers(listingVolunteers);
-        }
       })
   }
 
