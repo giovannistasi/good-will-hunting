@@ -7,6 +7,7 @@ import { FileOutlined, UserOutlined, LoginOutlined, LogoutOutlined } from '@ant-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHandsHelping, faHands } from '@fortawesome/free-solid-svg-icons'
 import Cookies from 'js-cookie';
+import logo from '../logo.svg';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -60,11 +61,18 @@ function Sidebar () {
       }}
       breakpoint="lg"
     >
-      <div className="logo" style={{
-        height: '30px',
-        margin: '15px',
-        background: 'rgba(255, 255, 255, 0.2)'
-      }} />
+      <Link to="/requests"><div className="logo" style={{
+      display: 'flex',
+      justifyContent: 'flex-start',
+      alignContent: 'center',
+      height: '30px',
+      margin: '15px',
+      // background: 'rgba(255, 255, 255, 0.2)'
+      }} >
+      {collapsed ? <img src={logo} style={{height: '30px', marginLeft: '12px'}}></img>
+      : <img src={logo} style={{height: '30px', marginRight: '8px'}}></img>}
+      {collapsed ? null : <h1 style={{color: 'rgba(255, 255, 255, 0.65)', fontFamily: "'Josefin Sans', 'sans-serif'", fontSize: '1.2em'}}>Goodwill Hunting</h1>}
+      </div></Link>
       <Menu theme="dark" mode="inline" >
         {state.loggedIn ? null : <Menu.Item key="0">
           <Link to="/login">
