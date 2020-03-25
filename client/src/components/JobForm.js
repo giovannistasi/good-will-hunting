@@ -115,35 +115,33 @@ function JobForm () {
                       getInputProps,
                       suggestions,
                       getSuggestionItemProps,
-                      loading,
                     }) => (
                         <div>
-                          {/* <p>Latitude: {coordinates.lat}</p>
-                      <p>Longitude: {coordinates.lng}</p> */}
-
-                          <input
-                            {...getInputProps({ placeholder: '', style: { width: '35vw', height: '5vh' } })}
-                          />
-
-                          <div>
-                            {loading ? <div>...loading</div> : null}
-
-                            {suggestions.map(suggestion => {
-                              const style = {
-                                backgroundColor: suggestion.active
-                                  ? '#41b6e6'
-                                  : '#fff',
-                              };
-
-                              return (
-                                <div
-                                  {...getSuggestionItemProps(suggestion, { style })}
-                                >
-                                  {suggestion.description}
-                                </div>
-                              );
-                            })}
+                          <div className="ant-form-item-control-input">
+                            <div className="ant-form-item-control-input-content">
+                              <input className="ant-input"
+                                {...getInputProps({ placeholder: 'Type address' })}
+                              />
+                            </div>
                           </div>
+                          {suggestions.map(suggestion => {
+                            const style = {
+                              backgroundColor: suggestion.active
+                                ? '#41b6e6'
+                                : '#fff',
+                              padding: '10px',
+                              'z-index': 2047483638,
+                              'box-shadow': '0px 8px 16px 0px rgba(0,0,0,0.2)'
+                            };
+                            return (
+                              <div
+                                {...getSuggestionItemProps(suggestion, { style })}
+                              >
+                                {suggestion.description}
+                              </div>
+
+                            );
+                          })}
                         </div>
                       )}
                   </PlacesAutocomplete>
