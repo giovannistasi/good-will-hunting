@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../global/Store';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Card, Button } from 'antd';
 import Icon from '@ant-design/icons';
 import { UsergroupAddOutlined } from '@ant-design/icons';
@@ -47,7 +47,8 @@ function Job () {
       if (listing) {
         const listingVolunteers = listing.Volunteers;
         setVolunteers(listingVolunteers);
-        console.log(listingVolunteers);
+        console.log('listingVolunteers', listingVolunteers);
+        console.log('volunteers', volunteers);
       }
     }
   }, [state])
@@ -66,20 +67,19 @@ function Job () {
     console.log(job);
   }
 
-  function volunteer () {
-    apiService.volunteer(id).then(
-      apiService.fetchListingsAll()
-        .then(jobs => {
-          dispatch({ type: 'SET-JOBS', payload: jobs });
-        }).then(() => {
-          const listing = state.jobs.find(job => job.listingId === id)
-          if (listing) {
-            const listingVolunteers = listing.Volunteers;
-            setVolunteers(listingVolunteers);
-            console.log(volunteers);
-          }
-        })
-    )
+  async function volunteer () {
+    await apiService.volunteer(id);
+
+    apiService.fetchListingsAll()
+      .then(jobs => {
+        dispatch({ type: 'SET-JOBS', payload: jobs });
+      }).then(() => {
+        const listing = state.jobs.find(job => job.listingId === id)
+        if (listing) {
+          const listingVolunteers = listing.Volunteers;
+          setVolunteers(listingVolunteers);
+        }
+      })
   }
 
   return job ?
@@ -95,7 +95,7 @@ function Job () {
           }
           actions={[
             <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={CreditsIcon} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>, // TODO: logic to change button when job.maxParticipants === state.jobs.find(job => job.listingId === id).Volunteers.length
+            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>,
             <Button onClick={volunteer} disabled={!job.maxParticipants} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={HelpOfferIcon} text={`Volunteer`} key="list-vertical-volunteer" /></Button>,
           ]}
         >
@@ -108,7 +108,7 @@ function Job () {
         <Card style={{ width: '18vw' }}>
           <h1>Participants</h1>
           {volunteers.length && volunteers.map(volunteer => {
-            return <div>{volunteer.firstName}</div>
+            return <div><Link to={'/profile/' + volunteer.userId}>{volunteer.firstName + ' ' + volunteer.lastName}</Link></div>
           })}
         </Card>
       </div>
