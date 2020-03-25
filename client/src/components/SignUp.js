@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Form,
-  Input,
-  Button,
-  Upload,
-  message
-} from 'antd';
+import { Form, Input, Button, Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const layout = {
@@ -13,8 +7,7 @@ const layout = {
   wrapperCol: { span: 10 },
 };
 
-function SignUp () {
-
+function SignUp() {
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -29,18 +22,21 @@ function SignUp () {
     const formData = new FormData();
     formData.append('upload_preset', 'xv3k736w');
     formData.append('file', e.file);
-    fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDNAME}/image/upload`, {
-      method: 'POST',
-      body: formData
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDNAME}/image/upload`,
+      {
+        method: 'POST',
+        body: formData,
+      },
+    )
+      .then(response => response.json())
+      .then(data => {
         setImageUrl(data.url);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Error:', error);
       });
-  }
+  };
 
   const uploadButton = (
     <div>
@@ -58,18 +54,19 @@ function SignUp () {
       password,
       password2,
       address,
-      picture: imageUrl
-    }
+      picture: imageUrl,
+    };
+
     fetch(`http://localhost:8080/register`, {
       method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(signUpData)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(signUpData),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        data.forEach(data => data.msg ? message.error(data.msg) : null)
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(data => (data.msg ? message.error(data.msg) : null));
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Error:', error);
       });
   };
@@ -83,13 +80,21 @@ function SignUp () {
         {...layout}
         onFinish={submitForm}
       >
-        <Form.Item name="firstName" label="First name" rules={[{ required: true }]}>
+        <Form.Item
+          name="firstName"
+          label="First name"
+          rules={[{ required: true }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item name="lastName" label="Last name">
           <Input />
         </Form.Item>
-        <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[{ required: true, type: 'email' }]}
+        >
           <Input />
         </Form.Item>
         <Form.Item
@@ -106,14 +111,9 @@ function SignUp () {
         >
           <Input.Password />
         </Form.Item>
-        <Form.Item label="Address">
-          <Input />
-        </Form.Item>
+        <Form.Item label="Address"></Form.Item>
 
-        <Form.Item
-          name="upload"
-          label="Profile picture"
-        >
+        <Form.Item name="upload" label="Profile picture">
           <Upload
             name="avatar"
             customRequest={cloudRequest}
@@ -124,18 +124,22 @@ function SignUp () {
             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             onChange={uploadPicture}
           >
-            {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            {imageUrl ? (
+              <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+            ) : (
+              uploadButton
+            )}
           </Upload>
         </Form.Item>
 
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 4 }}>
           <Button type="primary" htmlType="submit">
             Submit
-        </Button>
+          </Button>
         </Form.Item>
       </Form>
     </div>
-  )
+  );
 }
 
 export default SignUp;
