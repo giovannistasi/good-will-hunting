@@ -46,7 +46,6 @@ function UserProfileSkills () {
   }
 
   const deleteSkill = removedSkill => {
-    console.log(removedSkill);
     apiService.deleteSkillById(removedSkill).then(() => {
       const skills = state.userSkills.filter(skill => {
         return skill.skillId !== removedSkill.skillId;
@@ -134,7 +133,7 @@ function UserProfileSkills () {
           />
         )}
         {!inputVisible && (state.userSkills.length < 9) && (
-          <Tag style={{display: 'block', marginTop: '2px'}} className="site-skill-plus" onClick={showInput}>
+          <Tag style={{ display: 'block', marginTop: '2px' }} className="site-skill-plus" onClick={showInput}>
             <PlusOutlined /> Create New Skill
           </Tag>
         )}

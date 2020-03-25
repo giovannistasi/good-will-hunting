@@ -7,17 +7,14 @@ import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class SimpleMap extends Component {
+
   static defaultProps = {
-    center: {
-      lat: 59.95,
-      lng: 30.33,
-    },
-    zoom: 11,
+    zoom: 15,
   };
 
-  
 
-  render() {
+
+  render () {
     // function mapOptionsCreator(map) {
     //   return  {
     //     scrollwheel: false,
@@ -36,14 +33,15 @@ class SimpleMap extends Component {
     //   };
     // }
     return (
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLEAPIKEY }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
-          // options={mapOptionsCreator}
-        >
-          <AnyReactComponent lat={59.955413} lng={30.337844} text={<FontAwesomeIcon icon={faMapMarkerAlt} size="3x" style={{color: 'red'}} />} />
-        </GoogleMapReact>
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLEAPIKEY }}
+        defaultCenter={this.props.center}
+        defaultZoom={this.props.zoom}
+      >
+        <AnyReactComponent
+          lat={this.props.center && this.props.center.lat}
+          lng={this.props.center && this.props.center.lng} text={<FontAwesomeIcon icon={faMapMarkerAlt} size="3x" style={{ color: 'red' }} />} />
+      </GoogleMapReact>
     );
   }
 }

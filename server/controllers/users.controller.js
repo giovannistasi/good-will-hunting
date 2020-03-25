@@ -29,8 +29,6 @@ exports.getAll = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   try {
-    console.log(req.params.id);
-    
     const userId = req.params.id;
     const user = await db.User.findOne({
       where: { userId: userId },

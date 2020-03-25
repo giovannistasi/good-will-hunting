@@ -19,7 +19,6 @@ function OtherUserPage () {
   React.useEffect(() => {
     apiService.getUserById(id)
       .then(user => {
-        console.log(user);
         setUser(user);
       })
   }, [])
@@ -27,7 +26,6 @@ function OtherUserPage () {
   React.useEffect(() => {
     if (state.userInfo.userId === id)
       setOwnProfile(true);
-    // console.log(location.state.user);
   }, [id, state, location]);
 
   return ownProfile ? <Redirect to={'/user'} /> : (

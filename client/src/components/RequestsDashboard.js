@@ -19,7 +19,7 @@ const CreditsIcon = props => (
   <Icon component={() => <FontAwesomeIcon icon={faCoins} />} {...props} />
 );
 
-function RequestsDashboard() {
+function RequestsDashboard () {
   const [listData, setListData] = useState([]);
 
   useEffect(() => {
@@ -39,7 +39,6 @@ function RequestsDashboard() {
       }}
       dataSource={listData}
       renderItem={item => {
-        console.log(item.address);
         return (
           <List.Item
             style={{ color: 'black', textDecoration: 'none' }}
@@ -58,7 +57,7 @@ function RequestsDashboard() {
             ]}
             extra={
               <div className="map" style={{ height: '20vh', width: '20vw' }}>
-                <SimpleMap address={item.address} />
+                <SimpleMap center={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) }} address={item.address} />
               </div>
             }
           >

@@ -37,10 +37,13 @@ function Job () {
   const [state, dispatch] = useContext(Context);
   const job = state.jobs.find(job => job.listingId === id);
   const userId = state.userInfo.userId
+
+  let userPic = '';
   let creditValue;
   let confirmedCompleteArr = [];
   let isUsersJob = false;
   if (job) {
+    userPic = job.Users[0].picture
     isUsersJob = state.userInfo.userId === job.Users[0].userId
     creditValue = job.creditValue;
   }
@@ -71,7 +74,6 @@ function Job () {
   }
 
   function onCheck (e) {
-    console.log(e.target.userId);
     if (e.target.checked) {
       confirmedCompleteArr.push(e.target.userId);
     } else {
@@ -99,8 +101,8 @@ function Job () {
         <Card
           style={{ width: '40vw', marginRight: '3vw' }}
           cover={
-            <div style={{height: '40vh', width: '40vw'}}>
-              <SimpleMap />
+            <div style={{ height: '40vh', width: '40vw' }}>
+              <SimpleMap center={{ lat: parseFloat(job.latitude), lng: parseFloat(job.longitude) }} />
             </div>
           }
           actions={[
@@ -114,7 +116,7 @@ function Job () {
           ]}
         >
           <Meta
-            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            avatar={<Avatar src={userPic} />}
             title={job.title}
             description={description()}
           />
