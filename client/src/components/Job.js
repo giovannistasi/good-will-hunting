@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../global/Store';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Redirect } from 'react-router-dom';
 import { Card, Button, Avatar, Checkbox, Collapse, List } from 'antd';
 import Icon from '@ant-design/icons';
 import { UsergroupAddOutlined } from '@ant-design/icons';
@@ -33,6 +33,7 @@ function Job () {
 
   const [volunteers, setVolunteers] = useState([]);
   const [hasVolunteered, setHasVolunteered] = useState(false);
+  const [isClosed, setIsClosed] = useState(false)
 
   const { id } = useParams();
   const [state, dispatch] = useContext(Context);
@@ -55,6 +56,8 @@ function Job () {
 
   useEffect(() => {
     if (job) {
+      // if (job.completed)
+      //   setIsClosed(true);
       setVolunteers(job.Volunteers);
       if (job.Volunteers.some(volunteer => volunteer.userId === state.userInfo.userId))
         setHasVolunteered(true);
@@ -81,9 +84,8 @@ function Job () {
 
   function handleConfirmed () {
     apiService.creditExchange(confirmedCompleteArr, userId, creditValue, id)
-      .then(job => {
-        console.log(job);
-        
+      .then(() => {
+        setIsClosed(true);
       })
   }
 
@@ -97,8 +99,9 @@ function Job () {
   }
 
 
-  return job ?
-    (
+  return isClosed ?
+    <Redirect to="/requests" /> :
+    job ? (
       <div style={{ display: 'flex' }}>
         <Card
           style={{ width: '40vw', marginRight: '3vw' }}
@@ -137,10 +140,10 @@ function Job () {
               </List.Item>
             )}
           />
-          {isUsersJob ?
+          {(isUsersJob && !job.completed) ?
             <Collapse>
               <Panel header="Close the listing">
-                <p style={{marginBottom: '6px'}}>
+                <p style={{ marginBottom: '6px' }}>
                   Who completed the job?
                 </p>
                 {volunteers && volunteers.map(volunteer => {
@@ -153,7 +156,7 @@ function Job () {
         </Card>
 
       </div>
-    ) : null;
+    ) : null
 }
 
 export default Job;
