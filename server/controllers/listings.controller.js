@@ -80,11 +80,19 @@ exports.delete = async (req, res) => {
 
 exports.volunteer = async (req, res) => {
   const listingId = req.body.listingId
-  console.log(listingId);
   try {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
-    await db.Listing.decrement('maxParticipants', { where: { listingId: listingId } });
-    const listing = await db.Listing.findOne({ where: { listingId: listingId } });
+    const listing = await db.Listing.findOne({
+      where: { listingId: listingId },
+      include: [
+        {
+          model: db.User,
+        }
+      ]
+    });
+    if (user.userId !== listing.Users[0].userId) {
+      await db.Listing.decrement('maxParticipants', { where: { listingId: listingId } });
+    }
     await user.addVolunteeredFor(listing);
     res.status = 200;
     res.json(listing);

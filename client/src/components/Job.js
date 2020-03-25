@@ -96,7 +96,7 @@ function Job () {
         </Card>
         <Card style={{ width: '18vw' }}>
           <h1>Participants</h1>
-          {volunteers.length && volunteers.map(volunteer => {
+          {volunteers && volunteers.map(volunteer => {
             return <div><Link to={'/profile/' + volunteer.userId}>{volunteer.firstName + ' ' + volunteer.lastName}</Link></div>
           })}
         </Card>
