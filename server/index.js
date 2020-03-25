@@ -13,12 +13,14 @@ app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(session({
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 7200000, httpOnly: false },
-  secret: 'secret', // store in env,
-}));
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 7200000, httpOnly: false },
+    secret: 'secret', // store in env,
+  }),
+);
 
 initialisePassport(passport);
 app.use(passport.initialize());

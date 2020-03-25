@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins, faHandshake, faUndo } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import apiService from '../apiService';
+import SimpleMap from './Map';
 
 const { Meta } = Card;
 
@@ -37,11 +38,10 @@ function Job () {
   const job = state.jobs.find(job => job.listingId === id);
 
   useEffect(() => {
-    apiService.fetchListingsAll()
-      .then(jobs => {
-        dispatch({ type: 'SET-JOBS', payload: jobs });
-      })
-  }, [])
+    apiService.fetchListingsAll().then(jobs => {
+      dispatch({ type: 'SET-JOBS', payload: jobs });
+    });
+  }, []);
 
   useEffect(() => {
     if (job) {
@@ -52,14 +52,15 @@ function Job () {
   }, [state])
 
   const description = () => {
-    if (job) return (
-      <div>
-        <div>{job.description}</div>
-        <br></br>
-        <div>{moment(job.eventTime).format('MMMM Do YYYY h:mm a')}</div>
-      </div>
-    )
-  }
+    if (job)
+      return (
+        <div>
+          <div>{job.description}</div>
+          <br></br>
+          <div>{moment(job.eventTime).format('MMMM Do YYYY h:mm a')}</div>
+        </div>
+      );
+  };
 
   function clickCredits () {
     console.log(job);
@@ -84,10 +85,9 @@ function Job () {
         <Card
           style={{ width: '40vw', marginRight: '3vw' }}
           cover={
-            <img
-              alt="example"
-              src="https://www.google.com/maps/about/images/mymaps/mymaps-desktop-16x9.png"
-            />
+            <div style={{height: '40vh', width: '40vw'}}>
+              <SimpleMap />
+            </div>
           }
           actions={[
             <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faCoins)} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
