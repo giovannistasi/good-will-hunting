@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../global/Store';
 import { useParams, Link } from 'react-router-dom';
-import { Card, Button, Checkbox } from 'antd';
+import { Card, Button, Avatar, Checkbox } from 'antd';
 import Icon from '@ant-design/icons';
 import { UsergroupAddOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
+import { faCoins, faHandshake, faUndo } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import apiService from '../apiService';
 
@@ -18,17 +18,19 @@ const IconText = ({ icon, text }) => (
   </span>
 );
 
-const HelpOfferIcon = props => <Icon component={() => (
-  <FontAwesomeIcon icon={faHandsHelping} />
-)} {...props} />;
-
-const CreditsIcon = props => <Icon component={() => (
-  <FontAwesomeIcon icon={faCoins} />
-)} {...props} />;
+const createIcon = icon => {
+  return function (props) {
+    return (
+      <Icon component={() => (
+        <FontAwesomeIcon icon={icon} />
+      )} {...props} />)
+  }
+}
 
 function Job () {
 
   const [volunteers, setVolunteers] = useState([]);
+  const [hasVolunteered, setHasVolunteered] = useState(false);
 
   const { id } = useParams();
   const [state, dispatch] = useContext(Context);
@@ -52,8 +54,9 @@ function Job () {
 
   useEffect(() => {
     if (job) {
-      const listingVolunteers = job.Volunteers;
-      setVolunteers(listingVolunteers);
+      setVolunteers(job.Volunteers);
+      if (job.Volunteers.some(volunteer => volunteer.userId === state.userInfo.userId))
+        setHasVolunteered(true);
     }
   }, [state])
 
@@ -89,11 +92,15 @@ function Job () {
       })
   }
 
+  function unvolunteer () {
+    console.log('hi richard');
+  }
+
   return job ?
     (
       <div style={{ display: 'flex' }}>
         <Card
-          style={{ width: '50vw', marginRight: '3vw' }}
+          style={{ width: '40vw', marginRight: '3vw' }}
           cover={
             <img
               alt="example"
@@ -101,13 +108,17 @@ function Job () {
             />
           }
           actions={[
-            <IconText icon={CreditsIcon} text={`${job.creditValue} credits`} key="list-vertical-credits" />,
-            <IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" />,
-            <Button onClick={volunteer} /* disabled={!job.maxParticipants} */ style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={HelpOfferIcon} text={`Volunteer`} key="list-vertical-volunteer" /></Button>,
+            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faCoins)} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
+            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>,
+            <div>
+              {hasVolunteered ?
+                <Button onClick={unvolunteer} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faUndo)} text={`Unvolunteer`} key="list-vertical-volunteer" /></Button> :
+                <Button onClick={volunteer} disabled={!job.maxParticipants} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faHandshake)} text={`Volunteer`} key="list-vertical-volunteer" /></Button>}
+            </div>,
           ]}
         >
           <Meta
-            // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
             title={job.title}
             description={description()}
           />

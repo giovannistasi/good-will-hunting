@@ -31,6 +31,10 @@ exports.getListingByUserId = async (req, res) => {
           model: db.User,
           where: { userId: req.session.passport && req.session.passport.user.userId || null },
           attributes: ['firstName', 'lastName', 'picture', 'email'],
+        },
+        {
+          model: db.User,
+          as: 'Volunteers'
         }
       ]
     });
