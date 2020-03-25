@@ -14,6 +14,7 @@ const { SubMenu } = Menu;
 const HelpOfferIcon = props => <Icon component={() => (
   <FontAwesomeIcon icon={faHandsHelping} />
 )} {...props} />;
+
 const HelpRequestIcon = props => <Icon component={() => (
   <FontAwesomeIcon icon={faHands} />
 )} {...props} />;

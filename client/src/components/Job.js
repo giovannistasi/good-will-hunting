@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../global/Store';
 import { useParams } from 'react-router-dom';
-import { Card, Button, Checkbox } from 'antd';
+import { Card, Button } from 'antd';
 import Icon from '@ant-design/icons';
-import { UsergroupAddOutlined, EditOutlined } from '@ant-design/icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoins } from '@fortawesome/free-solid-svg-icons'
+import { UsergroupAddOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoins, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import apiService from '../apiService';
 
@@ -18,21 +18,21 @@ const IconText = ({ icon, text }) => (
   </span>
 );
 
+const HelpOfferIcon = props => <Icon component={() => (
+  <FontAwesomeIcon icon={faHandsHelping} />
+)} {...props} />;
+
 const CreditsIcon = props => <Icon component={() => (
   <FontAwesomeIcon icon={faCoins} />
 )} {...props} />;
 
 function Job () {
 
+  const [volunteers, setVolunteers] = useState([]);
+
   const { id } = useParams();
   const [state, dispatch] = useContext(Context);
   const job = state.jobs.find(job => job.listingId === id);
-  const CheckboxGroup = Checkbox.Group;
-  const [volunteers, setVolunteers] = useState([])
-  const [checkedList, setCheckedList] = useState([])
-  const [indeterminate, setIndeterminate] = useState(true)
-  const [checkAll, setCheckAll] = useState(false)
-
 
   useEffect(() => {
     apiService.fetchListingsAll()
@@ -40,6 +40,17 @@ function Job () {
         dispatch({ type: 'SET-JOBS', payload: jobs });
       })
   }, [])
+
+  useEffect(() => {
+    if (state.jobs.length) {
+      const listing = state.jobs.find(job => job.listingId === id)
+      if (listing) {
+        const listingVolunteers = listing.Volunteers;
+        setVolunteers(listingVolunteers);
+        console.log(listingVolunteers);
+      }
+    }
+  }, [state])
 
   const description = () => {
     if (job) return (
@@ -52,7 +63,7 @@ function Job () {
   }
 
   function clickCredits () {
-    console.log('click');
+    console.log(job);
   }
 
   function volunteer () {
@@ -61,32 +72,21 @@ function Job () {
         .then(jobs => {
           dispatch({ type: 'SET-JOBS', payload: jobs });
         }).then(() => {
-          const listingVolunteers = state.jobs.find(job => job.listingId === id).Volunteers
-          setVolunteers(listingVolunteers);
-          console.log(volunteers);
-
-          console.log(state.jobs.find(job => job.listingId === id));
-          console.log(listingVolunteers);
+          const listing = state.jobs.find(job => job.listingId === id)
+          if (listing) {
+            const listingVolunteers = listing.Volunteers;
+            setVolunteers(listingVolunteers);
+            console.log(volunteers);
+          }
         })
     )
   }
 
-  const onChange = (checkedList) => {
-    // setIndeterminate(!!checkedList.length && (checkedList.length < volunteers.length))
-    setCheckAll(checkedList.length === volunteers.length)
-  }
-
-  const onCheckAllChange = (e) => {
-    setCheckedList(e.target.checked ? volunteers : [])
-    setIndeterminate(false)
-    setCheckAll(e.target.checked)
-  }
-
   return job ?
     (
-      <div>
+      <div style={{ display: 'flex' }}>
         <Card
-          style={{ width: '40vw' }}
+          style={{ width: '50vw', marginRight: '3vw' }}
           cover={
             <img
               alt="example"
@@ -94,11 +94,10 @@ function Job () {
             />
           }
           actions={[
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={CreditsIcon} text={`${job.creditValue} credits`} key="list-vertical-credits" onClick={clickCredits} /></Button>,
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants - volunteers.length} spots available`} key="list-vertical-avaliable-spots" /></Button>, // TODO: logic to change button when job.maxParticipants === state.jobs.find(job => job.listingId === id).Volunteers.length
-            <Button onClick={volunteer} style={{ border: 'none', backgroundColor: 'inherit' }}>Volunteer</Button>,
+            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={CreditsIcon} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
+            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>, // TODO: logic to change button when job.maxParticipants === state.jobs.find(job => job.listingId === id).Volunteers.length
+            <Button onClick={volunteer} disabled={!job.maxParticipants} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={HelpOfferIcon} text={`Volunteer`} key="list-vertical-volunteer" /></Button>,
           ]}
-
         >
           <Meta
             // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
@@ -106,19 +105,12 @@ function Job () {
             description={description()}
           />
         </Card>
-        <div>
-          <div style={{ borderBottom: '1px solid #E9E9E9' }}>
-            <Checkbox
-              indeterminate={indeterminate}
-              onChange={onCheckAllChange}
-              checked={checkAll}
-            >
-              Check all
-          </Checkbox>
-          </div>
-          <br />
-          <CheckboxGroup options={volunteers && volunteers} value={checkedList} onChange={onChange} />
-        </div>
+        <Card style={{ width: '18vw' }}>
+          <h1>Participants</h1>
+          {volunteers.length && volunteers.map(volunteer => {
+            return <div>{volunteer.firstName}</div>
+          })}
+        </Card>
       </div>
     ) : null;
 }

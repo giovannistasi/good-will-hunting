@@ -83,6 +83,7 @@ exports.volunteer = async (req, res) => {
   console.log(listingId);
   try {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
+    await db.Listing.decrement('maxParticipants', { where: { listingId: listingId } });
     const listing = await db.Listing.findOne({ where: { listingId: listingId } });
     await user.addVolunteeredFor(listing);
     res.status = 200;
