@@ -87,13 +87,22 @@ exports.volunteer = async (req, res) => {
       include: [
         {
           model: db.User,
+        },
+        {
+          model: db.User,
+          as: 'Volunteers'
         }
       ]
     });
-    if (user.userId !== listing.Users[0].userId) {
-      await db.Listing.decrement('maxParticipants', { where: { listingId: listingId } });
+    if (listing.Volunteers.filter(volunteer => volunteer.userId === user.userId).length) {
+      await db.Listing.increment('maxParticipants', { where: { listingId: listingId } });
+      await user.removeVolunteeredFor(listing);
+    } else {
+      if (user.userId !== listing.Users[0].userId) {
+        await db.Listing.decrement('maxParticipants', { where: { listingId: listingId } });
+        await user.addVolunteeredFor(listing);
+      }
     }
-    await user.addVolunteeredFor(listing);
     res.status = 200;
     res.json(listing);
   } catch (e) {
