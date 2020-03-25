@@ -10,17 +10,45 @@ function UserProfileJobs () {
   const { TabPane } = Tabs;
 
   useEffect(() => {
-    apiService.fetchListingsByUserId()
-      .then(data => {
-        dispatch({ type: 'SET-JOBS', payload: data })
+    apiService.fetchListingsAll()
+      .then(jobs => {
+        dispatch({ type: 'SET-JOBS', payload: jobs });
       })
-  }, []);
+  }, [])
 
-  const listings = jobs => {
+  const listings = (jobs, status) => {
+    console.log(jobs);
+
+    let filteredJobs = jobs;
+    switch (status) {
+      case 'accepted ongoing':
+        filteredJobs = filteredJobs.filter(job => {
+          return (job.Volunteers.some(volunteer => volunteer.userId === state.userInfo.userId) && !job.completed)
+        })
+        break;
+      case 'accepted past':
+        filteredJobs = filteredJobs.filter(job => {
+          return (job.Volunteers.some(volunteer => volunteer.userId === state.userInfo.userId) && job.completed)
+        })
+        break;
+      case 'posted ongoing':
+        filteredJobs = filteredJobs.filter(job => {
+          return (job.Users[0].users_listings.UserUserId === state.userInfo.userId && !job.completed)
+        })
+        break;
+      case 'posted past':
+        filteredJobs = filteredJobs.filter(job => {
+          return (job.Users[0].users_listings.UserUserId === state.userInfo.userId && job.completed)
+        })
+        break;
+      default:
+        break;
+    }
+
     return (
       <List
         itemLayout="horizontal"
-        dataSource={jobs}
+        dataSource={filteredJobs}
         style={{
           height: '200px',
           'overflowY': 'scroll',
@@ -45,20 +73,20 @@ function UserProfileJobs () {
         <TabPane tab="Accepted" key="1">
           <Tabs defaultActiveKey="3" tabPosition="left">
             <TabPane tab="Ongoing" key="3">
-              {listings(state.jobs)}
+              {listings(state.jobs, 'accepted ongoing')}
             </TabPane>
             <TabPane tab="Past" key="4">
-              {listings(state.jobs)}
+              {listings(state.jobs, 'accepted past')}
             </TabPane>
           </Tabs>
         </TabPane>
         <TabPane tab="Posted" key="2">
           <Tabs defaultActiveKey="5" tabPosition="left">
             <TabPane tab="Ongoing" key="5">
-              {listings(state.jobs)}
+              {listings(state.jobs, 'posted ongoing')}
             </TabPane>
             <TabPane tab="Past" key="6">
-              {listings(state.jobs)}
+              {listings(state.jobs, 'posted past')}
             </TabPane>
           </Tabs>
         </TabPane>

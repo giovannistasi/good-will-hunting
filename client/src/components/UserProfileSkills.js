@@ -14,7 +14,7 @@ function UserProfileSkills () {
   const { Option } = Select;
 
   useEffect(() => {
-    apiService.fetchListingsByUserId()
+    apiService.fetchListingsAll()
       .then(data => {
         dispatch({ type: 'SET-JOBS', payload: data })
       })
