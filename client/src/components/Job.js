@@ -5,7 +5,7 @@ import { Card, Button } from 'antd';
 import Icon from '@ant-design/icons';
 import { UsergroupAddOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoins, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
+import { faCoins, faHandshake, faUndo } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import apiService from '../apiService';
 
@@ -19,7 +19,11 @@ const IconText = ({ icon, text }) => (
 );
 
 const HelpOfferIcon = props => <Icon component={() => (
-  <FontAwesomeIcon icon={faHandsHelping} />
+  <FontAwesomeIcon icon={faHandshake} />
+)} {...props} />;
+
+const HelpRemoveIcon = props => <Icon component={() => (
+  <FontAwesomeIcon icon={faUndo} />
 )} {...props} />;
 
 const CreditsIcon = props => <Icon component={() => (
@@ -29,6 +33,7 @@ const CreditsIcon = props => <Icon component={() => (
 function Job () {
 
   const [volunteers, setVolunteers] = useState([]);
+  const [hasVolunteered, setHasVolunteered] = useState(false);
 
   const { id } = useParams();
   const [state, dispatch] = useContext(Context);
@@ -43,8 +48,11 @@ function Job () {
 
   useEffect(() => {
     if (job) {
-      const listingVolunteers = job.Volunteers;
-      setVolunteers(listingVolunteers);
+      setVolunteers(job.Volunteers);
+      console.log(job);
+      if (job.Volunteers.some(volunteer => volunteer.userId === state.userInfo.userId))
+        setHasVolunteered(true);
+
     }
   }, [state])
 
@@ -71,6 +79,10 @@ function Job () {
       })
   }
 
+  function unvolunteer () {
+    console.log('hi richard');
+  }
+
   return job ?
     (
       <div style={{ display: 'flex' }}>
@@ -85,7 +97,11 @@ function Job () {
           actions={[
             <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={CreditsIcon} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
             <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>,
-            <Button onClick={volunteer} disabled={!job.maxParticipants} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={HelpOfferIcon} text={`Volunteer`} key="list-vertical-volunteer" /></Button>,
+            <div>
+              {hasVolunteered ?
+                <Button onClick={unvolunteer} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={HelpRemoveIcon} text={`Unvolunteer`} key="list-vertical-volunteer" /></Button> :
+                <Button onClick={volunteer} disabled={!job.maxParticipants} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={HelpOfferIcon} text={`Volunteer`} key="list-vertical-volunteer" /></Button>}
+            </div>,
           ]}
         >
           <Meta

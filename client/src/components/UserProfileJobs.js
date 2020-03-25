@@ -17,8 +17,6 @@ function UserProfileJobs () {
   }, [])
 
   const listings = (jobs, status) => {
-    console.log(jobs);
-
     let filteredJobs = jobs;
     switch (status) {
       case 'accepted ongoing':
