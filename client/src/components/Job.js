@@ -85,16 +85,13 @@ function Job () {
 
   async function volunteer () {
     await apiService.volunteer(id);
-
+    setHasVolunteered(!hasVolunteered)
     apiService.fetchListingsAll()
       .then(jobs => {
         dispatch({ type: 'SET-JOBS', payload: jobs });
       })
   }
 
-  function unvolunteer () {
-    console.log('hi richard');
-  }
 
   return job ?
     (
@@ -108,11 +105,11 @@ function Job () {
             />
           }
           actions={[
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faCoins)} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>,
+            <Button style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faCoins)} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
+            <Button style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>,
             <div>
               {hasVolunteered ?
-                <Button onClick={unvolunteer} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faUndo)} text={`Unvolunteer`} key="list-vertical-volunteer" /></Button> :
+                <Button onClick={volunteer} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faUndo)} text={`Unvolunteer`} key="list-vertical-volunteer" /></Button> :
                 <Button onClick={volunteer} disabled={!job.maxParticipants} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faHandshake)} text={`Volunteer`} key="list-vertical-volunteer" /></Button>}
             </div>,
           ]}
