@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../global/Store';
-import { useParams, Link } from 'react-router-dom';
-import { Card, Button, Avatar, Checkbox } from 'antd';
+import { useParams, Link, Redirect } from 'react-router-dom';
+import { Card, Button, Avatar, Checkbox, Collapse, List } from 'antd';
 import Icon from '@ant-design/icons';
 import { UsergroupAddOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,6 +11,7 @@ import apiService from '../apiService';
 import SimpleMap from './Map';
 
 const { Meta } = Card;
+const { Panel } = Collapse;
 
 const IconText = ({ icon, text }) => (
   <span>
@@ -32,6 +33,7 @@ function Job () {
 
   const [volunteers, setVolunteers] = useState([]);
   const [hasVolunteered, setHasVolunteered] = useState(false);
+  const [isClosed, setIsClosed] = useState(false)
 
   const { id } = useParams();
   const [state, dispatch] = useContext(Context);
@@ -57,6 +59,8 @@ function Job () {
 
   useEffect(() => {
     if (job) {
+      // if (job.completed)
+      //   setIsClosed(true);
       setVolunteers(job.Volunteers);
       if (job.Volunteers.some(volunteer => volunteer.userId === state.userInfo.userId))
         setHasVolunteered(true);
@@ -83,6 +87,9 @@ function Job () {
 
   function handleConfirmed () {
     apiService.creditExchange(confirmedCompleteArr, userId, creditValue, id)
+      .then(() => {
+        setIsClosed(true);
+      })
   }
 
   async function volunteer () {
@@ -95,8 +102,9 @@ function Job () {
   }
 
 
-  return job ?
-    (
+  return isClosed ?
+    <Redirect to="/requests" /> :
+    job ? (
       <div style={{ display: 'flex' }}>
         <Card
           style={{ width: '40vw', marginRight: '3vw' }}
@@ -121,24 +129,37 @@ function Job () {
             description={description()}
           />
         </Card>
-        {isUsersJob ?
-          <Card style={{ width: '18vw' }}>
-            <h1>Participants</h1>
-            {volunteers && volunteers.map(volunteer => {
-              return <div><Checkbox userId={volunteer.userId} onChange={onCheck}><Link to={'/profile/' + volunteer.userId}>{volunteer.firstName + ' ' + volunteer.lastName}</Link></Checkbox></div>
-            })}
-            <br />
-            <Button onClick={handleConfirmed} style={{ border: 'none', backgroundColor: 'inherit' }}>Confirm</Button>
-          </Card>
-          :
-          <Card style={{ width: '18vw' }}>
-            <h1>Participants</h1>
-            {volunteers && volunteers.map(volunteer => {
-              return <div><Link to={'/profile/' + volunteer.userId}>{volunteer.firstName + ' ' + volunteer.lastName}</Link></div>
-            })}
-          </Card>}
+        <Card style={{ width: '22vw' }}>
+          <h1>Participants</h1>
+          <List
+            itemLayout="horizontal"
+            dataSource={volunteers}
+            renderItem={volunteer => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar src={volunteer.picture} />}
+                  title={<Link style={{ color: 'inherit' }} to={'/profile/' + volunteer.userId}>{volunteer.firstName + ' ' + volunteer.lastName}</Link>}
+                />
+              </List.Item>
+            )}
+          />
+          {(isUsersJob && !job.completed) ?
+            <Collapse>
+              <Panel header="Close the listing">
+                <p style={{ marginBottom: '6px' }}>
+                  Who completed the job?
+                </p>
+                {volunteers && volunteers.map(volunteer => {
+                  return <div><Checkbox userId={volunteer.userId} onChange={onCheck}>{volunteer.firstName + ' ' + volunteer.lastName}</Checkbox></div>
+                })}
+                <br />
+                <Button type="primary" onClick={handleConfirmed}>Confirm</Button>
+              </Panel>
+            </Collapse> : null}
+        </Card>
+
       </div>
-    ) : null;
+    ) : null
 }
 
 export default Job;

@@ -25,7 +25,8 @@ function RequestsDashboard () {
   useEffect(() => {
     apiService.fetchListingsAll()
       .then(jobs => {
-        const sortedJobs = jobs.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        const filteredJobs = jobs.filter(job => !job.completed)
+        const sortedJobs = filteredJobs.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
         setListData(sortedJobs);
       })
   }, [])
@@ -64,9 +65,16 @@ function RequestsDashboard () {
             <List.Item.Meta
               avatar={<Avatar src={item.Users[0] && item.Users[0].picture} />}
               title={<Link to={'/job/' + item.listingId}>{item.title}</Link>}
-              description={`Posted by ${item.Users[0] &&
-                item.Users[0].firstName} ${item.Users[0] &&
-                item.Users[0].lastName}`}
+              description={
+                <Link
+                  style={{ color: 'inherit' }}
+                  to={{
+                    pathname: '/profile/' + item.Users[0].users_listings.UserUserId,
+                    state: { user: item.Users[0] },
+                  }}
+                >{`Posted by ${item.Users[0].firstName} ${item.Users[0].lastName}`}
+                </Link>
+              }
             />
             {item.description}
           </List.Item>
