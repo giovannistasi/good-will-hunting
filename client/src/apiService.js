@@ -86,3 +86,13 @@ exports.getUserById = (userId) => {
   }).then(res => res.json())
   return user;
 }
+
+exports.creditExchange = (participants, creator, creditValue, listingId) => {
+  const exchange = fetch('http://localhost:8080/exchange', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ participants, creator, creditValue, listingId })
+  }).then(res => res.json())
+  return exchange
+}
