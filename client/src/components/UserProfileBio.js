@@ -13,6 +13,7 @@ function UserProfileBio () {
   //   //TODO: dispatch and change bio in db
   // }
 
+console.log(state.userInfo);
 
   return (
     <Card hoverable="true" style={{ cursor: 'default', width: '60vw', height: '200px' }}>

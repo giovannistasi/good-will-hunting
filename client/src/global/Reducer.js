@@ -4,7 +4,7 @@ const Reducer = (state, action) => {
       return {
         ...state,
         loggedIn: action.payload.loggedIn,
-        userInfo: action.payload.userInfo
+        userInfo: action.payload.userInfo,
       };
     case 'SET-JOBS':
       return {
@@ -20,6 +20,14 @@ const Reducer = (state, action) => {
       return {
         ...state,
         skills: action.payload,
+      }
+    case 'SET-CREDITS':
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          credits: state.userInfo.credits - action.payload
+        }
       }
     default:
       return state;

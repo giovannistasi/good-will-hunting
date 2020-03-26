@@ -88,6 +88,7 @@ function Job () {
   function handleConfirmed () {
     apiService.creditExchange(confirmedCompleteArr, userId, creditValue, id)
       .then(() => {
+        dispatch({type: 'SET-CREDITS', payload: creditValue * confirmedCompleteArr.length})
         setIsClosed(true);
       })
   }
