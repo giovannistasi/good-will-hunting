@@ -58,7 +58,7 @@ function RequestsDashboard () {
             ]}
             extra={
               <div className="map" style={{ height: '20vh', width: '20vw' }}>
-                <SimpleMap center={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) }} address={item.address} />
+                <SimpleMap job={false} center={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) }} address={item.address} />
               </div>
             }
           >

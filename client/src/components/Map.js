@@ -15,25 +15,27 @@ class SimpleMap extends Component {
 
 
   render () {
-    // function mapOptionsCreator(map) {
-    //   return  {
-    //     scrollwheel: false,
-    //     zoomControlOptions: {
-    //         position: map.ControlPosition.RIGHT_CENTER,    // as long as this is not set it works
-    //         style: map.ZoomControlStyle.SMALL
-    //     },
-    //     mapTypeControlOptions: {
-    //         position: map.ControlPosition.BOTTOM_RIGHT     // this makes the map type control disappear
-    //     },
-    //     draggable: false,
-    //     rotateControl: false,
-    //     scaleControl: false,
-    //     streetViewControl: false,
-    //     panControl: false,
-    //   };
-    // }
+    const createMapOptions = (map) => {
+      return {
+        scrollwheel: this.props.job,
+        zoomControlOptions: {
+          position: map.ControlPosition.RIGHT_BOTTOM,
+          style: map.ZoomControlStyle.SMALL
+        },
+        mapTypeControlOptions: {
+          position: map.ControlPosition.BOTTOM_RIGHT
+        },
+        draggable: this.props.job,
+        rotateControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        panControl: false,
+        fullscreenControl: this.props.job,
+      };
+    }
     return (
       <GoogleMapReact
+        options={createMapOptions}
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLEAPIKEY }}
         defaultCenter={this.props.center}
         defaultZoom={this.props.zoom}
