@@ -33,7 +33,7 @@ function OtherUserPage () {
       <div style={{ display: 'flex' }}>
         <div style={{ marginRight: '2vh' }}>
           <OtherUserPageBio userInfo={user} />
-          <OtherUserPageJobs jobs={user.Listings} />
+          <OtherUserPageJobs userInfo= {user} jobs={user.Listings} />
         </div>
         <OtherUserPageSkills skills={user.Skills} />
       </div>
