@@ -19,10 +19,8 @@ function UserProfileSkills () {
         dispatch({ type: 'SET-JOBS', payload: data })
       })
     apiService.fetchSkillsByUserId()
-      .then(data => {
-        let skills = [];
-        data.map(skill => skills.push(skill))
-        dispatch({ type: 'SET-USER-SKILLS', payload: skills })
+      .then(data => {        
+        dispatch({ type: 'SET-USER-SKILLS', payload: [...data] })
       })
   }, []);
 

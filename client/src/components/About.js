@@ -21,7 +21,7 @@ function About () {
               'marginTop': '8%',
               'padding': '0 15%',
               'fontSize': '25px',
-              fontFamily: "'Ubuntu', 'sans-serif'",
+              fontFamily: "'Josefin Sans', 'sans-serif'",
               'color': 'black'
             }}
           >
@@ -38,7 +38,7 @@ function About () {
             style={{
               'margin': '8% 8% 0 8%',
               'fontSize': '25px',
-              fontFamily: "'Ubuntu', 'sans-serif'",
+              fontFamily: "'Josefin Sans', 'sans-serif'",
               'color': 'black'
             }}
           >
@@ -56,7 +56,7 @@ function About () {
             style={{
               'margin': '8% 8% 0 8%',
               'fontSize': '25px',
-              fontFamily: "'Ubuntu', 'sans-serif'",
+              fontFamily: "'Josefin Sans', 'sans-serif'",
               'color': 'black'
             }}
           >
@@ -74,7 +74,7 @@ function About () {
             style={{
               'padding': '8% 8% 0 8%',
               'fontSize': '25px',
-              fontFamily: "'Ubuntu', 'sans-serif'",
+              fontFamily: "'Josefin Sans', 'sans-serif'",
               'color': 'black'
             }}
           >

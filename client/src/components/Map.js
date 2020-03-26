@@ -3,7 +3,6 @@ import GoogleMapReact from 'google-map-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
-
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class SimpleMap extends Component {
@@ -11,8 +10,6 @@ class SimpleMap extends Component {
   static defaultProps = {
     zoom: 15,
   };
-
-
 
   render () {
     const createMapOptions = (map) => {
