@@ -1,15 +1,59 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Context } from '../../global/Store';
 import { Link } from 'react-router-dom';
 import { Card, Tabs, List } from 'antd';
+import apiService from '../../apiService';
 
-function OtherUserPageJobs ({ jobs }) {
+function OtherUserPageJobs ({ userInfo }) {
+  const [state, dispatch] = useContext(Context);
 
   const { TabPane } = Tabs;
 
-  const listings = (
+  useEffect(() => {
+    apiService.fetchListingsAll()
+      .then(jobs => {
+        dispatch({ type: 'SET-JOBS', payload: jobs });
+      })
+  }, [])
+
+  const listings = (jobs, status) => {
+    let filteredJobs = jobs;
+    if(!filteredJobs) return;
+
+    switch (status) {
+      case 'accepted ongoing':
+        filteredJobs = filteredJobs.filter(job => {
+          return (job.Volunteers && job.Volunteers.some(volunteer => volunteer.userId === userInfo.userId) && !job.completed)
+        })
+        break;
+      case 'accepted past':
+        filteredJobs = filteredJobs.filter(job => {
+          return (job.Volunteers && job.Volunteers.some(volunteer => volunteer.userId === userInfo.userId) && job.completed)
+        })
+        break;
+      case 'posted ongoing':
+        filteredJobs = filteredJobs.filter(job => {
+          return (job.Users[0].users_listings.UserUserId === userInfo.userId && !job.completed)
+        })
+        break;
+      case 'posted past':
+        filteredJobs = filteredJobs.filter(job => {
+          return (job.Users[0].users_listings.UserUserId === userInfo.userId && job.completed)
+        })
+        break;
+      default:
+        break;
+    }
+
+    const locale = {
+      emptyText: 'No jobs yet',
+    };
+
+    return (
       <List
+        locale={locale}
         itemLayout="horizontal"
-        dataSource={jobs}
+        dataSource={filteredJobs}
         style={{
           height: '30vh',
           'overflowY': 'scroll',
@@ -24,8 +68,8 @@ function OtherUserPageJobs ({ jobs }) {
             </List.Item>
           </Link>
         )}
-      />
-    )
+      />)
+  }
 
   return (
     <Card style={{ marginTop: '2vh', width: '60vw', minHeight: '400px' }} >
@@ -33,20 +77,20 @@ function OtherUserPageJobs ({ jobs }) {
         <TabPane tab="Accepted" key="1">
           <Tabs defaultActiveKey="3" tabPosition="left">
             <TabPane tab="Ongoing" key="3">
-              {listings}
+              {listings(state.jobs, 'accepted ongoing')}
             </TabPane>
             <TabPane tab="Past" key="4">
-              {listings}
+              {listings(state.jobs, 'accepted past')}
             </TabPane>
           </Tabs>
         </TabPane>
         <TabPane tab="Posted" key="2">
           <Tabs defaultActiveKey="5" tabPosition="left">
             <TabPane tab="Ongoing" key="5">
-              {listings}
+              {listings(state.jobs, 'posted ongoing')}
             </TabPane>
             <TabPane tab="Past" key="6">
-              {listings}
+              {listings(state.jobs, 'posted past')}
             </TabPane>
           </Tabs>
         </TabPane>
