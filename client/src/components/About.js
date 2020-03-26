@@ -7,10 +7,12 @@ function About () {
       <Carousel
         style={{
           'textAlign': 'center',
+          textJustify: 'inter-character',
           'height': '520px',
-          'lineHeight': '2.6rem',
-          'background': '#0D2056',
-          'overflow': 'hidden'
+          'lineHeight': '45px',
+          // 'background': '#0D2056',
+          'overflow': 'hidden',
+          color: 'black'
         }}
       >
         <div>
@@ -18,9 +20,9 @@ function About () {
             style={{
               'marginTop': '8%',
               'padding': '0 15%',
-              'fontSize': '1.6rem',
-              'color': '#fff',
-              'fontFamily': "'Josefin Sans', 'sans-serif'"
+              'fontSize': '25px',
+              fontFamily: "'Ubuntu', 'sans-serif'",
+              'color': 'black'
             }}
           >
             In recent years rates of volunteering and community service have
@@ -34,17 +36,17 @@ function About () {
         <div>
           <h1
             style={{
-              'marginTop': '8%',
-              'padding': '0 15%',
-              'fontSize': '1.6rem',
-              'color': '#fff',
-              'fontFamily': "'Josefin Sans', 'sans-serif'"
+              'margin': '8% 8% 0 8%',
+              'fontSize': '25px',
+              fontFamily: "'Ubuntu', 'sans-serif'",
+              'color': 'black'
             }}
           >
             Here at Good Will Hunting we hope to bring the focus back to our
             local communities by creating an online platform and unique
             incentives program to increase volunteerism and civic engagement.
-            <br /><br />
+            <br></br>
+            <br></br>
             Community members in need can request the help of volunteers within
             their respective communities with the appropriate skills.
           </h1>
@@ -52,20 +54,17 @@ function About () {
         <div>
           <h1
             style={{
-              'marginTop': '8%',
-              'padding': '0 15%',
-              'fontSize': '1.6rem',
-              'color': '#fff',
-              'fontFamily': "'Josefin Sans', 'sans-serif'"
+              'margin': '8% 8% 0 8%',
+              'fontSize': '25px',
+              fontFamily: "'Ubuntu', 'sans-serif'",
+              'color': 'black'
             }}
           >
             For instance, a neighbor who has a plumbing issue but can't
-            afford to call a profesional,
-            
+            afford to call a professional,
             a parent who is looking for a math tutor but is living paycheck to paycheck,
-            
             or an elderly person who is looking for a ride to the doctors.
-            <br/><br/>
+            <br /><br />
             In return, volunteers would receive credits, or Good Will Points, for
             each hour they spend fulfilling these requests.
           </h1>
@@ -73,11 +72,10 @@ function About () {
         <div>
           <h1
             style={{
-              'marginTop': '8%',
-              'padding': '0 15%',
-              'fontSize': '1.6rem',
-              'color': '#fff',
-              'fontFamily': "'Josefin Sans', 'sans-serif'",
+              'padding': '8% 8% 0 8%',
+              'fontSize': '25px',
+              fontFamily: "'Ubuntu', 'sans-serif'",
+              'color': 'black'
             }}
           >
             We hope to soon bring in local businesses where volunteers can

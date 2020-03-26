@@ -102,7 +102,7 @@ function Sidebar () {
           }
         >
           <Menu.Item key="3"><Link to="/user">Profile</Link></Menu.Item>
-          <Menu.Item key="4"><Link to="/messages">Messages</Link></Menu.Item>
+          {/* <Menu.Item key="4"><Link to="/messages">Messages</Link></Menu.Item> */}
           <Menu.Item key="5"><Link to="/post">Create a new job</Link></Menu.Item>
         </SubMenu>) : null}
         <Menu.Item key="6">

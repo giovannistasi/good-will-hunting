@@ -101,6 +101,9 @@ function Job () {
       })
   }
 
+  const locale = {
+    emptyText: 'No participants yet',
+  };
 
   return isClosed ?
     <Redirect to="/requests" /> :
@@ -110,7 +113,7 @@ function Job () {
           style={{ width: '40vw', marginRight: '3vw' }}
           cover={
             <div style={{ height: '40vh', width: '40vw' }}>
-              <SimpleMap center={{ lat: parseFloat(job.latitude), lng: parseFloat(job.longitude) }} />
+              <SimpleMap job={true} center={{ lat: parseFloat(job.latitude), lng: parseFloat(job.longitude) }} />
             </div>
           }
           actions={[
@@ -132,6 +135,7 @@ function Job () {
         <Card style={{ width: '22vw' }}>
           <h1>Participants</h1>
           <List
+            locale={locale}
             itemLayout="horizontal"
             dataSource={volunteers}
             renderItem={volunteer => (

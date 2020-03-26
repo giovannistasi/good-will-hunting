@@ -43,8 +43,13 @@ function UserProfileJobs () {
         break;
     }
 
+    const locale = {
+      emptyText: 'No jobs yet',
+    };
+
     return (
       <List
+        locale={locale}
         itemLayout="horizontal"
         dataSource={filteredJobs}
         style={{
