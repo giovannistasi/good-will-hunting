@@ -7,10 +7,12 @@ function About () {
       <Carousel
         style={{
           'textAlign': 'center',
+          textJustify: 'inter-character',
           'height': '520px',
           'lineHeight': '45px',
-          'background': '#0D2056',
-          'overflow': 'hidden'
+          // 'background': '#0D2056',
+          'overflow': 'hidden',
+          color: 'black'
         }}
       >
         <div>
@@ -18,9 +20,9 @@ function About () {
             style={{
               'marginTop': '8%',
               'padding': '0 15%',
-              'fontStyle': 'oblique',
               'fontSize': '25px',
-              'color': '#fff'
+              fontFamily: "'Ubuntu', 'sans-serif'",
+              'color': 'black'
             }}
           >
             In recent years rates of volunteering and community service have
@@ -35,14 +37,15 @@ function About () {
           <h1
             style={{
               'margin': '8% 8% 0 8%',
-              'fontStyle': 'oblique',
               'fontSize': '25px',
-              'color': '#fff'
+              fontFamily: "'Ubuntu', 'sans-serif'",
+              'color': 'black'
             }}
           >
             Here at Good Will Hunting we hope to bring the focus back to our
             local communities by creating an online platform and unique
             incentives program to increase volunteerism and civic engagement.
+            <br></br>
             <br></br>
             Community members in need can request the help of volunteers within
             their respective communities with the appropriate skills.
@@ -52,16 +55,14 @@ function About () {
           <h1
             style={{
               'margin': '8% 8% 0 8%',
-              'fontStyle': 'oblique',
               'fontSize': '25px',
-              'color': '#fff'
+              fontFamily: "'Ubuntu', 'sans-serif'",
+              'color': 'black'
             }}
           >
             For instance, a neighbor who has a plumbing issue but can't
-            afford to call a profesional,
-            <br></br>
+            afford to call a professional,
             a parent who is looking for a math tutor but is living paycheck to paycheck,
-            <br></br>
             or an elderly person who is looking for a ride to the doctors.
             <br></br>
             In return, volunteers would receive credits, or Good Will Points, for
@@ -72,9 +73,9 @@ function About () {
           <h1
             style={{
               'padding': '8% 8% 0 8%',
-              'fontStyle': 'oblique',
               'fontSize': '25px',
-              'color': '#fff'
+              fontFamily: "'Ubuntu', 'sans-serif'",
+              'color': 'black'
             }}
           >
             We hope to soon bring in local businesses where volunteers can
