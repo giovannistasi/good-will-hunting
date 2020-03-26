@@ -38,6 +38,7 @@ function Login () {
         if (res.ok) {
           let user = await res.json()
           if (user.userId) {
+            // message.success('You are now logged in')
             dispatch({ type: 'LOGIN', payload: { loggedIn: true, userInfo: user } });
           }
           return user
@@ -98,7 +99,10 @@ function Login () {
               Log in
             </Button>
           </Form.Item>
-          <Link to="/signup"><p style={{ textAlign: 'center' }}>Don't have an account? Sign up here</p></Link>
+          <Form.Item {...tailLayout}>
+            <Link to="/signup"><p style={{}}>Don't have an account? Sign up here</p></Link>
+          </Form.Item>
+
         </Form >
 
       }

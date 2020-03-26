@@ -14,7 +14,7 @@ function UserProfileSkills () {
   const { Option } = Select;
 
   useEffect(() => {
-    apiService.fetchListingsByUserId()
+    apiService.fetchListingsAll()
       .then(data => {
         dispatch({ type: 'SET-JOBS', payload: data })
       })
@@ -46,7 +46,6 @@ function UserProfileSkills () {
   }
 
   const deleteSkill = removedSkill => {
-    console.log(removedSkill);
     apiService.deleteSkillById(removedSkill).then(() => {
       const skills = state.userSkills.filter(skill => {
         return skill.skillId !== removedSkill.skillId;
@@ -82,7 +81,7 @@ function UserProfileSkills () {
   };
 
   return (
-    <Card style={{ width: '35vw', minHeight: '600px', 'marginRight': '2vh' }}>
+    <Card style={{ width: '35vw', minHeight: '600px', 'marginRight': '2vh', textAlign: 'center' }}>
       <h1 style={{ margin: '0px 0px 10px 0px' }} >Skills</h1>
       <Select
         showSearch
@@ -124,7 +123,7 @@ function UserProfileSkills () {
         {inputVisible && (
           <Input
             className="skill-input"
-            style={{ margin: '2.5px 5px 2.5px 0px', width: 78 }}
+            style={{ margin: '2.5px 5px 2.5px 0px', display: 'block' }}
             type="text"
             size="small"
             value={inputValue}
@@ -134,7 +133,7 @@ function UserProfileSkills () {
           />
         )}
         {!inputVisible && (state.userSkills.length < 9) && (
-          <Tag className="site-skill-plus" onClick={showInput}>
+          <Tag style={{ display: 'block', marginTop: '2px' }} className="site-skill-plus" onClick={showInput}>
             <PlusOutlined /> Create New Skill
           </Tag>
         )}

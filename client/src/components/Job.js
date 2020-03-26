@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../global/Store';
-import { useParams } from 'react-router-dom';
-import { Card, Button, Checkbox } from 'antd';
+import { useParams, Link, Redirect } from 'react-router-dom';
+import { Card, Button, Avatar, Checkbox, Collapse, List } from 'antd';
 import Icon from '@ant-design/icons';
-import { UsergroupAddOutlined, EditOutlined } from '@ant-design/icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoins } from '@fortawesome/free-solid-svg-icons'
+import { UsergroupAddOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoins, faHandshake, faUndo } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import apiService from '../apiService';
+import SimpleMap from './Map';
 
 const { Meta } = Card;
+const { Panel } = Collapse;
 
 const IconText = ({ icon, text }) => (
   <span>
@@ -18,109 +20,150 @@ const IconText = ({ icon, text }) => (
   </span>
 );
 
-const CreditsIcon = props => <Icon component={() => (
-  <FontAwesomeIcon icon={faCoins} />
-)} {...props} />;
+const createIcon = icon => {
+  return function (props) {
+    return (
+      <Icon component={() => (
+        <FontAwesomeIcon icon={icon} />
+      )} {...props} />)
+  }
+}
 
 function Job () {
+
+  const [volunteers, setVolunteers] = useState([]);
+  const [hasVolunteered, setHasVolunteered] = useState(false);
+  const [isClosed, setIsClosed] = useState(false)
 
   const { id } = useParams();
   const [state, dispatch] = useContext(Context);
   const job = state.jobs.find(job => job.listingId === id);
-  const CheckboxGroup = Checkbox.Group;
-  const [volunteers, setVolunteers] = useState([])
-  const [checkedList, setCheckedList] = useState([])
-  const [indeterminate, setIndeterminate] = useState(true)
-  const [checkAll, setCheckAll] = useState(false)
+  const userId = state.userInfo.userId
+
+  let userPic = '';
+  let creditValue;
+  let confirmedCompleteArr = [];
+  let isUsersJob = false;
+  if (job) {
+    userPic = job.Users[0].picture
+    isUsersJob = state.userInfo.userId === job.Users[0].userId
+    creditValue = job.creditValue;
+  }
 
 
   useEffect(() => {
-    apiService.fetchListingsAll()
-      .then(jobs => {
-        dispatch({ type: 'SET-JOBS', payload: jobs });
-      })
-  }, [])
+    apiService.fetchListingsAll().then(jobs => {
+      dispatch({ type: 'SET-JOBS', payload: jobs });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (job) {
+      // if (job.completed)
+      //   setIsClosed(true);
+      setVolunteers(job.Volunteers);
+      if (job.Volunteers.some(volunteer => volunteer.userId === state.userInfo.userId))
+        setHasVolunteered(true);
+    }
+  }, [state])
 
   const description = () => {
     if (job) return (
       <div>
         <div>{job.description}</div>
-        <br></br>
+        <br />
         <div>{moment(job.eventTime).format('MMMM Do YYYY h:mm a')}</div>
       </div>
     )
   }
 
-  function clickCredits () {
-    console.log('click');
+  function onCheck (e) {
+    if (e.target.checked) {
+      confirmedCompleteArr.push(e.target.userId);
+    } else {
+      confirmedCompleteArr = confirmedCompleteArr.filter(el => el !== e.target.userId)
+    }
   }
 
-  function volunteer () {
-    apiService.volunteer(id).then(
-      apiService.fetchListingsAll()
-        .then(jobs => {
-          dispatch({ type: 'SET-JOBS', payload: jobs });
-        }).then(() => {
-          const listingVolunteers = state.jobs.find(job => job.listingId === id).Volunteers
-          setVolunteers(listingVolunteers);
-          console.log(volunteers);
-
-          console.log(state.jobs.find(job => job.listingId === id));
-          console.log(listingVolunteers);
-        })
-    )
+  function handleConfirmed () {
+    apiService.creditExchange(confirmedCompleteArr, userId, creditValue, id)
+      .then(() => {
+        setIsClosed(true);
+      })
   }
 
-  const onChange = (checkedList) => {
-    // setIndeterminate(!!checkedList.length && (checkedList.length < volunteers.length))
-    setCheckAll(checkedList.length === volunteers.length)
+  async function volunteer () {
+    await apiService.volunteer(id);
+    setHasVolunteered(!hasVolunteered)
+    apiService.fetchListingsAll()
+      .then(jobs => {
+        dispatch({ type: 'SET-JOBS', payload: jobs });
+      })
   }
 
-  const onCheckAllChange = (e) => {
-    setCheckedList(e.target.checked ? volunteers : [])
-    setIndeterminate(false)
-    setCheckAll(e.target.checked)
-  }
+  const locale = {
+    emptyText: 'No participants yet',
+  };
 
-  return job ?
-    (
-      <div>
+  return isClosed ?
+    <Redirect to="/requests" /> :
+    job ? (
+      <div style={{ display: 'flex' }}>
         <Card
-          style={{ width: '40vw' }}
+          style={{ width: '40vw', marginRight: '3vw' }}
           cover={
-            <img
-              alt="example"
-              src="https://www.google.com/maps/about/images/mymaps/mymaps-desktop-16x9.png"
-            />
+            <div style={{ height: '40vh', width: '40vw' }}>
+              <SimpleMap job={true} center={{ lat: parseFloat(job.latitude), lng: parseFloat(job.longitude) }} />
+            </div>
           }
           actions={[
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={CreditsIcon} text={`${job.creditValue} credits`} key="list-vertical-credits" onClick={clickCredits} /></Button>,
-            <Button onClick={clickCredits} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants - volunteers.length} spots available`} key="list-vertical-avaliable-spots" /></Button>, // TODO: logic to change button when job.maxParticipants === state.jobs.find(job => job.listingId === id).Volunteers.length
-            <Button onClick={volunteer} style={{ border: 'none', backgroundColor: 'inherit' }}>Volunteer</Button>,
+            <Button style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faCoins)} text={`${job.creditValue} credits`} key="list-vertical-credits" /></Button>,
+            <Button style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={UsergroupAddOutlined} text={`${job.maxParticipants} spots available`} key="list-vertical-avaliable-spots" /></Button>,
+            <div>
+              {hasVolunteered ?
+                <Button onClick={volunteer} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faUndo)} text={`Unvolunteer`} key="list-vertical-volunteer" /></Button> :
+                <Button onClick={volunteer} disabled={!job.maxParticipants || isUsersJob} style={{ border: 'none', backgroundColor: 'inherit' }}><IconText icon={createIcon(faHandshake)} text={`Volunteer`} key="list-vertical-volunteer" /></Button>}
+            </div>,
           ]}
-
         >
           <Meta
-            // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+            avatar={<Avatar src={userPic} />}
             title={job.title}
             description={description()}
           />
         </Card>
-        <div>
-          <div style={{ borderBottom: '1px solid #E9E9E9' }}>
-            <Checkbox
-              indeterminate={indeterminate}
-              onChange={onCheckAllChange}
-              checked={checkAll}
-            >
-              Check all
-          </Checkbox>
-          </div>
-          <br />
-          <CheckboxGroup options={volunteers && volunteers} value={checkedList} onChange={onChange} />
-        </div>
+        <Card style={{ width: '22vw' }}>
+          <h1>Participants</h1>
+          <List
+            locale={locale}
+            itemLayout="horizontal"
+            dataSource={volunteers}
+            renderItem={volunteer => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar src={volunteer.picture} />}
+                  title={<Link style={{ color: 'inherit' }} to={'/profile/' + volunteer.userId}>{volunteer.firstName + ' ' + volunteer.lastName}</Link>}
+                />
+              </List.Item>
+            )}
+          />
+          {(isUsersJob && !job.completed) ?
+            <Collapse>
+              <Panel header="Close the listing">
+                <p style={{ marginBottom: '6px' }}>
+                  Who completed the job?
+                </p>
+                {volunteers && volunteers.map(volunteer => {
+                  return <div><Checkbox userId={volunteer.userId} onChange={onCheck}>{volunteer.firstName + ' ' + volunteer.lastName}</Checkbox></div>
+                })}
+                <br />
+                <Button type="primary" onClick={handleConfirmed}>Confirm</Button>
+              </Panel>
+            </Collapse> : null}
+        </Card>
+
       </div>
-    ) : null;
+    ) : null
 }
 
 export default Job;

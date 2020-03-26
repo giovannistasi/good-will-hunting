@@ -8,7 +8,7 @@ exports.getAll = async (req, res) => {
       include: [
         {
           model: db.User,
-          attributes: ['firstName', 'lastName', 'picture', 'email']
+          attributes: ['firstName', 'lastName', 'picture', 'email', 'userId']
         },
         {
           model: db.User,
@@ -31,6 +31,10 @@ exports.getListingByUserId = async (req, res) => {
           model: db.User,
           where: { userId: req.session.passport && req.session.passport.user.userId || null },
           attributes: ['firstName', 'lastName', 'picture', 'email'],
+        },
+        {
+          model: db.User,
+          as: 'Volunteers'
         }
       ]
     });
@@ -80,11 +84,29 @@ exports.delete = async (req, res) => {
 
 exports.volunteer = async (req, res) => {
   const listingId = req.body.listingId
-  console.log(listingId);
   try {
     const user = await db.User.findOne({ where: { userId: req.session.passport && req.session.passport.user.userId || null } })
-    const listing = await db.Listing.findOne({ where: { listingId: listingId } });
-    await user.addVolunteeredFor(listing);
+    const listing = await db.Listing.findOne({
+      where: { listingId: listingId },
+      include: [
+        {
+          model: db.User,
+        },
+        {
+          model: db.User,
+          as: 'Volunteers'
+        }
+      ]
+    });
+    if (listing.Volunteers.filter(volunteer => volunteer.userId === user.userId).length) {
+      await db.Listing.increment('maxParticipants', { where: { listingId: listingId } });
+      await user.removeVolunteeredFor(listing);
+    } else {
+      if (user.userId !== listing.Users[0].userId) {
+        await db.Listing.decrement('maxParticipants', { where: { listingId: listingId } });
+        await user.addVolunteeredFor(listing);
+      }
+    }
     res.status = 200;
     res.json(listing);
   } catch (e) {

@@ -19,10 +19,6 @@ module.exports = {
         defaultValue: false,
         type: Sequelize.BOOLEAN
       },
-      pending: {
-        defaultValue: true,
-        type: Sequelize.BOOLEAN
-      },
       eventTime: {
         allowNull: false,
         type: Sequelize.DATE
@@ -30,6 +26,12 @@ module.exports = {
       address: {
         allowNull: false,
         type: Sequelize.TEXT
+      },
+      latitude: {
+        type: Sequelize.DECIMAL
+      },
+      longitude: {
+        type: Sequelize.DECIMAL
       },
       creditValue: {
         allowNull: false,

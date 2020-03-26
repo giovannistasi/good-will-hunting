@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { List, Avatar } from 'antd';
 import { UsergroupAddOutlined } from '@ant-design/icons';
 import Icon from '@ant-design/icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoins } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoins } from '@fortawesome/free-solid-svg-icons';
 import apiService from '../apiService';
+import SimpleMap from './Map';
 
 const IconText = ({ icon, text }) => (
   <span>
@@ -14,18 +15,18 @@ const IconText = ({ icon, text }) => (
   </span>
 );
 
-const CreditsIcon = props => <Icon component={() => (
-  <FontAwesomeIcon icon={faCoins} />
-)} {...props} />;
+const CreditsIcon = props => (
+  <Icon component={() => <FontAwesomeIcon icon={faCoins} />} {...props} />
+);
 
 function RequestsDashboard () {
-
   const [listData, setListData] = useState([]);
 
   useEffect(() => {
     apiService.fetchListingsAll()
       .then(jobs => {
-        const sortedJobs = jobs.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+        const filteredJobs = jobs.filter(job => !job.completed)
+        const sortedJobs = filteredJobs.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
         setListData(sortedJobs);
       })
   }, [])
@@ -38,29 +39,32 @@ function RequestsDashboard () {
         pageSize: 4,
       }}
       dataSource={listData}
-
       renderItem={item => {
         return (
           <List.Item
             style={{ color: 'black', textDecoration: 'none' }}
             key={item.title}
             actions={[
-              <IconText icon={CreditsIcon} text={`${item.creditValue} credits`} key="list-vertical-credits" />,
-              <IconText icon={UsergroupAddOutlined} text={`${item.maxParticipants} spots available`} key="list-vertical-avaliable-spots" />,
+              <IconText
+                icon={CreditsIcon}
+                text={`${item.creditValue} credits`}
+                key="list-vertical-credits"
+              />,
+              <IconText
+                icon={UsergroupAddOutlined}
+                text={`${item.maxParticipants} spots available`}
+                key="list-vertical-avaliable-spots"
+              />,
             ]}
             extra={
-              <img
-                width={250}
-                alt="logo"
-                src="https://www.google.com/maps/about/images/mymaps/mymaps-desktop-16x9.png"
-              />
+              <div className="map" style={{ height: '20vh', width: '20vw' }}>
+                <SimpleMap job={false} center={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) }} address={item.address} />
+              </div>
             }
           >
             <List.Item.Meta
-              avatar={<Avatar src={item.Users[0].picture} />}
-              title={<Link
-                to={'/job/' + item.listingId}
-              >{item.title}</Link>}
+              avatar={<Avatar src={item.Users[0] && item.Users[0].picture} />}
+              title={<Link to={'/job/' + item.listingId}>{item.title}</Link>}
               description={
                 <Link
                   style={{ color: 'inherit' }}
@@ -69,11 +73,12 @@ function RequestsDashboard () {
                     state: { user: item.Users[0] },
                   }}
                 >{`Posted by ${item.Users[0].firstName} ${item.Users[0].lastName}`}
-                </Link>}
+                </Link>
+              }
             />
             {item.description}
           </List.Item>
-        )
+        );
       }}
     />
   );
