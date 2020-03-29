@@ -5,7 +5,7 @@ Goodwill Hunting is a web app based on the concept of [time banking](https://en.
 
 ![](client/public/UserProfile.png)
 
-![](client/public/JobListing.png)
+![](client/public/JobPage.png)
 
 
 ## Getting Started
