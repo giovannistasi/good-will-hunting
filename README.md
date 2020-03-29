@@ -27,6 +27,8 @@ $ npm i
 ### **5.** Create the database
 Make sure that an instance of PostgreSQL is running on your machine, e.g. by using ```brew services start postgresql``` or ```sudo service postgresql start``` on Linux.
 
+In the config.json file in server/config, modify the "username" and "password" fields to correspond to your PostgreSQL role and password (postgres and an empty string are default).
+
 Then in the server folder, run the following command:
 ```
 $ npm run createDb
