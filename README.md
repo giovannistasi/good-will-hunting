@@ -2,8 +2,8 @@
 ![](client/public/Dashboard.png)
 
 Goodwill Hunting is a web app based on the concept of [time banking](https://en.wikipedia.org/wiki/Time-based_currency). A user can submit a request for help and volunteers will receive a certain number of "credits" based on the hours worked 
-![](src/assets/UserProfile.png)
-![](src/assets/JobListing.png)
+![](client/public/UserProfile.png)
+![](client/public/JobListing.png)
 
 ## Getting Started
 ### **1.** Clone the repo
