@@ -42,30 +42,8 @@ function RequestsDashboard () {
       dataSource={listData}
       renderItem={item => {
         return (
-<<<<<<< HEAD
-          <Card hoverable="true" >
-            <List.Item
-              style={{ /* marginRight: 'auto', */ color: 'black', textDecoration: 'none', maxWidth: '800px', justifyContent: 'center' }}
-              key={item.title}
-              actions={[
-                <IconText
-                  icon={CreditsIcon}
-                  text={`${item.creditValue} credits`}
-                  key="list-vertical-credits"
-                />,
-                <IconText
-                  icon={UsergroupAddOutlined}
-                  text={`${item.maxParticipants} spots available`}
-                  key="list-vertical-avaliable-spots"
-                />,
-              ]}
-              extra={
-                <div className="map" style={{ height: '20vh', width: '20vw' }}>
-                  <SimpleMap center={{ lat: parseFloat(item.latitude), lng: parseFloat(item.longitude) }} address={item.address} />
-                </div>
-=======
           <List.Item
-            style={{ color: 'black', textDecoration: 'none' }}
+            style={{ color: 'black', textDecoration: 'none', maxWidth: '700px' }}
             key={item.title}
             actions={[
               <IconText
@@ -97,7 +75,6 @@ function RequestsDashboard () {
                   }}
                 >{`Posted by ${item.Users[0].firstName} ${item.Users[0].lastName}`}
                 </Link>
->>>>>>> 08e68ce2b2b148aa88c1c7cfdb7776825751fecd
               }
             >
               <List.Item.Meta
@@ -115,8 +92,8 @@ function RequestsDashboard () {
                 }
               />
               {item.description}
-            </List.Item>
-          </Card>
+            </List.Item.Meta>
+          </List.Item>
         );
       }}
     />
