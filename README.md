@@ -11,8 +11,8 @@ Goodwill Hunting is a web app based on the concept of [time banking](https://en.
 ## Getting Started
 ### **1.** Clone the repo
 ````
-$ git clone https://github.com/jportella93/flickr-gallery.git
-$ cd flickr-gallery
+$ git clone https://github.com/giovannistasi/good-will-hunting.git
+$ cd good-will-hunting
 ````
 ### **2.** Obtain API keys
 
